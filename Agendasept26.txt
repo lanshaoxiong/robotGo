@@ -5,3 +5,4 @@ Group meeting September 26 at 2:00
 2. Group discussion to identify all actions
 3. Divide actors among group members to convert actions into scenarios individually
 4. Discussion about remaining work for requirements document
+5. Schedule more meetings
