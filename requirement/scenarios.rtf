@@ -1,0 +1,35 @@
+Attack Primary Scenario
+1. Player selects target tile and attacks.
+2. Game checks that the current piece has not already attacked this turn
+3. Game checks that the target tile is in range
+4. Game checks if robot is facing the right direction
+5. Every robot in target tile takes the appropriate amount of damage.
+6. Update stats for shots fired, damage inflicted, damage absorbed etc for all robots involved
+7. Game updates the board.
+8. Attack is finished for this turn
+
+Attack Secondary Scenarios
+Player has already attacked this turn: Nothing happens.
+Target not in range: Player must choose another target or not attack
+Robot not facing the right direction: Player must choose another target or not attack
+
+Enumerate Primary Scenario
+1. User chooses to see all the stored robots and their stats.
+2. User may choose to sort the robots based on team, name, win/lost ration , wins , matches played.
+3. User may choose to see the statistics of the robots
+
+Register Primary Scenario
+1.User chooses to register a new robot.
+2.User inputs class,name , team and code? for the new robot.
+3. The robot is added to the store of robots.
+
+Revise Primary Scenario
+1. User chooses to revise a robot.
+2. User chooses the robot to revise.
+3. User inputs the new code for the robot to use.
+4. The new code replaces the old code and the statistics for the robot is reset.
+
+Retire Primary Scenario
+1. User chooses to retire a robot.
+2. User chooses the robot to retire.
+3. The robot gets a new temporary name while the old name is stored. This allows the old name to be used by another robot.
