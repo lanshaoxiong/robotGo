@@ -1,27 +1,97 @@
+Attack Use Case:
+The player may attack once per turn. The robot that attacks must be facing the target and it must be in range for the attack to succeed.
+A robot may attack itself or its team members. An attack affects every robot in a target tile. The robot has an attack value that determines the strength of an attack.
+After an attack the state of the gameboard and the robots involved changes so the game must be updated after every attack.
+
+Attack Preconditions:
+It is the player's turn.
+The player has not already attacked this turn.
+The game has determined which unit moves this turn.
+
+Attack Primary Actor: Player
+Other Actors: Gamemaster
+
 Attack Primary Scenario
 1. Player selects target tile and attacks.
-2. Game checks that the current piece has not already attacked this turn
-3. Game checks that the target tile is in range
-4. Game checks if robot is facing the right direction
-5. Every robot in target tile takes the appropriate amount of damage.
-6. Update stats for shots fired, damage inflicted, damage absorbed etc for all robots involved
-7. Game updates the board.
-8. Attack is finished for this turn
+2. Game checks that the target tile is in range.
+3. Game checks if robot is facing the right direction
+4. Every robot in target tile takes the appropriate amount of damage.
+5. Update stats for shots fired, damage inflicted, damage absorbed etc for all robots involved
+6. Game updates the board.
+7. Attack is finished for this turn
+
+Attack Post Conditions:
+The player's attack for the turn is used up.
+statistics changed 
+	shots fired by this robot is increased by one. 
+	damage inflicted by this robot is increased by  minimum(attack value of attacking robot, remaining health of robot hit) for every robot that was hit.
+	robots killed by this robot is increased by the number of robots killed this turn
+	damage absorbed for each robot hit is increased by minimum(attack value of attacking robot, remaining health of robot hit) 
+dead pieces removed from board
+damaged pieces hitpoints changed
 
 Attack Secondary Scenarios
-Player has already attacked this turn: Nothing happens.
-Target not in range: Player must choose another target or not attack
-Robot not facing the right direction: Player must choose another target or not attack
+1. Target not in range or robot is not facing the right direction:  Player must choose another target or not attack
+2. If the player wants to choose another target the use case goes back to the first step of the primary scenario.
+3. If the player does not want to attack the attack is canceled and the board does not change.
+
+
+
+Enumerate Use Case:
+The game stores all the robots and their stats. 
+The user choose to have all of this information displayed and may sort the robots by their stats.
+Enumerate will display all information in an interface separate from the gameboard
+
+Enumerate Primary Actor: Robot Librarian
+
+Enumerate Precondition: The program is in the appropriate interface
 
 Enumerate Primary Scenario
+
 1. User chooses to see all the stored robots and their stats.
-2. User may choose to sort the robots based on team, name, win/lost ration , wins , matches played.
-3. User may choose to see the statistics of the robots
+2. The appropriate interface is opened where all robots are displayed,
+3. The user chooses to sort the robots
+4. The user what to sort the robots by.
+5. The robots are sorted.
+
+Enumerate Post Condition: All the robots are displayed in a table sorted by what the user specified 
+
+Enumerate Secondary Scenario
+
+1.  If the user never chooses to sort the robots the robots the display does not change
+2.  If the user chooses to sort the robots again the use case returns to step three of the primary scenario
+
+
+
+Register Use Case
+The user can choose to create a new robot and add it to the store of robots.
+A new robot needs a name, a class, and a team. A robot's name must be unique within a team
+
+Register Primary Actor: Robot Librarian
+
+Register Precondition: The program is in the appropriate interface
 
 Register Primary Scenario
 1.User chooses to register a new robot.
-2.User inputs class,name , team and code? for the new robot.
-3. The robot is added to the store of robots.
+2.User inputs class,name , team and code for the new robot.
+3.The robot is added to the store of robots.
+4. All statistics of the robot are initialized to be zero.
+
+Register Post Condition: A new robot is stored, with a name, team, and class specified by the user and all other values at 0
+
+Register Secondary Scenario
+1. If the user inputs a name and team pair that already exists in the store then the user must choose a new name or not register a robot.
+2. If the user chooses a new name or team then the use case will return to the second step of the primary scenario.
+3. If the user does not want to register the robot the registration is canceled.
+
+
+
+Revise Use Case
+A user can change the code for a robot. Since the robot is different the old stats are no longer relevant and should be deleted.
+
+Revise Primary Actor: Robot Librarian
+
+Revise Precondition: The program is in the appropriate interface
 
 Revise Primary Scenario
 1. User chooses to revise a robot.
@@ -29,7 +99,15 @@ Revise Primary Scenario
 3. User inputs the new code for the robot to use.
 4. The new code replaces the old code and the statistics for the robot is reset.
 
+Revise Post condition: The robot has the new code and all of its statistics have been reset
+
+Retire Use Case
+A user can retire a robot, preserving its stats while allowing its name to be used by a new robot.
+
+Retire Primary Actor: Robot Librarian
+Retire Precondition: The program is in the  approprite interface
 Retire Primary Scenario
 1. User chooses to retire a robot.
 2. User chooses the robot to retire.
 3. The robot gets a new temporary name while the old name is stored. This allows the old name to be used by another robot.
+Post Condition: The robot has been retired and been given a unique temporary name.
