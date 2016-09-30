@@ -1,0 +1,96 @@
+Action: Download
+
+The purpose of this function is to download the Robot's records from the JSON file so the Robot Librarian
+has access to it for display and modification.
+
+Pre Conditions
+    -There is a JSON file populated with robots and their stats
+    -The Robot Librarian has the address of the file
+
+Primary Scenario
+1. Robot librarian is told to download records
+2. Robot Librarian downloads records
+3. Robot Librarian saves records for as long as the game is run
+
+Post Conditions
+    -data is downloaded and stored for use
+
+Error Conditions
+    -Data is corrupt 
+        -display error message and continue without
+    -File does not exist
+        -display error message and continue without
+        
+        
+Action: Upload 
+
+The process of uploading updated stats to the JSON file following a completed game
+
+Preconditions
+    -game is completed and all relavant data is updated 
+    -Robot Librarian has address of the file to upload to
+
+Primary Scenario 
+    1. Robor Librarian is alerted that the game has ended 
+    2. Robot Librarian reads data from stored values
+    3. Robot Librarian saved updated data to JSON file
+
+Post Conditions
+    -JSON file and Robot Librarian have matching data
+
+Error Conditions
+    -File does not exist
+        -make a new file
+
+
+
+Action: Select Mode
+This is where the user or users choose the number of teams in a game and how many
+of which are human or AI controlled. The options the user is faced with choosing
+are between a 2 player game, a 3 player game, or a 6 player game. Following this 
+choice the user will be prompted to choose which of these teams are human 
+controlled or AI controlled. If the user chooses a 2 team game, the board
+will be initalized as a 5 space sided board populated by two teams (red and green). 
+If the user chooses a 3 team game, the user will be prompted to choose between a
+5 or 7 space sided board populated by three teams (FIIIIIIX THIS). If the 
+user chooses a 6 player game, the board will be initalized as a 7 space sided board
+populated by six teams (all the colors of the rainbow).
+
+Pre Conditions
+    -Robots are loaded
+    -Players are present
+    
+Primary Scenario
+    1.User is prompted to choose between 2, 3 and 6 teams
+    
+Scenario 1
+    1. User chooses number of teams to be 2
+    2. User is prompted to choose if teams are played by human or AI
+    3. Continue onto game with a 5 space sided board
+    
+Scenario 2
+    1. User chooses number of teams to be 3
+    2. User is prompted to choose which teams are played by human or AI 
+    3. Prompt user to choose between a 5 or 7 space sided board
+    4. Continue onto game with choosen board size
+
+Scenario 3
+    1.User chooses the number of teams to be 6
+    2.User is prompted to choose if teams are played by human or AI
+    3. Continue onto game with a 7 space sided board
+    
+Post Conditions
+    -players have their team
+    -game board size is set
+    -number of teams is set
+
+Error Conditions
+    - User doesn't set type of players for a team before trying to
+      continue
+        -Prompt user to choose and refuse to start game
+                
+    3. Continue onto game with a 7 
+    
+    
+Scenario 2
+    1. User chooses 
