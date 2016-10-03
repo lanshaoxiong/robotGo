@@ -1,0 +1,512 @@
+
+
+Requirement Document
+
+
+
+	           Project Name:          RobotGO     
+		           
+                     Team:                	       CMPT370B3
+			
+		 Team Member:         Cheng, Gong
+					          Hounjet, Carlin
+					          Lan, Shaoxiong
+					          Xie, Joey
+					          Yue, YiRui
+			
+		 Date:                           Oct 2, 2016
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Game Description
+
+Robot Fights Game is a two, three or five player’s game. The goal of this project is to create a turn based robot battle game. With this program we can use a computer to hide player's moves from each other to increase strategy. Each player has a chance to name and control their own three robots, the options being scout, sniper and tank.  Different robots have different attributes like attack power, movement range, field of view range and shooting range value. Each player begins at a different side of the board and take turns searching for each other and conducting thrilling battle on the battle grid!
+
+A turn begins with Red team playing its robot with greatest movement followed by the next team's robot with highest movement value in clockwise rotation. When this round is completed, a second round is played where Red plays its next-highest movement robot, then orange, through all the teams up to blue. The third round where Red’s lowest-movement robot plays, and so on until finally blue’s lowest-movement robot plays. Basically, every robot gets one play per turn, and fastest robots move first. 
+
+The game is completed when only one team's robots remain on the game board.
+
+All interfaces within this document are subject to change.
+
+
+Figure: This is the system diagram outlining the basic interactions between the actors and actions of the system that will be outlined in the rest of this document:
+
+
+Download Use Case:
+
+On system start-up, download the Robot's records from the JSON file so the Robot Librarian has access to it for display and modification.
+
+Primary Actor: Robot Librarian
+
+PreConditions:
+	-There is a JSON file populated with robots and their stats
+	-The Robot Librarian has the address of the file
+
+Primary Scenario
+1. Robot librarian is told to download records
+2. Robot Librarian downloads records
+3. Robot Librarian saves records for as long as the game is run
+
+Post Conditions:
+	-data is downloaded and stored for use
+
+Error Conditions:
+	-Data is corrupt 
+		-Display error message and continue without
+	-File does not exist
+		-Display error message and continue without
+
+
+
+				Figure: Download Activity Diagram
+
+
+
+
+Figure: Welcome Screen. Following the Download of the robot stats, the user will be faced with a welcome interface and two choices: Change/View robot data (Robots) or Choose Mode and initialize game (GO!).
+
+Enumerate Use Case:
+The game stores all the robots and their stats. If the user chooses to change robots, Robot Librarian will display all information in an interface separate from the game board.
+
+Primary Actor: Robot Librarian
+
+Preconditions: 
+	-The program is in the appropriate interface
+	-Robot stats have been downloaded
+
+Primary Scenario
+1. User chooses to see all the stored robots and their stats.
+2. The appropriate interface is opened where all robots are displayed in a table
+3. The user chooses to sort the robots in any column
+5. The robots are sorted.
+
+Post Condition: 
+	-All the robots are displayed and sorted by what column the user specified 
+
+Secondary Scenario
+1. If the user never chooses to sort the robots the robots the display does not change
+2. If the user chooses to sort the robots again the use case returns to step three of the primary scenario
+
+Figure: Choose Robots interface. Enumerate will display robot information in a scrollable table. If they choose to Register, Revise or Retire any robot, the robot is selected and the desired function’s button is pressed.
+
+
+Register Use Case
+The user can choose to create a new robot and add it to the store of robots.
+A new robot needs a name, a class, and a team. A robot's name must be unique within a team
+
+Primary Actor: Robot Librarian
+
+Precondition: 
+	-The program is in the appropriate interface
+
+Primary Scenario
+1.User chooses to register a new robot.
+2.User inputs class,name , team and code for the new robot.
+3.The robot is added to the store of robots.
+4. All statistics of the robot are initialized.
+
+Post Condition:
+	-A new robot is stored, with a name, team, and class specified by the user and other 	  stats are initialized
+
+Error Conditions:
+	-The user inputs a name and team pair that already exists in the store 
+		-the user must choose a new name (return to step 2) or not register a robot.
+	-A team has all 3 classes filled 
+		-User is prompted to cancel or retire a robot
+Figure: Activity Diagram for Register
+
+Figure: Interface for registering a robot
+
+
+
+Revise Use Case
+A user can change the code for a robot. Since the robot is different the old stats are no longer relevant and should be deleted.
+
+Actor: Robot Librarian
+
+Precondition: 
+	-The program is in the appropriate interface
+
+Revise Primary Scenario
+1. User chooses to revise a robot.
+2. User chooses the robot to revise.
+3. User inputs the new code for the robot to use.
+4. The new code replaces the old code and the statistics for the robot is reset.
+
+Revise Post condition: 
+	-The robot has the new code and all of its statistics have been reset
+
+Error Conditions:
+	-User attempts to place robot on a filled team or attempts to use a name that is taken
+		-Display error message and prompt to retire old robot
+
+Figure: Activity Diagram for Revise		Figure: Interface for Revise
+
+
+Retire Use Case
+A user can retire a robot, preserving its stats while allowing its name to be used by a new robot.
+
+Primary Actor: Robot Librarian
+
+Precondition
+	-The program is in the appropriate interface or has been prompted to retire a robot
+
+Primary Scenario
+1. User chooses to retire a robot.
+2. User chooses the robot to retire.
+
+Post Condition: The robot has been retired
+
+Figure: Activity Diagram for retire		Figure:Retire interface
+
+Select Mode Use Case
+If the user chooses not to view and edit robots or is finished doing so and wishes to begin a game, they will navigate through the main menu to here. This where the user chooses the number of teams in a game and how many of which are human or AI controlled. 
+
+Preconditions
+	-Robots are loaded
+	-User has made the choice to begin the game and navigated to this interface
+
+Primary Actor: User
+
+Primary Scenario
+1.User is prompted to choose between 2, 3 and 6 teams
+2.User chooses which teams are human or AI
+
+Alternative Flow
+1. If user chooses 3 team game, the option to select between a 5 or 7 sided board becomes           available
+2. User chooses which teams are human or AI
+
+Post Conditions
+	-players have their team
+	-game board size is set
+	-number of teams is set
+
+Error Conditions
+	- User doesn't set type of players for a team before trying to
+	   continue
+	-Prompt user to choose and refuse to start game
+
+
+Figure 1: Activity Diagram for Select Mode	     Figure 2: Interface for Select Mode
+
+
+Figure 3: Interface for choosing AI or Human for teams
+
+Main Game Board
+
+Once the User clicks “Begin” they will be brought to the main game board where Red team will take their first turn by clicking their robot and choosing whether to move, attack or skip their turn (Switch). Thus begins a game of RobotGO!
+
+Move Use Case
+Actor:
+Players and GameMaster
+
+Description:
+If the player chooses to move, the player can move one connected tile a time until their move points run out. If the player chooses not to move, the player can also choose to attack or switch. 
+
+Preconditions:
+-The players have already selected their game modes and entered player information.
+-It’s the players’ round to make a move.
+	-The player has at least 1 move point left.
+
+Primary Scenarios:
+1. The player chooses to move by clicking on option move [S1 – S2].  
+2. The player moves 1 step a time until the move points run out. 
+3. The player chooses the destination, turns and moves [E1]. 
+
+Secondary Scenarios:
+[S1] If the player clicks on option move, any time before running out of move points, including the situation of not moving at all, the player can choose to click on button attack then perform the action of Shoot. 
+[S2] If the player clicks on option move, any time before running out the movie points, including the situation of not moving at all, the player can choose to clicks on button switch then perform the action of switching another robot and ends its round. 
+
+Alternative Flows:
+[E1]. The player doesn’t have any move point left. The game board interface shows “You don’t have enough move points.”
+
+Error Conditions:
+If the robot cannot choose the destination that is out of the main game board. 
+
+Post conditions:
+The player finishes its move action and update the game board. 
+The players’ move points get updated.  
+
+
+
+Attack Use Case:
+The player may attack once per turn. The robot that attacks must must be in range for the attack to succeed.
+A robot may attack itself or its team members. An attack affects every robot in a target tile. The robot has an attack value that determines the strength of an attack.
+After an attack the state of the gameboard and the robots involved changes so the game must be updated after every attack.
+
+Attack Preconditions:
+It is the player's turn.
+The player has not already attacked this turn.
+The game has determined which unit moves this turn.
+
+Attack Primary Actor: Player
+Other Actors: Gamemaster
+
+Attack Primary Scenario
+1. Player selects target tile and attacks.
+2. Game checks that the target tile is in range.
+3. Every robot in target tile takes the appropriate amount of damage.
+4. Update stats for shots fired, damage inflicted, damage absorbed etc for all robots involved
+5. Game updates the board.
+6. Attack is finished for this turn
+
+Attack Post Conditions:
+The player's attack for the turn is used up.
+statistics changed 
+dead pieces removed from board
+damaged pieces hit points changed
+
+Attack Secondary Scenarios
+1. Target not in range or robot:  Player must choose another target or not attack
+2. If the player wants to choose another target the use case goes back to the first step of the primary scenario.
+3. If the player does not want to attack the attack is canceled and the board does not change.
+
+
+
+
+
+
+
+Use Case of Switch:
+Actor: Player
+
+Description: 
+The player click on "Switch" button, then ending the behavior of current robot and switching to the next team's survived robot which has the highest movement value and does not behave in this turn;
+
+Precondition:
+Player clicks on "Switch" Button;
+
+Primary Scenario:
+(1) click on the "Switch"
+(2) ending the behavior of current robot;
+(3) Starting the behavior of next robot which has the highest movement value and does not behave in this turn;
+
+
+
+Activity Diagram:
+                                         
+		
+
+Secondary Scenario: none;
+
+Post conditions:
+Ending the behavior of current robot and switching to the next team's survived robot which has the highest movement value and does not behave in this turn;
+
+
+
+
+
+Use Case of updateStats
+Actor: gameMaster
+
+Description: 
+The gameMaster would track and update info of the robot after it's behavior in the round, based on their behavior, including individual result, the damage, the status, the distance travelled and shots fired. Meanwhile, the gameMaster would always check whether the match has ended. If so, the team result would be updated at the end of match;
+
+Preconditions:
+After the behavior of each robot;
+After click “switch” button;
+
+Primary Scenario:
+1. Initialization: initial statistics for all robots on the game boards:
+individual result = "survived"
+team result = "-"
+damage inflicted = 0 
+damage absorbed = 0
+distance travelled = 0
+shots fired = 0
+Status = "unbehaved";
+
+2. during the behavior of robot A which is alive:
+if A do nothing:
+the gameMaster does nothing;
+the A's status would be updated to "behaved" after click "switch".
+
+if A is just moving:
+update the distance travelled of A, adding by A's moving spaces;
+if distance travelled of A in current round has been equal to Maximum Movement value of robot A, then robot A cannot move in current round;
+the A's status would be updated to "behaved" after click "switch".
+
+if A is just shooting at B:
+             For robot A, we should
+update damage inflicted, adding by A's attacking value;
+update shot fired of A, adding by 1;
+then Robot A cannot shoot at others in this round;
+the A's status would be updated to "behaved" after click "switch".
+
+            For robot B, we should:
+update the damage absorbed, adding by A's attacking value;
+If the current damage absorbed is not less than health value of B, then change individual result of B to "destroyed";
+
+if A is moving and shooting at robot B:
+             For robot A, we should
+update damage inflicted, adding by A's attacking value;
+update distance travelled of A, adding by A's moving spaces;
+if distance travelled of A in current round has been equal to Maximum Movement value of robot A, then robot A cannot move in current round;
+update shot fired of A, adding by 1;
+the A's status would be updated to "behaved" after click "switch".
+
+      For robot B, we should:
+update the damage absorbed, adding by A's attacking value;
+if the current damage absorbed is not less than health value of B, then change individual result of B to "destroyed";
+
+3 For the new turn:
+        when gameMaster has perceived "new turn", the damage inflicted, distance travelled, Status and shots fired of all survived robots would be initialized again.
+
+4 For the Match end:
+When gameMaster has perceived that there existed only one team on the boards, the match has ended. Then gameMaster updated the team result for all robots in the match, "win" for all robots of last survived team and "lost" for others robots.
+
+
+
+
+
+Activity Diagram:
+
+
+
+
+
+
+
+
+
+
+
+Extension Scenario:
+1. If A is shooting at one cell which has more than one robots:
+       for robot A:
+update damage inflicted, adding by (A's attacking value * the number of robots in target cell);
+if A moved, then update distance travelled of A, adding by A's moving spaces;
+update shot fired of A, adding by 1;
+the A's status would be updated to "behaved" after click "switch".
+
+      
+      for other robots in the same cell:
+update the damage absorbed, adding by A's attacking value;
+if the current damage absorbed is not less than its health value, then change its individual result to "destroyed";
+
+
+2. if robot A and other robots are in same cell, then A shoots at them:
+      for robot A:
+update damage inflicted, adding by (A's attacking value * the number of robots in this cell, including itself);
+if A moved, then update distance travelled of A, adding by A's moving spaces;
+update shot fired of A, adding by 1;
+update the damage absorbed, adding by A's attacking value;
+if the current damage absorbed is not less than its health value, then change its individual result to "destroyed";
+the A's status would be updated to "behaved" after click "switch".
+
+
+       for other robots in the same cell:
+update the damage absorbed, adding by A's attacking value;
+if the current damage absorbed is not less than its health value, then change its individual result to "destroyed";
+
+3. if there is no robot left at the end of match, which means the robots of different team are destroyed at the same time:
+Then gameMaster would update the team result "lost" for all robots in the match.
+
+Post conditions:
+The info for each robot has been updated after behavior of each robot in the round, including: individual result (survived or destroyed), team result (win or lost or unknown), the damage (inflicted and absorbed), status, distance travelled and shots fired;
+
+
+
+
+
+
+
+
+Use case of UpdateGameBoard
+Actor: gameMaster
+Description: Keep track of every attack, movement, turn, mouse click
+
+Precondition:  whenever there is attack action, movement action, turn action, mouse click action happens.
+
+Primary scenario
+
+Before the game starts
+(1) display the the beginning interface, including the game mode selection, player selection, player color selection, all player’s statics, start and finish button.
+(2) If the start button is clicked, it goes to populate the screen and load the game according to the number of players. If the finish button is clicked, terminate the game.
+
+
+1 react to movement action
+(1) display the game board and player and the statics of the robot who is playing.
+(2) when a movement action succeeds, the robot will spin so that the front of the robot towards the destination and move one space in the direction. And then update the statistics of the player and the the visible fields.
+(3) When the movement action failed, it shows a dialogue prompting the player that the    player the action failed and give the specific reason.
+ 
+2 react to attack action
+(1) when an attack action succeeds, there will a bullet-similar object appear and starts from the the space of the attacker, move in the direction of the destination and ends in the destination space. When the attack failed, it will prompt that the attack is out of range.
+(2) If the attack action causes any damage, it shows a prompts telling the player the action succeeds and update the statics of the attacker and the robot under attack. 
+
+3. react to mouse click
+(1) when a cell in the game board is clicked, if the cell is in the range of current robot, it will prompt two buttons. One shows move, another shows attack. Otherwise it doesn’t respond.
+(2) When the attack button is clicked, it will invoke attack action. When the move action is clicked, it will invoke the movement action. When out side of the the two buttons area is clicked, the two button will disappear and the player can choose again.
+
+4. react to switch button 
+Whenever the switch button is clicked, the game board will load next robot’s statistics.
+
+5
+if the esc key is pressed during the game, there will be two buttons appear. One is finish button and another is continue button. When the finish button is clicked, the game terminates, when the continue button is clicked, it goes back the game mode.
+
+After the game
+
+Update the all robot’s statistics. And display the winner and loser.
+
+Postcondition: the screen responds accordingly.
+
+
+
+
+
+
+
+
+
+
+        
+Action: Upload 
+
+The process of uploading updated stats to the JSON file following a completed game
+
+Preconditions
+    -game is completed and all relevant data is updated 
+    -Robot Librarian has address of the file to upload to
+
+Primary Scenario 
+    1. Robot Librarian is alerted that the game has ended 
+    2. Robot Librarian reads data from stored values
+    3. Robot Librarian saved updated data to JSON file
+
+Post Conditions
+    -JSON file and Robot Librarian have matching data
+
+Error Conditions
+    -File does not exist
+        -make a new file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

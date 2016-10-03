@@ -1,0 +1,28 @@
+Flow of events for Move Use Case
+Actor:
+Player
+
+Description:
+During the player’s turn, the player can choose to move or not to move. If the player chooses to move, the player can move one step a time until the move points run out. If the player chooses not to move, the player can also choose to attack or switch. 
+
+Preconditions:
+* The players have already selected their game modes and entered player information.
+* It’s the players’ round to make a move.
+* The player has at least 1 movie point left.
+
+Primary Scenarios:
+* The player chooses to move by clicking on button move.  
+* The player moves 1 step a time until the move points run out. 
+* The player chooses the destination first then change the direction and moves. 
+
+Secondary Scenarios:
+* If the player clicks on button move, any time before running out the movie points, including the situation of not moving at all, the player can choose to clicks on button attack then perform the action of shot. 
+* If the player clicks on button move, any time before running out the movie points, including the situation of not moving at all, the player can choose to clicks on button switch then perform the action of switching another robot and ends its round. 
+
+Error Conditions:
+* If the robot cannot choose the destination that is out of the main game board. 
+* The player doesn’t have any move point left. The game board interface shows “You don’t have enough move points.”
+
+Postconditions:
+* The player finishes its move action and update the game board. 
+* The players’ move points get updated.

@@ -1,0 +1,24 @@
+Flow of events for Select Robots Use Case
+
+Actor:
+Host
+
+Description:
+At the beginning of the game, the host chooses the desired robot for the entire game. The host can choose any robot that is displayed on the screen. The host can register a new robot if wanted, and the host can also revise or retire any specific robot.
+
+Preconditions:
+* The host have already selected the game mode.
+
+Primary Scenarios:
+* The host choose any robot enumerated on the screen.   
+* The host can revise or retire the robot that’s chosen. 
+* If the host is not satisfied by the enumerated old robots list, the host can also register a new robot. 
+
+Error Conditions:
+* If the host choose more that three robots, the game board interface shows “Sorry, you can’t choose more that three robots.”
+* If the host attempts to register a name which already exists, the game board interface shows “Sorry, the name already exists. 
+
+Postconditions:
+* The host finishes choosing the robot and moves to next procedure.  
+
+
