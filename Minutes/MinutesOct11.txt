@@ -1,0 +1,6 @@
+* MinutesOct11
+* Informed TA the process of design document.
+* Told not necessarily have to use three tier architecture.
+* Suggested that using single architecture would be better.
+* Suggested that the architecture should be chosen first. Needed to explain why chose one specific architecture over another one. 
+* Talked about MVC.
