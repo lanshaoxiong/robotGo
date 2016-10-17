@@ -1,0 +1,6 @@
+October  16
+
+1 analyse the feedback from the requirement documents.
+2 make coreesponding change in design. 
+3 refine our model view controller general digram 
+4 decide next meeting time
