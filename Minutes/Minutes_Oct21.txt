@@ -1,0 +1,5 @@
+The minutes of group meeting in October 21:
+1. changed the logic structure of our MVC architecture (mainly in interpreter part);
+2. discussed deeply in class diagram of each class;
+3. assigned several class diagram to each group member seperately;
+4. In the tomorrow meeting, we would combine all parts and get the draft of design document;
