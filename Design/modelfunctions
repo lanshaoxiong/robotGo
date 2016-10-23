@@ -1,0 +1,79 @@
+8 robot model
+-string name
+-string team
+-string color
+-integer direction
+-integer maxhitpoints
+-integer currenthitpoints
+-integer range
+-string type
+-interger speed
+-integer moved
+-bool alive
+-bool attacked
+-integer damagecaused
+-integer tilesmoved
+-integer kills
+-mailbox Mail
+
++string getName()
++string getTeam()
++string getColor()
++integer getDirection()
++integer getMaxHitPoints()
++integer getCurrentHitPoints()
++integer getRange()
++string getType()
++integer getSpeed()
++bool isAlive()
++bool hasAttacked()
++integer getTilesMoved()
++integer getTotalTilesMoved()
++integer getKills()
++mailbox getMailbox()
+
++void setName(string name)
++void setTeam(string team)
++void setColor(string color)
++void setDirection(integer direction)
++void setMaxHitpoints(integer hp)
++void setCurrentHitpoints(integer hp)
++void setRange(integer range)
++void setType(string type)
++void setIsAlive(bool alive)
++void setHasAttacked(bool attacked)
++void setTilesMoved(integer tilesMoved)
++void setTotalTilesMoved(integer tilesMoved)
++void setKills(integer kills)
++void setMailBox(mailbox mail)
+
+
+9. gameboard model
+-bool[] Players
+-color Turn
+-integer numberOfPlayers
+-tiles[] TilesOnBoard
+-robots[] RobotsInPlay
+
++color getTurn()
++void setTurn(color)
++integer getNumberOfPlayers()
++void setNumberOfPlayers(integer)
++bool[] getPlayers
++void setPlayer(integer,bool)
+
+
+
+10. tile model
+-robot[] robotsOnTile
+
++void addRobotToTile(Robot)
++void removeRobotFromTile(Robot)
++robot[] getRobots()
+
+11 mailbox model
+-string[] messages
+
++string[] getMessages()
++void addMessage(string)
++void removeMessage(string)
