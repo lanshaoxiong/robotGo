@@ -1,0 +1,5 @@
+The minutes of group meeting in October 22:
+1. discussed the each class diagram specifically;
+2. combined the each class diagram together to get the class diagram for whole system;
+3. assigned the each class to each teammates to write specific CRC card and description of each method
+4. we would combine all parts together tomorrow afternoon and update the layout and structure.
