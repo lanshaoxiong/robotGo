@@ -1,0 +1,42 @@
+Class : GameBoard Model
+
+The responsibilities of this class is to store information on whose turn it is, which players
+are human or ai, the board size and the number of players. It will also have an array of the tile
+class and an array of all the robots that are in play. 
+
+Collaborators: Tile, Robot;
+
+
+Class: Tile Model 
+
+The responsibilites of the tile is to record which robots are on top of it. 
+
+
+Class: Robot Model
+
+The responsibilites of the robot class is to store the name, team, color, direction, max hitpoints, current hit points
+attack, speed, used movement points, whether the robot has attacked this turn, range, whether the robot is alive or dead,
+the robot type. 
+
+This class will also store the statistics of the robot over the game: damage taken, damage caused, tiles moved and kills.
+Each robot will have a mailbox.
+
+Collaborators: Mailbox
+
+
+
+Class: Mailbox Model
+
+The responsiblies of this class is to store messages so that ai controlled robots may communicate with each other.
+
+
+
+
+
+
+
+
+
+
+
+
