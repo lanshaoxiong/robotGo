@@ -1,0 +1,31 @@
+{\rtf1\ansi\deff0\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\fswiss\fprq2\fcharset128 Tahoma;}{\f4\froman\fprq2\fcharset128 AngsanaUPC;}{\f5\fswiss\fprq2\fcharset128 Arial;}{\f6\froman\fprq0\fcharset128 ;}{\f7\fnil\fprq2\fcharset0 Microsoft YaHei;}{\f8\fnil\fprq2\fcharset0 Mangal;}{\f9\fnil\fprq0\fcharset128 Mangal;}}
+{\colortbl;\red0\green0\blue0;\red128\green128\blue128;}
+{\stylesheet{\s0\snext0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105 Default;}
+{\s15\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb240\sa120\keepn\cf0\kerning1\hich\af7\langfe2052\dbch\af8\loch\f2\fs28\lang4105 Heading;}
+{\s16\sbasedon0\snext16{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af0\langfe2052\dbch\af0\loch\f0\fs24\lang4105 Text body;}
+{\s17\sbasedon16\snext17{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb0\sa120\cf0\kerning1\hich\af0\langfe2052\dbch\af9\loch\f0\fs24\lang4105 List;}
+{\s18\sbasedon0\snext18{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\sb120\sa120\cf0\i\kerning1\hich\af0\langfe2052\dbch\af9\ai\loch\f0\fs24\lang4105 Caption;}
+{\s19\sbasedon0\snext19{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af0\langfe2052\dbch\af9\loch\f0\fs24\lang4105 Index;}
+}{\info{\creatim\yr2016\mo10\dy20\hr20\min43}{\revtim\yr2016\mo10\dy22\hr16\min4}{\printim\yr0\mo0\dy0\hr0\min0}{\comment OpenOffice.org}{\vern3410}}\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709\deftab709
+
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\pgdscnxt0 Default;}}
+\formshade{\*\pgdscno0}\paperh15840\paperw12240\margl1134\margr1134\margt1134\margb1134\sectd\sbknone\sectunlocked1\pgndec\pgwsxn12240\pghsxn15840\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pgndec\pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch\loch\f5
+\tab Our project ended up being a combination of Model View Controller with some aspects of independent components integrated. This integration of different architecture was necessary to separate the user's different interactions between the Setup Menu and the Main Game, as well as to incorporate the Robot Interpreter as an internal component. We thought of all three of these components as separate instances of MVC where aspects of a data-flow system are used to connect the Setup Menu and the Main Game through initialization of the rules, the teams, tiles, robots and the Gameboard while the robot interpreter interacts with the main game through event-based function calls.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch\loch\f5
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch\loch\f5
+\tab We focused on thinking of the main components as MVC for three main advantages. First, the main purpose of MVC is separation of concerns, which allows us to keep logic from becoming muddled to allow ourselves and the system a straightforward understanding of all interactions. The second advantage of MVC comes from having clear representations and storage of objects in the Model that are connected via the the game rules and logic contained in the Controller. This works best for playing a game via our Interface. Thirdly we are all familiar with it from having worked with it in previous classes. This gives us an advantage in designing and documenting our system.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch\loch\f5
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch\loch\f5
+\tab Having an overarching independent components architecture allows us to break up our system in necessary ways. It was necessary to have two separate controllers for the game setup and the game play because the interfaces and information interacted with and viewed are very much distinct. This allowed us to remove unnecessary connections and use data-flow to streamline the process of initialization. It was also very necessary to separate the robot interpreter from the controllers because it contains a state machine for reading and writing Forth script to run our Robot's AI. We still kept the style consistent with MVC despite it being an interpreter and technically doesn't interact directly with the view. It does however require a controller and models and behaves much in the same way. The only difference being that it interacts with the view via event-based function calls to the MainGameController class.}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch
+}
+\par \pard\plain \s0{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\nowidctlpar\cf0\kerning1\hich\af6\langfe2052\dbch\af8\afs24\lang1081\loch\f0\fs24\lang4105{\rtlch \ltrch\loch
+}
+\par }
