@@ -16,6 +16,16 @@
 -integer kills
 -mailbox Mail
 
+The variable name holds the name of the robot, team holds the name of the robot's team, color holds the the team's color for this game.
+The direction of the robot is represented by an integer with a value of zero to five. Maxhitpoints and currenthitpoints hold 
+the maximum and current hit points of the robot. Range holds the range of the robot. Tanks and scouts have a range of one, snipers have a range of two,
+Type holds the robot type which is a string of value "sniper", "tank" or "scout". Speed is the amount of tiles a robot may move on each turn,
+a scout can move three, a sniper can move two and a tank can move one. Moved stores the number of tiles the robot has already moved this turn,
+this can not be higher than speed. Alive is a boolean that is true when the robot is alive and false when the robot is dead. Attacked is a 
+boolean that is true when the robot has already attacked this turn and false when it has not. Damagedcasued stores the amount of damage this
+robot has caused this game. Tilesmoved holds the amount of tiles the robot has moved this game. Kills is the number of robots killed by this
+robot in this game. Mail holds an instance of the mailbox class, this will be the mailbox for this robot.
+
 +string getName()
 +string getTeam()
 +string getColor()
@@ -31,7 +41,6 @@
 +integer getTotalTilesMoved()
 +integer getKills()
 +mailbox getMailbox()
-
 +void setName(string name)
 +void setTeam(string team)
 +void setColor(string color)
@@ -47,29 +56,45 @@
 +void setKills(integer kills)
 +void setMailBox(mailbox mail)
 
+These functions are the acessesor and mutator methods for the variables described above.
+
 
 9. gameboard model
 -bool[] Players
--color Turn
+-integer Turn
 -integer numberOfPlayers
 -tiles[] TilesOnBoard
 -robots[] RobotsInPlay
+-integer getRobotIndex(robot r)
+The array of booleans Players stores information on whether each player is a human or an AI. True for a human, false for an AI
+The turn variable records whose turn it currently is, with a value of 0 to 1,2 or 5. The numberOfPlayers holds the number of players.
+The tilesOnBoard variable is an array of tiles that holds the instances of the tile class used in this game.
+The robotsInPlay variable holds an array of robots that holds the instances of the robot class used in this game.
+GetRobotIndex returns the index the robot holds in the RobotsInPlay array.
 
 +color getTurn()
-+void setTurn(color)
++void setTurn(integer turn)
 +integer getNumberOfPlayers()
-+void setNumberOfPlayers(integer)
-+bool[] getPlayers
-+void setPlayer(integer,bool)
++void setNumberOfPlayers(integer number)
++bool getPlayers(integer index)
++void setPlayer(bool human,integer index)
++robot getRobot(integer index)
++tile getTile(integer index)
 
 
 
 10. tile model
--robot[] robotsOnTile
+-integer[] robotsOnTile
 
-+void addRobotToTile(Robot)
-+void removeRobotFromTile(Robot)
-+robot[] getRobots()
++integer addRobotToTile(integer robotindex)
++void removeRobotFromTile(integer robotindex)
++integer[] getRobots()
+
+RobotsOnTile is an array that stores the indexes of all the robots that are on top of it.
+AddRobotToTile adds the robot robotsOnTile and removeRobotFromTile removes it.
+GetRobots returns the RobotsOnTile array.
+
+robotsOn
 
 11 mailbox model
 -string[] messages
@@ -77,3 +102,6 @@
 +string[] getMessages()
 +void addMessage(string)
 +void removeMessage(string)
+
+Messages is an array of strings which hold all of the messages which are strings.
+GetMessages will return this array, addMessage will add a message to the array while removeMessage will remove it.
