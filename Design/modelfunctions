@@ -72,7 +72,7 @@ The tilesOnBoard variable is an array of tiles that holds the instances of the t
 The robotsInPlay variable holds an array of robots that holds the instances of the robot class used in this game.
 GetRobotIndex returns the index the robot holds in the RobotsInPlay array.
 
-+color getTurn()
++integer getTurn()
 +void setTurn(integer turn)
 +integer getNumberOfPlayers()
 +void setNumberOfPlayers(integer number)
@@ -81,7 +81,7 @@ GetRobotIndex returns the index the robot holds in the RobotsInPlay array.
 +robot getRobot(integer index)
 +tile getTile(integer index)
 
-
+These functions are the accessor and mutator methods of the variables described above.
 
 10. tile model
 -integer[] robotsOnTile
