@@ -1,0 +1,6 @@
+The biggest change from our requirements is that the robot librarian is no longer a part of our system. 
+Originally we thought that we had to implement our own robot librarian but that was completely unnecessary. Instead of doing the librarian functions ourselves our system will send requests to the librarian with JSON. 
+The second change is in our play action. In our requirements we had split up the play action into the smaller actions: move, shoot and turn but it seems this was problematic according to the feedback we received so we have changed it back into one action. 
+The third change is that originally we were going to allow the player to choose the robots from the library that he would play with, but now only the robots controlled by the AI will send statistics to the librarian.
+The forth change is that we added the interpreter to the system, which was not mentioned in the requirements document but is clearly necessary. 
+One thing that we were considering were turn timers, but we decided against this as it was unnecessary.
