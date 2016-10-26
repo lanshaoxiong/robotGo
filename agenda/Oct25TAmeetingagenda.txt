@@ -1,0 +1,4 @@
+1 ask for opinions about the design document
+2 ask about the next step
+3 ask about coding style 
+4 ask about testing plan
