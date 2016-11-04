@@ -1,0 +1,18 @@
+Coding Style Decision for Group B3
+
+
+Google Java Style is the coding style we choose:
+https://google.github.io/styleguide/javaguide.html
+
+
+Why the Google Java Style is optimal for our group:
+
+•	It is convenient and time-saving.  Our group chose to use Eclipse as the coding program, which we can set the auto-formatting according to the Google java style guide. Thus, it will save us time and improve our efficiency while coding.
+
+•	It is also the most familiar one. After carefully examining the content of the Google Java Style Guide, we found the Google Java Style Guide matches our coding background most tightly. It’s closely associated with the coding style we most frequently used in our 100&200 level computer courses.
+
+•	It is reliable since it’s designed by Google. The users of Google have good user-experience. Google's products are used by people all over the world, and they run efficiently and consistently. Its effective coding style has set the foundation for the robustness of all software. We believe its coding style will be helpful to our future implementation of project.
+
+•	It is more efficient and user-friendly, comparing with other code style guides. Google’s style is easier to read which means Google java code style is easier to maintain than other popular code style guides which means it is easier and more comfortable to write code in google style.
+
+•	The google java style is also easily accessible, with its own webpage and hyperlinks for all of its topics. This makes it easy to reference.
