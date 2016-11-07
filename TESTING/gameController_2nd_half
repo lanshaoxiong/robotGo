@@ -1,0 +1,87 @@
+Move(position)
+
+
+
+Move should not do anything if there is not enough movement points
+It should not do anything if an invalid position is used. The valid values of position are 0-60 if it is a board of size 5 or 0-126 if it is a board of size 7. After the move the robot should be in the position that was given.
+
+An instance of the robot class and the gameboard class is required for these tests. The rotate method should also be implemented before this method.
+
+Test1: method should throw an exception if the position is invalid.
+
+Test2: method should create a messagebox "not enough movement points" if the distance of the target tile is greater than the moves left of the robot. The robot should not move after this.
+
+Test3: the robot should appear in the specified position after move is executed if there is no error.
+
+Shoot(position)
+
+Robot should not be able to shoot if it has already shot this turn. It should not be able to shoot if the target is not in range. The valid range of targets is 0-60 for a board of size 5 or 0-126 for a board of size 7. Robot must be an instance of the robot class.
+
+
+An instance of the robot class is required for these tests.
+
+Test1: method should throw an exception if the position is invalid. 
+
+Test2: method should create a messagebox "already shot" if the robot has already shot this turn. 
+
+
+
+Test3: method should create a messagebox "out of range" if the target tile is not in range.
+
+
+Multiple instances of the robot class are required for the tests below.
+
+Test4: check that the shotThisTurn variable in robot is changed to true if the robot shoots.
+
+Test5: if there is no robot on the targeted tile then a message box will be created "no one there"
+
+Test6: check that the shot robot is damaged by checking the hp of the affected robot.
+
+Test7: check that the method works for shooting multiple robots on the same tile including the case where the shooter is on the targeted tile.
+
+
+Rotate(direction)
+
+The robot should be in the right direction after turning.
+The valid values of direction are 0-5. Robot must be an instance of the robot class.
+
+These tests require an instance of the robot class
+
+Test1: The method must throw an exception if the direction is invalid. 
+
+Test2: Execute the method rotate on a robot to change its direction to an arbitary value and check if the robot had its direction changed. 
+
+
+UpdateRobotStats
+
+When a robot is damaged damageTaken should increase by the amount of damage. When it dies the amount of deaths increases by one. When it kills the number of kills increases. When it moves tiles moved should increase by the number of tiles moved this turn. When it inflicts damage it should the damagedInflicted should increase appropriately.
+
+These tests require the gameboard view, gameboard model,  and instances of the robot class. Shoot,move and rotate should be implemented before this method is tested.
+
+Test1 : when a robot is damaged check the damage taken.
+Test2 : check that the robot deaths increased after death.
+Test3 : check that the kills increased after killing.
+Test4: check that the tilesMoved increases after moving.
+Test5: check that damagedInflicted increases after inflicting damage
+Test6:  repeat test 1,2,3, and 5 with multiple robots being killed or damaged instead of just one.
+
+UpdateGameBoard
+
+The gameboard must show: dead robots removed, changed ui, moved robots at their destinations, shot robots damaged and the current turn round and robot.
+
+These tests require the gameboard view, gameboard model,  and instances of the robot class. Shoot,move and rotate should be implemented before this method is tested.
+
+Test1: gameboard must be displayed in the gameboard view
+Test2: check that robots are removed from view after being killed.
+Test3: check that the ui showing the robot hps are being updated when the robots are damaged
+Test4: check that the current turn and round are updating,
+Test5: check that the current robot is indicated.
+
+
+
+ExitToMainMenu
+
+
+Main menu view should be displayed and the gameboard view should not. 
+
+Test1: check that the correct view is shown. This test requires both views.
