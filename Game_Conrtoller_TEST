@@ -1,0 +1,142 @@
+@test 
+test_whose_turn()
+//To test the whose_turn inside the game controller class.
+//Get information stored in robot class. Based on the the speed of each robot, identify the turn of the robot in different teams. 
+
+//Case 1: The game is not initialized, which means no teams and no robots created.
+getMaxSpeed();
+    throw exception “getMaxSpeed need team name as input”;
+
+//Case 2: All robots are still alive. Suppose trying to find the robot trun in Team A. Suppose the robot_id of the maxmium speed in TeamA is 1001.
+int result = maxgetMaxSpeed(TeamA[]);
+int expectResult = 1001;
+AssertEquals(result, expeceedResult);
+  
+//Case 3: Some robots are shot dead in teamA.
+    //to find the robot with maximum speed in TeamA, suppose it's TeamA[i].
+    //if isAlive (TeamA[i]) is ture
+        //return robot_id of TeamA[i]
+    //else 
+        //getMaxSpeed(TeamB[]) --  skip to next team, Suppose the robot_id of the maxmium speed in TeamA is 1004.
+getMaxSpeed(TeamA[])
+int result = maxgetMaxSpeed(TeamB[]);
+int expectResult = 1004;
+AssertEquals(result, expeceedResult);
+
+
+
+-----------------------------------------------------------------------------
+@test test_identify_HumanOrAI(robot_id)
+//To test the identify_HumanOrAI(robot_id) inside the game controller class.
+
+//case1: The game is not initialized, which means no teams and no robots created.
+identify_HumanOrAI(robot_id)
+  throw exception “no robot_id is provided”
+
+// Case 2: 
+identify_HumanOrAI(robot_id);
+    //If the robot belongs to the human team, pass the robot_id as the input to the play(robot_id) function inside the game controller.
+
+
+// Case 3: It's the AI's turn
+    //If the robot belongs to the AI team, pass the robot_id as the input to the play(robot) function inside the interpreter.
+
+
+
+
+
+-----------------------------------------------------------------------------
+@test 
+test_play(robot_id) 
+//To test the play(robot_id) inside the game controller class.
+// Note: this function will call other functions within the same class, and the function from another class.
+
+//case 1: The game is not initialized, which means no teams and no robots created.
+play();
+    throw exception “no robot_id is provided”
+
+//case 2: The given robot_id is not valiad 
+play(-123);
+    throw exception “the given robot_id doesn't exists”
+
+//case 3: Given a valid robot_id which belongs to the human team, and the human team chooses to move 1 step from positionindex 1 to postionindex 2.
+play(1001); // this will automatically call rotate() and move() in side the same calss
+int newpostion = getPosition(1001);
+int expeceedResult = 2;
+AssertEquals(newpostion, expeceedResult);
+
+//case 4: Given a valid robot_id which belongs to the AI team, and the AI team chooses to shot the robot dead. 
+play(1004); // call play() in interpreter 
+bool lifeStatus = isAlive(1004);
+bool expeceedResult = false;
+AssertEquals(lifeStatus, expeceedResult);
+
+
+
+
+-----------------------------------------------------------------------------
+
+@test scan()
+//To test the scan() inside the game controller class.
+//case 1: The game is not initialized, which means no teams and no robots created.
+scan();
+    throw exception “the game is not initialized”
+
+//case 2: Return the right numbe of enemies on game board, if the number of enemies is more than 0.
+scan();
+int result = scan();
+int expectedResult = 2;
+AssertEquals(result, expectedResult);
+
+//case3: the number of enemies is 0.
+int result = scan();
+int expectedResult = 0;
+AssertEquals(result, expectedResult);
+
+-----------------------------------------------------------------------------
+@test test_identify()
+//To test the identify() inside the game controller class.
+//case 1: The game is not initialized, which means no teams and no robots created.
+identify();
+    throw exception “the game is not initialized”
+
+//case 2: Return the right numbe of enemies on game board, if the number of enemies is more than 0.
+identify;
+int result[] = identify();
+int expectedResult[] = [red, 2, 1, 2];
+AssertEquals(result, expectedResult);
+
+//case3: the number of enemies is 0.
+int result[] = identify();
+int expectedResult[] = [red,0,0,0];
+AssertEquals(result[], expectedResult[]);
+
+
+-----------------------------------------------------------------------------
+@test test_check()
+//To test the identify() inside the game controller class.
+
+//case 1: The game is not initialized, which means no teams and no robots created.
+check();
+    throw exception “the game is not initialized”;
+
+//case 2: The adjacent of a given direction is occupied.
+check();
+bool result = isOccupied;
+bool expectedResult = true;
+AssertEquals(result, expectedResult);
+
+
+//case 2: The adjacent of a given direction is NOT occupied.
+check();
+bool result = isOccupied;
+bool expectedResult = fasle;
+AssertEquals(result, expectedResult);
+
+
+
+
+
+
+
+
