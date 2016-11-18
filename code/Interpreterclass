@@ -1,0 +1,55 @@
+
+import java.util.Stack;
+
+public class Interpreter {
+	public static Stack DS;
+	Interpreter(){
+		DS = new Stack();
+	}
+public static void main(String[] args) throws Exception{
+	Arithmetic(1,1,"+");
+	int i = (int) DS.pop();
+	System.out.println(i);
+	
+	Arithmetic(1,1,"-");
+	i = (int) DS.pop();
+	System.out.println(i);
+	
+	Arithmetic(3,3,"*");
+	i = (int) DS.pop();
+	System.out.println(i);
+	
+	Arithmetic(32,11,"/mod");
+	i = (int) DS.pop();
+	System.out.println(i);
+	
+	
+}
+public static void Arithmetic(int t1, int t2, String op) throws Exception{
+	int F=0;
+	
+	if (op.equals("+")) {
+		F=t1+t2;
+		DS.push(F);
+	}
+	else if (op.equals("-")){
+		F=t1-t2;
+		DS.push(F);
+	}
+	else if (op.equals("*")){
+		F=t1*t2;
+		DS.push(F);
+	}
+	else if (op.equals("/mod")){
+		if (t1==0){
+			throw new Exception("You can't divide by zero ya nutjob");
+		}
+		F=t1/t2;
+		DS.push(F);
+	}
+	else {
+		throw new Exception("Operator not recognised");
+	}
+	
+}
+}
