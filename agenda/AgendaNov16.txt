@@ -1,0 +1,14 @@
+Time 3:00-5:00pm 
+Date November 16th
+
+Agenda
+
+1 decide how to pair first pair to do the pair programming
+
+2 decide what should be done before next meeting
+
+3 divide task
+
+4 deicide pair programming session time and content
+
+5 review design document together
