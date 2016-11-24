@@ -26,7 +26,7 @@ public class words {
 		wordDictionary.remove(word);
 	}
 	
-	public String findWord(String key){
+	public static String findWord(String key){
 		return wordDictionary.get(key);
 	}
 	
@@ -35,9 +35,9 @@ public class words {
 		new words();
 		words.defineWord("aaa", "bbbbb");
 		words.defineWord("aaa", "bffbb");
-		words.removeWord("aaa");
+		//words.removeWord("aaa");
 		System.out.println((getDictionary().toString()));
-		System.out.println(getDictionary().get("aab"));
+		System.out.println(getDictionary().get("aaa"));
 	}
 	
 }
