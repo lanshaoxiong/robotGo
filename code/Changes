@@ -1,3 +1,6 @@
 1) We need to adda a string variable into the robot model class to store the FORTH code for the robots. 
 This also necessitates change to the initialization where we download the code from the JSON file
 and store it in each robot
+
+2) We need to build mailboxes when we build the robots. MAIL IS FOR AI only , We also need three mailboxes for each 
+robot instead of one.
