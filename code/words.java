@@ -2,18 +2,18 @@ package models;
 import java.util.*;
 public class words {
 
-	private Map<String,String> wordDictionary;
+	private static Map<String,String> wordDictionary;
 	
 	public words(){
 		wordDictionary = new HashMap<String,String>();
 	}
 	
-	public  Map<String,String> getDictionary(){
+	public static Map<String,String> getDictionary(){
 		return wordDictionary;
 	}
 	
 	
-	public void defineWord( String name, String script){
+	public static void defineWord( String name, String script){
 		
 		if(wordDictionary.get(name)== null){
 			wordDictionary.put(name,script);
@@ -22,7 +22,7 @@ public class words {
 		}
 	}
 	
-	public void removeWord(String word){
+	public static void removeWord(String word){
 		wordDictionary.remove(word);
 	}
 	
@@ -31,14 +31,13 @@ public class words {
 	}
 	
 	
-	
 	public static void main(String[] args){
-		words w = new words();
-		w.defineWord("aaa", "bbbbb");
-		w.defineWord("aaa", "bffbb");
-		w.removeWord("aaa");
-		System.out.println((w.getDictionary().toString()));
-		System.out.println(w.getDictionary().get("aab"));
+		new words();
+		words.defineWord("aaa", "bbbbb");
+		words.defineWord("aaa", "bffbb");
+		words.removeWord("aaa");
+		System.out.println((getDictionary().toString()));
+		System.out.println(getDictionary().get("aab"));
 	}
 	
 }
