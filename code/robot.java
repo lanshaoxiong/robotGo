@@ -4,7 +4,7 @@ public class robot {
 	private boolean[] players;
 	private String name;
 	private String team;
-	private String color;
+	private Color color;
 	private int direction;
 	private int maxHp;
 	private int currentHp;
@@ -25,7 +25,7 @@ public class robot {
 		SCOUT, SNIPER, TANK
 	}
 	
-	public robot(String newName, String newTeam, String newColor, robotClass type){
+	public robot(String newName, String newTeam, Color newColor, robotClass type){
 		if(type == robotClass.SCOUT){
 			range=2;
 			speed=3;
@@ -54,6 +54,10 @@ public class robot {
 		tilesMoved=0;
 		kills=0;
 		direction=0;
+		this.name=newName;
+		this.team=newTeam;
+		this.color=newColor;
+		
 	}
 	
 	public String getName(){
@@ -167,4 +171,3 @@ public class robot {
 		 kills = newKills;
 	}
 }
-
