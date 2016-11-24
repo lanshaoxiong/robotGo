@@ -31,6 +31,7 @@ public class words {
 	}
 	
 	
+	
 	public static void main(String[] args){
 		words w = new words();
 		w.defineWord("aaa", "bbbbb");
