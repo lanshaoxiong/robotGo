@@ -4,32 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class variables {
-	private Map<String,Object> wordDictionary;
+	private static Map<String,Object> variableDictionary;
 	
 	public variables(){
-		wordDictionary = new HashMap<String,Object>();
+		variableDictionary = new HashMap<String,Object>();
 	}
 	
 	public  Map<String,Object> getDictionary(){
-		return wordDictionary;
+		return variableDictionary;
 	}
 	
 	
-	public void defineWord( String name, Object value){
+	public static void defineVariable(String name){
 		
-		if(wordDictionary.get(name)== null){
-			wordDictionary.put(name,value);
+		if(variableDictionary.get(name)== null){
+			variableDictionary.put(name,0);
 		}else{
 			System.out.println(name + " already defined");
 		}
 	}
 	
-	public void removeWord(String word){
-		wordDictionary.remove(word);
+	public static void setVariable(String name, Object value){
+		variableDictionary.replace(name, value);
 	}
 	
-	public Object findWord(String key){
-		return wordDictionary.get(key);
+	public void removeVariable(String variable){
+		variableDictionary.remove(variable);
+	}
+	
+	public Object findVariable(String key){
+		return variableDictionary.get(key);
 	}
 	
 	public String valueType(Object value){
@@ -50,14 +54,14 @@ public class variables {
 	
 	public static void main(String[] args){
 		variables w = new variables();
-		w.defineWord("aaa", 4);
-		w.defineWord("bbb", "fun");
-		w.defineWord("ccc", true);
+		//w.defineVariable("aaa", 4);
+		//w.defineVariable("bbb", "fun");
+		//w.defineVariable("ccc", true);
 		
 
 		
-		if((boolean)w.findWord("ccc")){
-			System.out.println(7*(Integer)w.findWord("aaa"));
+		if((boolean)w.findVariable("ccc")){
+			System.out.println(7*(Integer)w.findVariable("aaa"));
 		}
 		
 		System.out.println();
