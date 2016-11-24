@@ -1,5 +1,3 @@
-package cmpt370project;
-
 import java.util.Stack;
 import models.*;
 
@@ -7,16 +5,20 @@ public class Interpreter {
 
 	public Stack<Object> DS;
 	public Stack<Object> CS;
-
+	public words W;
+	public variables V;
 	Interpreter() {
 		DS = new Stack<Object>();
 		CS = new Stack<Object>();
+		words W = new words();
+		variables V = new variables();
 	}
 
 	public static void main(String[] args) throws Exception {
 
 		Interpreter I = new Interpreter();
-
+		
+/*
 		I.Arithmetic(1, 1, "+");
 		int i = (int) I.DS.pop();
 		System.out.println(i);
@@ -46,11 +48,51 @@ public class Interpreter {
 		}
 		I.Random(1, 20);
 		System.out.println(I.DS.pop());
+		*/
+		I.Read(": Sentence Hey how are you ; variable NUMBER");
+		System.out.println(words.findWord("Sentence"));
 		
-		I.Read("Hey how are you");
-		System.out.println(I.CS.toString());
+		//System.out.println(I.CS.pop());
 		
-		System.out.println(I.CS.pop());
+	}
+	
+	public void Read(String code) {
+		String[] tokens = code.split(" ");
+		
+		for(String t : tokens){
+			DS.push(t);
+			
+		}
+		
+		String[] tokens2 = new String[tokens.length];
+		for(int i =0; i<tokens.length;i++){
+			tokens2[i]= (String) DS.pop();
+		}
+		
+		for(String t : tokens2){
+			CS.push(t);
+			
+		}
+		
+		String temp = "";
+		while(!CS.empty()){
+			
+		if (CS.peek().equals(":")){
+			CS.pop();
+			String name= (String)CS.pop();
+			while(!CS.peek().equals(";")){
+			temp=temp.concat((String)CS.pop()+ " ");
+			}
+			words.defineWord(name, temp);
+			CS.pop();
+		}
+		else if (CS.peek().equals("variable")){
+			CS.pop();
+			variables.defineVariable((String)CS.pop());
+		}
+	
+		}
+		
 	}
 
 	public void Arithmetic(int t1, int t2, String op) throws Exception {
@@ -58,7 +100,7 @@ public class Interpreter {
 
 		if (op.equals("+")) {
 			F = t1 + t2;
-			this.DS.push(F);
+			DS.push(F);
 		} else if (op.equals("-")) {
 			F = t1 - t2;
 			DS.push(F);
@@ -147,28 +189,8 @@ public class Interpreter {
 			throw new Exception("Operator not recognised: " + op);
 		}
 	}
-
 	public void Random(int min, int max) {
 		DS.push(min + (int) (Math.random() * ((max - min) + 1)));
-	}
-
-	public void Read(String code) {
-		String[] tokens = code.split(" ");
-		
-		for(String t : tokens){
-			DS.push(t);
-			
-		}
-		
-		String[] tokens2 = new String[tokens.length];
-		for(int i =0; i<tokens.length;i++){
-			tokens2[i]= (String) DS.pop();
-		}
-		
-		for(String t : tokens2){
-			CS.push(t);
-			
-		}
 	}
 
 	public void DefineWord(String Word, String Code) {
