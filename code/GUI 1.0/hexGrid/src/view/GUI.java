@@ -2,6 +2,8 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class GUI {
@@ -73,10 +75,33 @@ public class GUI {
 		btnpanel.setBounds(510, 673, 381, 39);
 		frmGameBoard.getContentPane().add(btnpanel);
 		
+		JButton btnStart = new JButton("Start");
+		btnStart.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				(DrawingPanel.N) = 1; 
+				gameBoardPanel.repaint();
+			}
+		});
+		btnpanel.add(btnStart);
+		
 		btnEnd = new JButton("End");
 		btnpanel.add(btnEnd);
 		
 		btnSwitch = new JButton("Switch");
+		btnSwitch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				DrawingPanel.N++;
+				if((DrawingPanel.N) > 6)
+					(DrawingPanel.N) = 1;
+				
+				
+				
+					
+			}
+		});
 		btnpanel.add(btnSwitch);
 		
 		

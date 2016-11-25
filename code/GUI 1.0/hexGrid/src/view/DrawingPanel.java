@@ -4,8 +4,12 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Random;
 
 public class DrawingPanel extends JPanel
 {		
@@ -36,13 +40,11 @@ public class DrawingPanel extends JPanel
 
 			int[][] board = new int[BSIZE][BSIZE];
 			
-			static int counter = 0;
-			static int PlayersNumber = 6;	
+			static int PlayersNumber = 6;
+			static int N = 1;
 			
-			static Point p_old = new Point(0,0);
-			
-			
-			
+			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8)};
+			static int [] status_old = {0,0,0,0,0,0,0};
 
 
 	public DrawingPanel()
@@ -50,7 +52,7 @@ public class DrawingPanel extends JPanel
 		initialHex();
 		setBackground(COLOURBACK);
 
-		MyMouseListener ml = new MyMouseListener();            
+		MyMouseListener ml = new MyMouseListener(this);            
 		addMouseListener(ml);
 	}
 	
@@ -60,7 +62,7 @@ public class DrawingPanel extends JPanel
 		initialHex();
 		setBackground(COLOURBACK);
 
-		MyMouseListener ml = new MyMouseListener();            
+		MyMouseListener ml = new MyMouseListener(this);            
 		addMouseListener(ml);
 	}
 	
@@ -73,7 +75,20 @@ public class DrawingPanel extends JPanel
 
 			for (int i=0;i<BSIZE;i++) {
 				for (int j=0;j<BSIZE;j++) {
-					board[i][j]=EMPTY;
+					if(i==1 && j==4)
+						board[i][j]=1;
+					else if(i==3 && j==0)
+						board[i][j]=2;
+					else if(i==7 && j==0)
+						board[i][j]=3;
+					else if(i==9 && j==4)
+						board[i][j]=4;
+					else if(i==7 && j==8)
+						board[i][j]=5;
+					else if(i==3 && j==8)
+						board[i][j]=6;
+					else
+						board[i][j]=EMPTY;			
 				}
 			}
 		}
@@ -121,17 +136,58 @@ public class DrawingPanel extends JPanel
 	}
 
 	class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
-		public void mouseClicked(MouseEvent e) { 
-			board[p_old.x][p_old.y] = 0;
-			Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
-			p_old = p;
-			
-			if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return;
+		private Component component;
 
-			//What do you want to do when a hexagon is clicked?
-			board[p.x][p.y] = (int)'X';
-			//counter++;
-			repaint();
-		}		 
-	} //end of MyMouseListener class 
+		MyMouseListener(Component component) {
+	      this.component = component;
+	    }
+		public void mouseClicked(MouseEvent e) { 
+					
+			board[p_old[N].x][p_old[N].y] = status_old[N];
+			Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
+			p_old[N] = p;
+			status_old[N] = board[p.x][p.y];
+			if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return;
+			
+		      
+			JButton button_move = new JButton("Move");
+		    PopupFactory factory_move = PopupFactory.getSharedInstance();
+		    Popup popup_move = factory_move.getPopup(component, button_move, e.getX() + 180, e.getY() + 100);
+		    popup_move.show();
+		    
+		    JButton button_attack = new JButton("Attack");
+		    PopupFactory factory_attack = PopupFactory.getSharedInstance();
+		    Popup popup_attack = factory_attack.getPopup(component, button_attack, e.getX() + 180, e.getY() + 130);
+		    popup_attack.show();
+		    
+		    JButton button_cancel = new JButton("Cancel");
+		    PopupFactory factory_cancel = PopupFactory.getSharedInstance();
+		    Popup popup_cancel = factory_cancel.getPopup(component, button_cancel, e.getX() + 180, e.getY() + 160);
+		    popup_cancel.show();
+		    
+		    ActionListener cancelActionListener = new ActionListener() {
+			     public void actionPerformed(ActionEvent e) {
+			    	popup_move.hide();
+			    	popup_attack.hide();
+			    	popup_cancel.hide();
+			     }
+			 };
+			 
+			ActionListener moveActionListener = new ActionListener() {
+			        public void actionPerformed(ActionEvent e) {
+			        	board[p.x][p.y] = N;
+			        	popup_move.hide();
+			        	popup_attack.hide();
+			        	popup_cancel.hide();
+			        	repaint();
+			        }
+			      };
+			button_move.addActionListener(moveActionListener);
+			 
+			button_cancel.addActionListener(cancelActionListener);
+			
+
+		}
+
+	}//end of MyMouseListener class 
 } // end of DrawingPanel class

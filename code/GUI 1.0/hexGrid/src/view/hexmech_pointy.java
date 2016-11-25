@@ -31,6 +31,7 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 	public static boolean XYVertex=true;	//true: x,y are the coords of the first vertex.
 	//false: x,y are the coords of the top left rect. co-ord.
 
+	
 	private static int BORDERS=50;	//default number of pixels for the border.
 	
 	private static int s=0;	// length of one side
@@ -39,7 +40,6 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 	private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
 
 	
-	static Image img1;
 	public static void setXYasVertex(boolean b) {
 		XYVertex=b;
 	}
@@ -143,77 +143,73 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			g2.fillPolygon(hex(x,y));
 		}
 		
-		if((i==1 && j==3) || (i==1 && j==4) || (i==1 && j==5)){
+		else if((i==1 && j==3) || (i==1 && j==4) || (i==1 && j==5)){
 			g2.setColor(DrawingPanel.COLOURRED);
 			g2.fillPolygon(hex(x,y));
 		}
+
 		
-		if((i==1 && j==3) || (i==1 && j==4) || (i==1 && j==5)){
-			g2.setColor(DrawingPanel.COLOURRED);
-			g2.fillPolygon(hex(x,y));
-		}
-		
-		if((i==2 && j==7) || (i==3 && j==8) || (i==4 && j==8)){
+		else if((i==2 && j==7) || (i==3 && j==8) || (i==4 && j==8)){
 			g2.setColor(DrawingPanel.COLOURPURPLE);
 			g2.fillPolygon(hex(x,y));
 		}
 		
-		if((i==6 && j==8) || (i==7 && j==8) || (i==7 && j==7)){
+		else if((i==6 && j==8) || (i==7 && j==8) || (i==7 && j==7)){
 			g2.setColor(DrawingPanel.COLOURBLUE);
 			g2.fillPolygon(hex(x,y));
 		}
 		
-		if((i==9 && j==4) || (i==8 && j==5) || (i==8 && j==3)){
+		else if((i==9 && j==4) || (i==8 && j==5) || (i==8 && j==3)){
 			g2.setColor(DrawingPanel.COLOURGREEN);
 			g2.fillPolygon(hex(x,y));
 		}
 		
-		if((i==6 && j==0) || (i==7 && j==0) || (i==7 && j==1)){
+		else if((i==6 && j==0) || (i==7 && j==0) || (i==7 && j==1)){
 			g2.setColor(DrawingPanel.COLOURYELLOW);
 			g2.fillPolygon(hex(x,y));
 		}
+		else;
 		
-		
-		if (n < 0) {
-			g2.setColor(DrawingPanel.COLOURONE);
-			g2.fillPolygon(hex(x,y));
-			g2.setColor(DrawingPanel.COLOURONETXT);
-			c = (char)(-n);
-			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
-			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
-		}
-		if (n > 0) {
+		if (n == 1) {
 			g2.setColor(DrawingPanel.COLOURGRAY);
 			g2.fillPolygon(hex(x,y));
-			img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-//			if(DrawingPanel.counter % DrawingPanel.PlayersNumber == 0){
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-//				
-//			}
-//			else if(DrawingPanel.counter % DrawingPanel.PlayersNumber == 1){
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
-//				
-//			}
-//			else if(DrawingPanel.counter % DrawingPanel.PlayersNumber == 2){
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
-//				
-//			}
-//			else if(DrawingPanel.counter % DrawingPanel.PlayersNumber == 3){
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
-//				
-//			}
-//			else if(DrawingPanel.counter % DrawingPanel.PlayersNumber == 4){
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
-//				
-//			}
-//			else{
-//				img1 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
-//				
-//			}
-		
+			Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
 			g2.drawImage(img1, x+r, y+r, 40, 40, null);
 
 		}
+		else if (n == 2) {
+			g2.setColor(DrawingPanel.COLOURGRAY);
+			g2.fillPolygon(hex(x,y));
+			Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
+			g2.drawImage(img2, x+r, y+r, 40, 40, null);
+		}
+		else if (n == 3) {
+			g2.setColor(DrawingPanel.COLOURGRAY);
+			g2.fillPolygon(hex(x,y));
+		    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
+			g2.drawImage(img3, x+r, y+r, 40, 40, null);
+		}
+		else if (n == 4) {
+			g2.setColor(DrawingPanel.COLOURGRAY);
+			g2.fillPolygon(hex(x,y));
+			Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
+			g2.drawImage(img4, x+r, y+r, 40, 40, null);
+		}
+		else if (n == 5) {
+			g2.setColor(DrawingPanel.COLOURGRAY);
+			g2.fillPolygon(hex(x,y));
+			Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
+			g2.drawImage(img5, x+r, y+r, 40, 40, null);
+		}
+		else if(n == 6){
+			g2.setColor(DrawingPanel.COLOURGRAY);
+			g2.fillPolygon(hex(x,y));
+			Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
+			g2.drawImage(img6, x+r, y+r, 40, 40, null);
+		}
+		else;
+		
+		
 		
 	}
 
