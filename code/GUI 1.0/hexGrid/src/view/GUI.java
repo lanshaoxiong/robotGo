@@ -28,7 +28,7 @@ public class GUI {
 	/**
 	 * Launch the application.
 	 */
-	public static void StartButtonClicked() {
+		public static void StartButtonClicked(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -97,8 +97,10 @@ public class GUI {
 				if((DrawingPanel.N) > 6)
 					(DrawingPanel.N) = 1;
 				
-				
-			
+				// when overlapping, show the specific robot on the overlapping cell
+				gameBoardPanel.board[gameBoardPanel.p_old[DrawingPanel.N].x][gameBoardPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+
+				gameBoardPanel.repaint();
 					
 			}
 		});

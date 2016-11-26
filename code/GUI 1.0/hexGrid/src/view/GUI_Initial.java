@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 
 public class GUI_Initial {
@@ -181,25 +182,20 @@ public class GUI_Initial {
 		Player6Panel.add(radioButton_9);
 		
 		JButton playButton = new JButton("Play");
-		
-		
-		playButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-			
-				GUI.StartButtonClicked();
 
+	 	
+		playButton.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e){
+					GUI.StartButtonClicked();
 			}
-		});
-		
+			});
 		playButton.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
 		playButton.setBounds(30, 399, 220, 67);
 		frmInitialization.getContentPane().add(playButton);
-
-		
 		
 		DrawingPanel thumbnailPanel = new DrawingPanel(50);
 		thumbnailPanel.setBounds(262, 86, 445, 380);
 		frmInitialization.getContentPane().add(thumbnailPanel);
-
 	}
 }

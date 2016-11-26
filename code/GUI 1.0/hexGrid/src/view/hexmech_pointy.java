@@ -115,7 +115,11 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		g2.setColor(DrawingPanel.COLOURCELL);
 		//g2.fillPolygon(hexmech.hex(x,y));
 		g2.fillPolygon(poly);
-		g2.setColor(DrawingPanel.COLOURGRID);
+		if((DrawingPanel.p_old[DrawingPanel.N].x == i) && ((DrawingPanel.p_old[DrawingPanel.N].y == j))){
+			g2.setColor(DrawingPanel.COLOURRED);
+		}
+		else
+			g2.setColor(DrawingPanel.COLOURGRID);
 		g2.drawPolygon(poly);
 	}
 
