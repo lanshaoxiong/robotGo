@@ -28,7 +28,7 @@ public class GUI {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void StartButtonClicked() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -98,14 +98,14 @@ public class GUI {
 					(DrawingPanel.N) = 1;
 				
 				
-				
+			
 					
 			}
 		});
 		btnpanel.add(btnSwitch);
 		
 		
-		gameBoardPanel = new DrawingPanel();
+		gameBoardPanel = new DrawingPanel(80);
 		gameBoardPanel.setBounds(99, 0, 765, 636);
 		frmGameBoard.getContentPane().add(gameBoardPanel);
 		
