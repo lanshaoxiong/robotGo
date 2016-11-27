@@ -1,0 +1,6 @@
+time: November 26, 2pm
+location: health science library
+
+1 pick a chunk of code and do the code review
+2 pair programming
+3 discuss the difficulties we have right now
