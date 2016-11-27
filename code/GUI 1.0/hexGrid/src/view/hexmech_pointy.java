@@ -145,75 +145,236 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		if((i==3 && j==0) || (i==4 && j==0) || (i==2 && j==1)){
 			g2.setColor(DrawingPanel.COLOURORANGE);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 		
 		else if((i==1 && j==3) || (i==1 && j==4) || (i==1 && j==5)){
 			g2.setColor(DrawingPanel.COLOURRED);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 
 		
 		else if((i==2 && j==7) || (i==3 && j==8) || (i==4 && j==8)){
 			g2.setColor(DrawingPanel.COLOURPURPLE);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 		
 		else if((i==6 && j==8) || (i==7 && j==8) || (i==7 && j==7)){
 			g2.setColor(DrawingPanel.COLOURBLUE);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 		
 		else if((i==9 && j==4) || (i==8 && j==5) || (i==8 && j==3)){
 			g2.setColor(DrawingPanel.COLOURGREEN);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 		
 		else if((i==6 && j==0) || (i==7 && j==0) || (i==7 && j==1)){
 			g2.setColor(DrawingPanel.COLOURYELLOW);
 			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		}
 		else;
 		
+		// add the range of attacking shadow around the (i,j)
+			
+			// for the all scouts
+			if ( DrawingPanel.N >= 1 && DrawingPanel.N <= 6){
+				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 2) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 2) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2)  ){
+					g2.setColor(DrawingPanel.COLOURSHADOW);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
+				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 2) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 2) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+				else{
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 2) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 2) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+			}
+			
+			// for the all snipers
+			else if ( DrawingPanel.N >= 7 && DrawingPanel.N <= 12){
+				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 3) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 3) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3)  ){
+					g2.setColor(DrawingPanel.COLOURSHADOW);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
+				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 3) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					if(((i == DrawingPanel.p_old[DrawingPanel.N].x + 2)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) ) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					
+					if(((i == DrawingPanel.p_old[DrawingPanel.N].x - 3)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2) ) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+				else{
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 3) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					if(((i == DrawingPanel.p_old[DrawingPanel.N].x - 2)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) ) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+					
+					if(((i == DrawingPanel.p_old[DrawingPanel.N].x + 3)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)|| (j == DrawingPanel.p_old[DrawingPanel.N].y - 2))){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+			}
+			
+			// for the all tanks
+			else if ( DrawingPanel.N >= 13 && DrawingPanel.N <= 18){
+				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 1) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 1) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 1) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 1)  ){
+					g2.setColor(DrawingPanel.COLOURSHADOW);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
+				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+				else{
+					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
+						g2.setColor(DrawingPanel.COLOURCELL);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					}
+				}
+			}
+			
+			else;
+	
+			
+			// highlight the range of walk
+			if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 1) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 1) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 1) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 1)  ){
+				g2.setColor(DrawingPanel.COLOURRED);
+				g2.drawPolygon(hex(x,y));
+			}
+			
+			if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
+				if((i == DrawingPanel.p_old[DrawingPanel.N].x + 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+			else{
+				if((i == DrawingPanel.p_old[DrawingPanel.N].x - 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+			
+			// highlight the current robot 
+			if (n == DrawingPanel.N) {
+				g2.setColor(DrawingPanel.COLOURGRAY);
+				g2.fillPolygon(hex(x,y));
+			}
+			
+
+		// add the image of picture
 		if (n == 1) {
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 			Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
 			g2.drawImage(img1, x+r, y+r, 40, 40, null);
 
 		}
 		else if (n == 2) {
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 			Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
 			g2.drawImage(img2, x+r, y+r, 40, 40, null);
 		}
 		else if (n == 3) {
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 		    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
 			g2.drawImage(img3, x+r, y+r, 40, 40, null);
 		}
 		else if (n == 4) {
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 			Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
 			g2.drawImage(img4, x+r, y+r, 40, 40, null);
 		}
 		else if (n == 5) {
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 			Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
 			g2.drawImage(img5, x+r, y+r, 40, 40, null);
 		}
 		else if(n == 6){
-			g2.setColor(DrawingPanel.COLOURGRAY);
-			g2.fillPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
 			Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
 			g2.drawImage(img6, x+r, y+r, 40, 40, null);
 		}
 		else;
-		
-		
 		
 	}
 

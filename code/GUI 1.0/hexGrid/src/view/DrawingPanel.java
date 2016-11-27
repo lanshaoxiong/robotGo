@@ -29,7 +29,9 @@ public class DrawingPanel extends JPanel
 			
 			final static Color COLOURONE = new Color(255,255,255,200);
 			final static Color COLOURONETXT = Color.BLUE;
-			final static Color COLOURGRAY = Color.gray;
+			final static Color COLOURGRAY = Color.gray; 
+			final static Color COLOURSHADOW = Color.lightGray;
+			
 			final static Color COLOURTWOTXT = new Color(255,100,255);
 			final static int EMPTY = 0;
 			final static int BSIZE = 10; //board size.
@@ -168,22 +170,59 @@ public class DrawingPanel extends JPanel
 			ActionListener moveActionListener = new ActionListener() {
 			        public void actionPerformed(ActionEvent a) {
 			        	
-						for(int i=1; i<=PlayersNumber; i++){
-							if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
-								status_old[N] = i;
-								break;
-							}
-							else 
-								status_old[N] = 0;
-						}
-						board[p_old[N].x][p_old[N].y] = status_old[N];
+			        	
+//						for(int i=1; i<=PlayersNumber; i++){
+//							if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+//								status_old[N] = i;
+//								break;
+//							}
+//							else 
+//								status_old[N] = 0;
+//						}
+//						board[p_old[N].x][p_old[N].y] = status_old[N];
 						
 						Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
-						
-			        	p_old[N] = p;
-						status_old[N] = board[p.x][p.y];	
-						board[p.x][p.y] = N;
+			        	if(p_old[N].y % 2 == 0){
+			        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
+			        			
+			        			for(int i=1; i<=PlayersNumber; i++){
+									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+										status_old[N] = i;
+										break;
+									}
+									else 
+										status_old[N] = 0;
+								}
+								board[p_old[N].x][p_old[N].y] = status_old[N];
+								
+			        			p_old[N] = p;
+								status_old[N] = board[p.x][p.y];	
+								board[p.x][p.y] = N;
+			        		}
+			        	}
+			        	else{
+			        		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
+			        			for(int i=1; i<=PlayersNumber; i++){
+									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+										status_old[N] = i;
+										break;
+									}
+									else 
+										status_old[N] = 0;
+								}
+								board[p_old[N].x][p_old[N].y] = status_old[N];
+								
+			        			p_old[N] = p;
+								status_old[N] = board[p.x][p.y];	
+								board[p.x][p.y] = N;
+			        		}
+			        	}
+//			        		
+//			
+//			        	p_old[N] = p;
+//						status_old[N] = board[p.x][p.y];	
+//						board[p.x][p.y] = N;
 						
 			        	popup_move.hide();
 			        	popup_attack.hide();
