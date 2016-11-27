@@ -3,13 +3,22 @@ import models.*;
 
 public class Interpreter {
 
+
 	public Stack<Object> DS;
 	public Stack<Object> CS;
+	public Stack<Object> ConS;
+	public Stack<Integer> loopCount;
+	public Stack<Object> LS;
 	public words W;
 	public variables V;
 	Interpreter() {
 		DS = new Stack<Object>();
 		CS = new Stack<Object>();
+		ConS = new Stack<Object>();
+		loopCount = new Stack<Integer>();
+		LS = new Stack<Object>();
+		
+		//String options[]= {"+","-","*","/mod","<",">","<=",">=","=","<>",".","random", "(", "drop", "dup", "swap", "rot", "and", "or", "invert", "if", "else", "then", "do", "loop", "health", "healthleft", "moves", "movesleft", "attack", "range", "team", "type", "turn!", "move!", "shoot!", "check!", "identify!", "send!", "mesg?", "recv!"};
 		words W = new words();
 		variables V = new variables();
 	}
@@ -49,30 +58,182 @@ public class Interpreter {
 		I.Random(1, 20);
 		System.out.println(I.DS.pop());
 		*/
-		I.Read(": Sentence Hey how are you ; variable NUMBER");
-		System.out.println(words.findWord("Sentence"));
+		//I.Read(": Sentence Hey how are you ; variable NUMBER");
+		//System.out.println(words.findWord("Sentence"));
 		
 		//System.out.println(I.CS.pop());
+		//I.Play("1 1 + . 4 3 - . 2 5 * . 47 5 /mod . . ");
+		//I.Play("1 drop 2 dup . 3 swap . . ");
+		I.Play(" true if 1 drop 2 dup . 3 swap . . else NO . then end . " );
+		I.Play("1 2 = if equal else unequal then .");
+		I.Play("1 1 <> if different else the_same then . ");
+		I.Play("same same <> if different else same then .");
+		
 		
 	}
 	
+	public void Play(String play) throws Exception{
+		Tokenize1 (play);
+		
+		//"+","-","*","/mod","<",">","<=",">=","=","<>",".","random", 
+		//"(", "drop", "dup", "swap", "rot", "and", "or", "invert", "if", 
+		//"else", "then", "do", "loop", "health", "healthleft", "moves", 
+		//"movesleft", "attack", "range", "team", "type", "turn!", "move!", 
+		//"shoot!", "check!", "identify!", "send!", "mesg?", "recv!"
+		while(!CS.isEmpty()){
+		switch((String)CS.peek()){
+		case "+":
+			CS.pop();
+			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "+");
+			break;
+		case "-":
+			CS.pop();
+			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "-");
+			break;
+		case "*":
+			CS.pop();
+			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "*");
+			break;
+		case "/mod":
+			CS.pop();
+			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "/mod");
+			break;
+		case ".":
+			CS.pop();
+			
+			if (!DS.empty()){
+			System.out.println(DS.pop());
+			}
+			else{
+				throw new Exception("You can't print from an empty stack!");
+			}
+			break;
+		case "<":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), "<");
+			break;
+		case ">":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), ">");
+			break;
+		case "<=":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), "<=");
+			break;
+		case ">=":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), ">=");
+			break;
+		case "=":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), "=");
+			break;
+		case "<>":
+			CS.pop();
+			Compare(DS.pop(), DS.pop(), "<>");
+			break;
+		case "drop":
+			CS.pop();
+			StackFunction("drop");
+			break;
+		case "dup":
+			CS.pop();
+			StackFunction("dup");
+			break;
+		case "swap":
+			CS.pop();
+			StackFunction("swap");
+			break;
+		case "rot":
+			CS.pop();
+			StackFunction("rot");
+			break;
+		case "if":
+			CS.pop();
+			Conditional();
+			break;
+		case "do":
+			CS.pop();
+			StartLoop();
+			break;
+		case "IncreaseIndex":
+			int end = loopCount.pop();
+			int index = loopCount.pop();
+			index++;
+			loopCount.push(index);
+			loopCount.push(end);
+			
+			break;
+		case "loop":
+			loop();
+			break;
+		default :
+			
+			if(!CS.isEmpty()){
+				DS.push(CS.pop());
+			}
+		break;
+		}
+		}
+	}
+	
+	public void loop(){
+		
+	}
+	
+	public void StartLoop(){
+		loopCount.push((Integer) DS.pop());
+		loopCount.push((Integer) DS.pop());
+
+		while(((String) CS.peek()).compareTo("loop")!=0){
+			LS.push(CS.pop());
+		}
+		
+		/*
+		while(!LS.isEmpty()){
+			CS.push(LS.pop());	
+		}
+		*/	
+		CS.push("IncreaseIndex");
+		
+		
+	}
+	
+	public void Conditional(){
+		if (((String) DS.pop()).compareTo("true")==0){
+			while(((String) CS.peek()).compareTo("else")!=0){
+				ConS.push(CS.pop());
+			}
+			
+			CS.pop();
+			
+			while(((String) CS.peek()).compareTo("then")!=0){
+				CS.pop();
+			}
+			
+			CS.pop();
+			
+			while(!ConS.isEmpty())
+				CS.push(ConS.pop());
+				
+		}
+		else {
+			while(((String) CS.peek()).compareTo("else")!=0){
+				CS.pop();
+			}
+			CS.pop();
+			while(((String) CS.peek()).compareTo("then")!=0){
+				ConS.push(CS.pop());
+			}
+			CS.pop();
+			while(!ConS.isEmpty())
+				CS.push(ConS.pop());
+			}
+		}
+
+	
 	public void Read(String code) {
-		String[] tokens = code.split(" ");
-		
-		for(String t : tokens){
-			DS.push(t);
-			
-		}
-		
-		String[] tokens2 = new String[tokens.length];
-		for(int i =0; i<tokens.length;i++){
-			tokens2[i]= (String) DS.pop();
-		}
-		
-		for(String t : tokens2){
-			CS.push(t);
-			
-		}
+		Tokenize1(code);
 		
 		String temp = "";
 		while(!CS.empty()){
@@ -94,7 +255,24 @@ public class Interpreter {
 		}
 		
 	}
-
+	public void Tokenize1(String code){
+		Object[] tokens = code.split(" ");
+		
+		for(Object t : tokens){
+			DS.push(t);
+			
+		}
+		
+		Object[] tokens2 = new Object[tokens.length];
+		for(int i =0; i<tokens.length;i++){
+			tokens2[i]= (Object) DS.pop();
+		}
+		
+		for(Object t : tokens2){
+			CS.push(t);
+			
+		}
+	}
 	public void Arithmetic(int t1, int t2, String op) throws Exception {
 		int F = 0;
 
@@ -102,18 +280,18 @@ public class Interpreter {
 			F = t1 + t2;
 			DS.push(F);
 		} else if (op.equals("-")) {
-			F = t1 - t2;
+			F = t2 - t1;
 			DS.push(F);
 		} else if (op.equals("*")) {
 			F = t1 * t2;
 			DS.push(F);
 		} else if (op.equals("/mod")) {
-			if (t1 == 0) {
+			if (t2 == 0) {
 				throw new Exception("You can't divide by zero ya nutjob");
 			}
-			F = t1 % t2;
+			F = t2 % t1;
 			DS.push(F);
-			F = t1 / t2;
+			F = t2 / t1;
 			DS.push(F);
 
 		} else {
@@ -122,42 +300,42 @@ public class Interpreter {
 
 	}
 
-	public void Compare(int value2, int value1, String op) throws Exception {
+	public void Compare(Object object, Object object2, String op) throws Exception {
 		if (op.equals("<")) {
-			if (value1 < value2) {
-				DS.push(true);
+			if ((int)object2 < (int)object) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else if (op.equals(">")) {
-			if (value1 > value2) {
-				DS.push(true);
+			if ((int)object2 > (int)object) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else if (op.equals("<=")) {
-			if (value1 <= value2) {
-				DS.push(true);
+			if ((int)object2 <= (int)object) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else if (op.equals(">=")) {
-			if (value1 >= value2) {
-				DS.push(true);
+			if ((int)object2 >= (int)object) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else if (op.equals("=")) {
-			if (value1 == value2) {
-				DS.push(true);
+			if (object2.toString().compareTo(object.toString())==0) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else if (op.equals("<>")) {
-			if (value1 != value2) {
-				DS.push(true);
+			if (object2.toString().compareTo(object.toString())!=0) {
+				DS.push("true");
 			} else {
-				DS.push(false);
+				DS.push("false");
 			}
 		} else {
 			throw new Exception("Operator not recognised: " + op);
