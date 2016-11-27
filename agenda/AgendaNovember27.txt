@@ -1,0 +1,6 @@
+time: November 27 4pm
+location:health science library
+
+1, get all the pieces together and discuss what change we have made since design document submission.
+
+2 do more code review together
