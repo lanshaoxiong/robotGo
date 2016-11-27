@@ -145,7 +145,7 @@ public class DrawingPanel extends JPanel
 							board[i][j] = 13;
 						
 						// orange
-						if(i==3 && j==0)
+						else if(i==3 && j==0)
 							board[i][j]=2;
 						else if(i==4 && j==0)
 							board[i][j] = 8;
