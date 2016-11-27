@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
+
 public class GUI {
 
 	private JFrame frmGameBoard;
@@ -18,6 +19,7 @@ public class GUI {
 	private JScrollPane statusScrollPane;
 	private JPanel btnpanel;
 	private DrawingPanel gameBoardPanel;
+	public static robotController rC;
 	
 	
 		
@@ -78,26 +80,29 @@ public class GUI {
 		btnpanel.setBounds(510, 673, 381, 39);
 		frmGameBoard.getContentPane().add(btnpanel);
 		
+		// just click once, then set disable.
 		JButton btnStart = new JButton("Start");
-		btnStart.addMouseListener(new MouseAdapter() {
+		btnStart.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			 public void actionPerformed(ActionEvent ae) {
 				(DrawingPanel.N) = 1; 
 				gameBoardPanel.repaint();
+				btnStart.setEnabled(false);
 			}
 		});
+		
+		
 		btnpanel.add(btnStart);
 		
 		btnEnd = new JButton("End");
 		btnpanel.add(btnEnd);
-		
 		btnEnd.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DrawingPanel.N = 1;
+				DrawingPanel.N = 0;
 				DrawingPanel.PlayersNumber=6;
-				DrawingPanel.Q=1;
+				DrawingPanel.Q = 1;
 				DrawingPanel.p_old[0]=  new Point(0,0);
 				DrawingPanel.p_old[1]=  new Point(1,4);
 				DrawingPanel.p_old[2]= new Point(3,0);
@@ -113,40 +118,37 @@ public class GUI {
 				DrawingPanel.status_old[5] = 0;
 				DrawingPanel.status_old[6] = 0;
 			    gameBoardPanel.setVisible(false);
-				frmGameBoard.dispose();
-		//		frmInitialization
-			//	System.exit(0);
-		//		GUI_Initial.goBack();
-				
-			}
-			
+				frmGameBoard.dispose();				
+			}			
 		});
+		
+		
+		
+		
 		btnSwitch = new JButton("Switch");
 		btnSwitch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (DrawingPanel.Q==2){
-				DrawingPanel.N=DrawingPanel.N+3;
-				if((DrawingPanel.N) > 6)
-					(DrawingPanel.N) = 1;
-				}
-				
-				if (DrawingPanel.Q==3){
-				DrawingPanel.N=DrawingPanel.N+2;
-				if((DrawingPanel.N) > 6)
-					(DrawingPanel.N) = 1;
-				}
-				
-				if (DrawingPanel.Q==6){
-				DrawingPanel.N=DrawingPanel.N+1;
-				if((DrawingPanel.N) > 6)
-					(DrawingPanel.N) = 1;
-				}
-				// when overlapping, show the specific robot on the overlapping cell
-				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				if (DrawingPanel.Q == 2){
+					DrawingPanel.N = DrawingPanel.N + 3;
+					if((DrawingPanel.N) > 6)
+						(DrawingPanel.N) = 1;
+					}
+				if (DrawingPanel.Q == 3){
+					DrawingPanel.N = DrawingPanel.N+2;
+					if((DrawingPanel.N) > 6)
+						(DrawingPanel.N) = 1;
+					}
+				if (DrawingPanel.Q == 6){
+					DrawingPanel.N = DrawingPanel.N + 1;
+					if((DrawingPanel.N) > 6)
+						(DrawingPanel.N) = 1;
+					}
+					// when overlapping, show the specific robot on the overlapping cell
+					gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 
-				gameBoardPanel.repaint();
-					
+					gameBoardPanel.repaint();
+				
 			}
 		});
 		btnpanel.add(btnSwitch);

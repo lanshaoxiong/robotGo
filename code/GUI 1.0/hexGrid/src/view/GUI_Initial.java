@@ -41,7 +41,6 @@ public class GUI_Initial {
 		});
 	}
 
-
 	/**
 	 * Create the application.
 	 */
@@ -73,38 +72,37 @@ public class GUI_Initial {
 		buttonGroup.add(rdbtnTwoPlayers);
 		
 		rdbtnTwoPlayers.addActionListener(new ActionListener(){
-
-		@Override
-			public void actionPerformed(ActionEvent e) {
-				DrawingPanel.Q=2;
-				DrawingPanel.PlayersNumber=2;
-			}
-		});
+			@Override
+				public void actionPerformed(ActionEvent e) {
+					DrawingPanel.Q = 2;
+					DrawingPanel.PlayersNumber = 2;
+				}
+			});
 		
+
 		JRadioButton rdbtnThreePlayers = new JRadioButton("Three Players ");
 		numberPanel.add(rdbtnThreePlayers);
 		buttonGroup.add(rdbtnThreePlayers);
-		
 		rdbtnThreePlayers.addActionListener(new ActionListener(){
-
-		@Override
-			public void actionPerformed(ActionEvent e) {
-				DrawingPanel.Q=3;
-				DrawingPanel.PlayersNumber=3;
-			}
-		});
+			@Override
+				public void actionPerformed(ActionEvent e) {
+					DrawingPanel.Q = 3;
+					DrawingPanel.PlayersNumber=3;
+				}
+			});
+		
 		JRadioButton rdbtnSixPlayers = new JRadioButton("Six Players");
 		numberPanel.add(rdbtnSixPlayers);
 		buttonGroup.add(rdbtnSixPlayers);
-		
 		rdbtnSixPlayers.addActionListener(new ActionListener(){
 
-		@Override
-			public void actionPerformed(ActionEvent e) {
-				DrawingPanel.Q=6;
-				DrawingPanel.PlayersNumber=6;
-			}
-		});
+			@Override
+				public void actionPerformed(ActionEvent e) {
+					DrawingPanel.Q = 6;
+					DrawingPanel.PlayersNumber=6;
+				}
+			});
+		
 		JPanel Player1Panel = new JPanel();
 		Player1Panel.setBounds(30, 94, 220, 38);
 		frmInitialization.getContentPane().add(Player1Panel);
@@ -215,15 +213,13 @@ public class GUI_Initial {
 			public void actionPerformed(ActionEvent e){
 					GUI.StartButtonClicked();
 			}
-			});
-		
+		});
 		playButton.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
 		playButton.setBounds(30, 399, 220, 67);
 		frmInitialization.getContentPane().add(playButton);
 		
 		DrawingPanel thumbnailPanel = new DrawingPanel(50);
 		thumbnailPanel.setBounds(262, 86, 445, 380);
-		frmInitialization.getContentPane().add(thumbnailPanel); 
+		frmInitialization.getContentPane().add(thumbnailPanel);
 	}
-	
 }

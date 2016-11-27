@@ -137,7 +137,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 	  The value of n is converted to letter and drawn in the hexagon.
 *****************************************************************************/
 	public static void fillHex(int i, int j, int n, Graphics2D g2) {
-		char c='o';
+
 //		int x = i * (s+t);
 //		int y = j * h + (i%2) * h/2;
 		int x = i*2*r + (j%2) * r;
@@ -184,6 +184,12 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 		}
+		else if(DrawingPanel.N == 0){
+			g2.setColor(DrawingPanel.COLOURGRID);
+			g2.drawPolygon(hex(x,y));
+			g2.setColor(DrawingPanel.COLOURCELL);
+			g2.fillPolygon(hex(x,y));
+		}
 		else;
 		
 		// add the range of attacking shadow around the (i,j)
@@ -195,6 +201,47 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 					g2.fillPolygon(hex(x,y));
 					g2.setColor(DrawingPanel.COLOURGRID);
 					g2.drawPolygon(hex(x,y));
+					
+					if (n == 1) {
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
+						g2.drawImage(img1, x+r, y+r, 40, 40, null);
+
+					}
+					else if (n == 2) {
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
+						g2.drawImage(img2, x+r, y+r, 40, 40, null);
+					}
+					else if (n == 3) {
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+					    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
+						g2.drawImage(img3, x+r, y+r, 40, 40, null);
+					}
+					else if (n == 4) {
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
+						g2.drawImage(img4, x+r, y+r, 40, 40, null);
+					}
+					else if (n == 5 ) {
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
+						g2.drawImage(img5, x+r, y+r, 40, 40, null);
+					}
+					else if(n == 6){
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
+						g2.drawImage(img6, x+r, y+r, 40, 40, null);
+					}
+					else;
+					
+					
 				}
 				
 				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
@@ -330,45 +377,47 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			}
 			
 			// highlight the current robot 
-			if (n == DrawingPanel.N) {
+			if (n == DrawingPanel.N && (n != 0)) {
 				g2.setColor(DrawingPanel.COLOURGRAY);
 				g2.fillPolygon(hex(x,y));
 			}
 			
+			
+			
 
 		// add the image of picture
-		if (n == 1) {
+		if (n == 1 && (DrawingPanel.N == n || DrawingPanel.N == 0)) {
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 			Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
 			g2.drawImage(img1, x+r, y+r, 40, 40, null);
 
 		}
-		else if (n == 2) {
+		else if (n == 2 && (DrawingPanel.N == n || DrawingPanel.N == 0)) {
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 			Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
 			g2.drawImage(img2, x+r, y+r, 40, 40, null);
 		}
-		else if (n == 3) {
+		else if (n == 3 && (DrawingPanel.N == n || DrawingPanel.N == 0)) {
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 		    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
 			g2.drawImage(img3, x+r, y+r, 40, 40, null);
 		}
-		else if (n == 4) {
+		else if (n == 4 && (DrawingPanel.N == n || DrawingPanel.N == 0)) {
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 			Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
 			g2.drawImage(img4, x+r, y+r, 40, 40, null);
 		}
-		else if (n == 5) {
+		else if (n == 5 && (DrawingPanel.N == n || DrawingPanel.N == 0)) {
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 			Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
 			g2.drawImage(img5, x+r, y+r, 40, 40, null);
 		}
-		else if(n == 6){
+		else if(n == 6 && (DrawingPanel.N == n || DrawingPanel.N == 0)){
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
 			Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
