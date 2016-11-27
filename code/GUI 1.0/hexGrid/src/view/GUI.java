@@ -2,6 +2,9 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -88,17 +91,59 @@ public class GUI {
 		btnEnd = new JButton("End");
 		btnpanel.add(btnEnd);
 		
+		btnEnd.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DrawingPanel.N = 1;
+				DrawingPanel.PlayersNumber=6;
+				DrawingPanel.Q=1;
+				DrawingPanel.p_old[0]=  new Point(0,0);
+				DrawingPanel.p_old[1]=  new Point(1,4);
+				DrawingPanel.p_old[2]= new Point(3,0);
+				DrawingPanel.p_old[3]= new Point(7,0);
+				DrawingPanel.p_old[4]=new Point(9,4);
+				DrawingPanel.p_old[5]=new Point(7,8);
+				DrawingPanel.p_old[6]=new Point(3,8);
+				DrawingPanel.status_old[0] = 0;
+				DrawingPanel.status_old[1] = 0;
+				DrawingPanel.status_old[2] = 0;
+				DrawingPanel.status_old[3] = 0;
+				DrawingPanel.status_old[4] = 0;
+				DrawingPanel.status_old[5] = 0;
+				DrawingPanel.status_old[6] = 0;
+			    gameBoardPanel.setVisible(false);
+				frmGameBoard.dispose();
+		//		frmInitialization
+			//	System.exit(0);
+		//		GUI_Initial.goBack();
+				
+			}
+			
+		});
 		btnSwitch = new JButton("Switch");
 		btnSwitch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				DrawingPanel.N++;
+				if (DrawingPanel.Q==2){
+				DrawingPanel.N=DrawingPanel.N+3;
 				if((DrawingPanel.N) > 6)
 					(DrawingPanel.N) = 1;
+				}
 				
+				if (DrawingPanel.Q==3){
+				DrawingPanel.N=DrawingPanel.N+2;
+				if((DrawingPanel.N) > 6)
+					(DrawingPanel.N) = 1;
+				}
+				
+				if (DrawingPanel.Q==6){
+				DrawingPanel.N=DrawingPanel.N+1;
+				if((DrawingPanel.N) > 6)
+					(DrawingPanel.N) = 1;
+				}
 				// when overlapping, show the specific robot on the overlapping cell
-				gameBoardPanel.board[gameBoardPanel.p_old[DrawingPanel.N].x][gameBoardPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 
 				gameBoardPanel.repaint();
 					
