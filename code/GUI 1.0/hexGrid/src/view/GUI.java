@@ -101,15 +101,31 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DrawingPanel.N = 0;
-				DrawingPanel.PlayersNumber=6;
-				DrawingPanel.Q = 1;
-				DrawingPanel.p_old[0]=  new Point(0,0);
-				DrawingPanel.p_old[1]=  new Point(1,4);
-				DrawingPanel.p_old[2]= new Point(3,0);
-				DrawingPanel.p_old[3]= new Point(7,0);
-				DrawingPanel.p_old[4]=new Point(9,4);
-				DrawingPanel.p_old[5]=new Point(7,8);
-				DrawingPanel.p_old[6]=new Point(3,8);
+				DrawingPanel.PlayersNumber = 0;
+				DrawingPanel.Q = 0;
+				
+				DrawingPanel.p_old[0] = new Point(0,0);
+				DrawingPanel.p_old[1] = new Point(1,4);
+				DrawingPanel.p_old[2] = new Point(3,0);
+				DrawingPanel.p_old[3] = new Point(7,0);
+				DrawingPanel.p_old[4] = new Point(9,4);
+				DrawingPanel.p_old[5] = new Point(7,8);
+				DrawingPanel.p_old[6] = new Point(3,8);
+				
+				DrawingPanel.p_old[7] = new Point(1,3);
+				DrawingPanel.p_old[8] = new Point(4,0);
+				DrawingPanel.p_old[9] = new Point(6,0);
+				DrawingPanel.p_old[10] = new Point(8,5);
+				DrawingPanel.p_old[11] = new Point(6,8);
+				DrawingPanel.p_old[12] = new Point(2,7);
+				
+				DrawingPanel.p_old[13] = new Point(1,5);
+				DrawingPanel.p_old[14] = new Point(2,1);
+				DrawingPanel.p_old[15] = new Point(7,1);
+				DrawingPanel.p_old[16] = new Point(8,3);
+				DrawingPanel.p_old[17] = new Point(7,7);
+				DrawingPanel.p_old[18] = new Point(4,8);
+				
 				DrawingPanel.status_old[0] = 0;
 				DrawingPanel.status_old[1] = 0;
 				DrawingPanel.status_old[2] = 0;
@@ -117,6 +133,19 @@ public class GUI {
 				DrawingPanel.status_old[4] = 0;
 				DrawingPanel.status_old[5] = 0;
 				DrawingPanel.status_old[6] = 0;
+				DrawingPanel.status_old[7] = 0;
+				DrawingPanel.status_old[8] = 0;
+				DrawingPanel.status_old[9] = 0;
+				DrawingPanel.status_old[10] = 0;
+				DrawingPanel.status_old[11] = 0;
+				DrawingPanel.status_old[12] = 0;
+				DrawingPanel.status_old[13] = 0;
+				DrawingPanel.status_old[14] = 0;
+				DrawingPanel.status_old[15] = 0;
+				DrawingPanel.status_old[16] = 0;
+				DrawingPanel.status_old[17] = 0;
+				DrawingPanel.status_old[18] = 0;
+				
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
 			}			
@@ -131,17 +160,17 @@ public class GUI {
 			public void mouseClicked(MouseEvent e) {
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
-					if((DrawingPanel.N) > 6)
+					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
 					}
 				if (DrawingPanel.Q == 3){
-					DrawingPanel.N = DrawingPanel.N+2;
-					if((DrawingPanel.N) > 6)
+					DrawingPanel.N = DrawingPanel.N + 2;
+					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
 					}
 				if (DrawingPanel.Q == 6){
 					DrawingPanel.N = DrawingPanel.N + 1;
-					if((DrawingPanel.N) > 6)
+					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
 					}
 					// when overlapping, show the specific robot on the overlapping cell

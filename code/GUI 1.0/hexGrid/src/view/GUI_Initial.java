@@ -87,7 +87,7 @@ public class GUI_Initial {
 			@Override
 				public void actionPerformed(ActionEvent e) {
 					DrawingPanel.Q = 3;
-					DrawingPanel.PlayersNumber=3;
+					DrawingPanel.PlayersNumber = 3;
 				}
 			});
 		
@@ -99,7 +99,7 @@ public class GUI_Initial {
 			@Override
 				public void actionPerformed(ActionEvent e) {
 					DrawingPanel.Q = 6;
-					DrawingPanel.PlayersNumber=6;
+					DrawingPanel.PlayersNumber = 6;
 				}
 			});
 		

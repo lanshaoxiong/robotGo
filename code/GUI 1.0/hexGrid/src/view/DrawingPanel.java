@@ -46,8 +46,12 @@ public class DrawingPanel extends JPanel
 			static int N = 0;
 			static int Q = 0;
 			
-			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8)};
-			static int [] status_old = {0,0,0,0,0,0,0};
+			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8),  
+													 new Point(1,3), new Point(4,0), new Point(6,0), new Point(8,5), new Point(6,8), new Point(2, 7),  
+													 new Point(1,5), new Point(2,1), new Point(7,1), new Point(8,3), new Point(7,7), new Point(4, 8)};
+			static int [] status_old = {0,0,0,0,0,0,0,
+										  0,0,0,0,0,0,
+										  0,0,0,0,0,0};
 
 	public DrawingPanel()
 	{	
@@ -77,48 +81,117 @@ public class DrawingPanel extends JPanel
 
 			for (int i=0;i<BSIZE;i++) {
 				for (int j=0;j<BSIZE;j++) {
-					if (DrawingPanel.Q==2){
+					
+					// 2 players
+					if (DrawingPanel.Q == 2){
+						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
+						else if(i==1 && j==3)
+							board[i][j] = 7;
+						else if(i==1 && j==5)
+							board[i][j] = 13;
 
+						//green
 						else if(i==9 && j==4)
-							board[i][j]=4;
+							board[i][j]=4;		
+						else if(i==8 && j==5)
+							board[i][j]=10;
+						else if(i==8 && j==3)
+							board[i][j]=16;
 
 						else
 							board[i][j]=EMPTY;			
 					}
-					if (DrawingPanel.Q==3){
+					
+					// 3 players
+					if (DrawingPanel.Q == 3){
+						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
+						else if(i==1 && j==3)
+							board[i][j] = 7;
+						else if(i==1 && j==5)
+							board[i][j] = 13;
 
+						// yellow
 						else if(i==7 && j==0)
 							board[i][j]=3;
+						else if(i==6 && j==0)
+							board[i][j]=9;
+						else if(i==7 && j==1)
+							board[i][j]=15;
 
+						// blue
 						else if(i==7 && j==8)
 							board[i][j]=5;
+						else if(i==6 && j==8)
+							board[i][j]=11;
+						else if(i==7 && j==7)
+							board[i][j]=17;
 
 						else
 							board[i][j]=EMPTY;	
 					}
+					
+					// 6 players
 					if (DrawingPanel.Q == 6){
+						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
-						else if(i==3 && j==0)
+						else if(i==1 && j==3)
+							board[i][j] = 7;
+						else if(i==1 && j==5)
+							board[i][j] = 13;
+						
+						// orange
+						if(i==3 && j==0)
 							board[i][j]=2;
+						else if(i==4 && j==0)
+							board[i][j] = 8;
+						else if(i==2 && j==1)
+							board[i][j] = 14;
+							
+						
+						// yellow
 						else if(i==7 && j==0)
 							board[i][j]=3;
+						else if(i==6 && j==0)
+							board[i][j]=9;
+						else if(i==7 && j==1)
+							board[i][j]=15;
+						
+						//green
 						else if(i==9 && j==4)
-							board[i][j]=4;
+							board[i][j]=4;		
+						else if(i==8 && j==5)
+							board[i][j]=10;
+						else if(i==8 && j==3)
+							board[i][j]=16;
+						
+						// blue
 						else if(i==7 && j==8)
 							board[i][j]=5;
+						else if(i==6 && j==8)
+							board[i][j]=11;
+						else if(i==7 && j==7)
+							board[i][j]=17;
+						
+						// purple
 						else if(i==3 && j==8)
 							board[i][j]=6;
+						else if(i==2 && j==7)
+							board[i][j]=12;
+						else if(i==4 && j==8)
+							board[i][j]=18;
+
 						else
 							board[i][j]=EMPTY;			
 					}
+					else;
 			 }
-			}
 		}
+	}
 
 	public void paintComponent(Graphics g)
 	{	
@@ -202,7 +275,7 @@ public class DrawingPanel extends JPanel
 			        	if(p_old[N].y % 2 == 0){
 			        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
 			        			
-			        			for(int i=1; i<=PlayersNumber; i++){
+			        			for(int i=1; i <= 18 ; i++){
 									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
 										status_old[N] = i;
 										break;
@@ -219,7 +292,7 @@ public class DrawingPanel extends JPanel
 			        	}
 			        	else{
 			        		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
-			        			for(int i=1; i<=PlayersNumber; i++){
+			        			for(int i=1; i<=18; i++){
 									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
 										status_old[N] = i;
 										break;
