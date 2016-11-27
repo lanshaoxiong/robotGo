@@ -29,9 +29,8 @@ public class DrawingPanel extends JPanel
 			
 			final static Color COLOURONE = new Color(255,255,255,200);
 			final static Color COLOURONETXT = Color.BLUE;
-			final static Color COLOURGRAY = Color.gray; 
-			final static Color COLOURSHADOW = Color.lightGray;
-			
+			final static Color COLOURGRAY = Color.gray;
+    		final static Color COLOURSHADOW = Color.lightGray;
 			final static Color COLOURTWOTXT = new Color(255,100,255);
 			final static int EMPTY = 0;
 			final static int BSIZE = 10; //board size.
@@ -44,6 +43,7 @@ public class DrawingPanel extends JPanel
 			
 			static int PlayersNumber = 6;
 			static int N = 1;
+		    static int Q = 0;
 			
 			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8)};
 			static int [] status_old = {0,0,0,0,0,0,0};
@@ -76,6 +76,30 @@ public class DrawingPanel extends JPanel
 
 			for (int i=0;i<BSIZE;i++) {
 				for (int j=0;j<BSIZE;j++) {
+					if (DrawingPanel.Q==2){
+					if(i==1 && j==4)
+						board[i][j]=1;
+
+					else if(i==9 && j==4)
+						board[i][j]=4;
+
+					else
+						board[i][j]=EMPTY;			
+				}
+				if (DrawingPanel.Q==3){
+					if(i==1 && j==4)
+						board[i][j]=1;
+
+					else if(i==7 && j==0)
+						board[i][j]=3;
+
+					else if(i==7 && j==8)
+						board[i][j]=5;
+
+					else
+						board[i][j]=EMPTY;	
+				}
+				if (DrawingPanel.Q==6){
 					if(i==1 && j==4)
 						board[i][j]=1;
 					else if(i==3 && j==0)
@@ -89,9 +113,10 @@ public class DrawingPanel extends JPanel
 					else if(i==3 && j==8)
 						board[i][j]=6;
 					else
-						board[i][j]=EMPTY;			
+						board[i][j]=EMPTY;	
 				}
-			}
+				}
+				}
 		}
 
 	public void paintComponent(Graphics g)
@@ -170,60 +195,55 @@ public class DrawingPanel extends JPanel
 			ActionListener moveActionListener = new ActionListener() {
 			        public void actionPerformed(ActionEvent a) {
 			        	
-			        	
-//						for(int i=1; i<=PlayersNumber; i++){
-//							if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
-//								status_old[N] = i;
-//								break;
-//							}
-//							else 
-//								status_old[N] = 0;
-//						}
-//						board[p_old[N].x][p_old[N].y] = status_old[N];
+
 						
 						Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
-			        	if(p_old[N].y % 2 == 0){
-			        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
-			        			
-			        			for(int i=1; i<=PlayersNumber; i++){
-									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
-										status_old[N] = i;
-										break;
-									}
-									else 
-										status_old[N] = 0;
-								}
-								board[p_old[N].x][p_old[N].y] = status_old[N];
-								
-			        			p_old[N] = p;
-								status_old[N] = board[p.x][p.y];	
-								board[p.x][p.y] = N;
-			        		}
-			        	}
-			        	else{
-			        		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
-			        			for(int i=1; i<=PlayersNumber; i++){
-									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
-										status_old[N] = i;
-										break;
-									}
-									else 
-										status_old[N] = 0;
-								}
-								board[p_old[N].x][p_old[N].y] = status_old[N];
-								
-			        			p_old[N] = p;
-								status_old[N] = board[p.x][p.y];	
-								board[p.x][p.y] = N;
-			        		}
-			        	}
-//			        		
-//			
-//			        	p_old[N] = p;
-//						status_old[N] = board[p.x][p.y];	
-//						board[p.x][p.y] = N;
-						
+                        if(p_old[N].y % 2 == 0){
+                          
+                 	  if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
+                            
+                            
+                        for(int i=1; i<=PlayersNumber; i++){
+                                
+                            if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+                                        
+                                    status_old[N] = i;
+                                        break;
+                                        
+                            }
+                                    
+                            else
+                                status_old[N] = 0;
+                                    
+                        }
+                                
+                                board[p_old[N].x][p_old[N].y] = status_old[N];
+                                p_old[N] = p;
+                                status_old[N] = board[p.x][p.y];
+                                board[p.x][p.y] = N;
+                                }
+                            }
+                        
+                            else{
+                            
+                                    if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
+                                for(int i=1; i<=PlayersNumber; i++){
+                                    if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+                                        status_old[N] = i;
+                                        break;
+                                        }
+                                    else
+                                        status_old[N] = 0;
+                                       }
+                                  board[p_old[N].x][p_old[N].y] = status_old[N];
+                                  p_old[N] = p;
+                                  status_old[N] = board[p.x][p.y];
+                                  board[p.x][p.y] = DrawingPanel.N;
+                                    }
+                            
+                                }
+	
 			        	popup_move.hide();
 			        	popup_attack.hide();
 			        	popup_cancel.hide();
@@ -233,9 +253,9 @@ public class DrawingPanel extends JPanel
 			button_move.addActionListener(moveActionListener);
 			 
 			button_cancel.addActionListener(cancelActionListener);
-			
 
 		}
+	}
+	}
 
-	}//end of MyMouseListener class 
 } // end of DrawingPanel class
