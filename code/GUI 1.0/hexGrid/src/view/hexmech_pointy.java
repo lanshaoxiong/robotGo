@@ -38,6 +38,26 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 	private static int t=0;	// short side of 30o triangle outside of each hex
 	private static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
 	private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
+	
+	public static Image[] img = {Toolkit.getDefaultToolkit().getImage("img/scout-red.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-red.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-orange.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-green.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-blue.png"),
+								Toolkit.getDefaultToolkit().getImage("img/scout-purple.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-red.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-orange.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-yellow.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-green.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-blue.png"),
+								Toolkit.getDefaultToolkit().getImage("img/sniper-purple.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-red.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-orange.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-yellow.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-green.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-blue.png"),
+								Toolkit.getDefaultToolkit().getImage("img/tank-purple.png")};
 
 	
 	public static void setXYasVertex(boolean b) {
@@ -194,463 +214,36 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			
 			// for the all scouts
 			if ( DrawingPanel.N >= 1 && DrawingPanel.N <= 6){
-				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 2) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 2) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2)  ){
-					g2.setColor(DrawingPanel.COLOURSHADOW);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-					
-					if (n == 1) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-						g2.drawImage(img1, x+r, y+r, 40, 40, null);
-
-					}
-					else if (n == 2) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
-						g2.drawImage(img2, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 3) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
-						g2.drawImage(img3, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 4) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
-						g2.drawImage(img4, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 5 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
-						g2.drawImage(img5, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 6){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
-						g2.drawImage(img6, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 7){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img7 = Toolkit.getDefaultToolkit().getImage("img/sniper-red.png");
-						g2.drawImage(img7, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 8) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img8 = Toolkit.getDefaultToolkit().getImage("img/sniper-orange.png");
-						g2.drawImage(img8, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 9) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img9 = Toolkit.getDefaultToolkit().getImage("img/sniper-yellow.png");
-						g2.drawImage(img9, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 10) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img10 = Toolkit.getDefaultToolkit().getImage("img/sniper-green.png");
-						g2.drawImage(img10, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 11 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img11 = Toolkit.getDefaultToolkit().getImage("img/sniper-blue.png");
-						g2.drawImage(img11, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 12){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img12 = Toolkit.getDefaultToolkit().getImage("img/sniper-purple.png");
-						g2.drawImage(img12, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 13){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img13 = Toolkit.getDefaultToolkit().getImage("img/tank-red.png");
-						g2.drawImage(img13, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 14) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img14 = Toolkit.getDefaultToolkit().getImage("img/tank-orange.png");
-						g2.drawImage(img14, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 15) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img15 = Toolkit.getDefaultToolkit().getImage("img/tank-yellow.png");
-						g2.drawImage(img15, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 16) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img16 = Toolkit.getDefaultToolkit().getImage("img/tank-green.png");
-						g2.drawImage(img16, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 17 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img17 = Toolkit.getDefaultToolkit().getImage("img/tank-blue.png");
-						g2.drawImage(img17, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 18){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img18 = Toolkit.getDefaultToolkit().getImage("img/tank-purple.png");
-						g2.drawImage(img18, x+r, y+r, 40, 40, null);
-					}
-					else;
-				}
-				
-				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 2) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 2) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
-				else{
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 2) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 2) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 2) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 2) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
+//				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
+				showScoutRange(i,j,DrawingPanel.N, n, g2);
+//				showScoutRange(i,j,DrawingPanel.N, n, g2);
+//				showSniperRange(i,j,DrawingPanel.N + 6, n, g2);
+//				
 			}
 			
 			// for the all snipers
 			else if ( DrawingPanel.N >= 7 && DrawingPanel.N <= 12){
-				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 3) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 3) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3)  ){
-					g2.setColor(DrawingPanel.COLOURSHADOW);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-					if (n == 1) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-						g2.drawImage(img1, x+r, y+r, 40, 40, null);
-
-					}
-					else if (n == 2) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
-						g2.drawImage(img2, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 3) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
-						g2.drawImage(img3, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 4) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
-						g2.drawImage(img4, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 5 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
-						g2.drawImage(img5, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 6){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
-						g2.drawImage(img6, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 7){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img7 = Toolkit.getDefaultToolkit().getImage("img/sniper-red.png");
-						g2.drawImage(img7, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 8) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img8 = Toolkit.getDefaultToolkit().getImage("img/sniper-orange.png");
-						g2.drawImage(img8, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 9) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img9 = Toolkit.getDefaultToolkit().getImage("img/sniper-yellow.png");
-						g2.drawImage(img9, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 10) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img10 = Toolkit.getDefaultToolkit().getImage("img/sniper-green.png");
-						g2.drawImage(img10, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 11 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img11 = Toolkit.getDefaultToolkit().getImage("img/sniper-blue.png");
-						g2.drawImage(img11, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 12){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img12 = Toolkit.getDefaultToolkit().getImage("img/sniper-purple.png");
-						g2.drawImage(img12, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 13){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img13 = Toolkit.getDefaultToolkit().getImage("img/tank-red.png");
-						g2.drawImage(img13, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 14) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img14 = Toolkit.getDefaultToolkit().getImage("img/tank-orange.png");
-						g2.drawImage(img14, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 15) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img15 = Toolkit.getDefaultToolkit().getImage("img/tank-yellow.png");
-						g2.drawImage(img15, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 16) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img16 = Toolkit.getDefaultToolkit().getImage("img/tank-green.png");
-						g2.drawImage(img16, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 17 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img17 = Toolkit.getDefaultToolkit().getImage("img/tank-blue.png");
-						g2.drawImage(img17, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 18){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img18 = Toolkit.getDefaultToolkit().getImage("img/tank-purple.png");
-						g2.drawImage(img18, x+r, y+r, 40, 40, null);
-					}
-					else;
-	
-				}
-				
-				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 3) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					if(((i == DrawingPanel.p_old[DrawingPanel.N].x + 2)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) ) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					
-					if(((i == DrawingPanel.p_old[DrawingPanel.N].x - 3)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y - 2) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2) ) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
-				else{
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 3) && ((j >= DrawingPanel.p_old[DrawingPanel.N].y - 3) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 3) && (j != DrawingPanel.p_old[DrawingPanel.N].y)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					if(((i == DrawingPanel.p_old[DrawingPanel.N].x - 2)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) ) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-					
-					if(((i == DrawingPanel.p_old[DrawingPanel.N].x + 3)) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 3) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 2)|| (j == DrawingPanel.p_old[DrawingPanel.N].y - 2))){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
+//				showTankRange(i,j, DrawingPanel.N + 6, n, g2);
+//				showScoutRange(i,j,DrawingPanel.N - 6, n, g2);
+//				showSniperRange(i,j,DrawingPanel.N, n, g2);
+				showSniperRange(i,j,DrawingPanel.N, n, g2);
 			}
 			
-			
+
 			// for the all tanks
 			else if ( DrawingPanel.N >= 13 && DrawingPanel.N <= 18){
-				if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 1) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 1) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 1) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 1)  ){
-					g2.setColor(DrawingPanel.COLOURSHADOW);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-					
-					if (n == 1) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-						g2.drawImage(img1, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 2) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
-						g2.drawImage(img2, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 3) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
-						g2.drawImage(img3, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 4) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
-						g2.drawImage(img4, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 5 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
-						g2.drawImage(img5, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 6){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
-						g2.drawImage(img6, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 7){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img7 = Toolkit.getDefaultToolkit().getImage("img/sniper-red.png");
-						g2.drawImage(img7, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 8) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img8 = Toolkit.getDefaultToolkit().getImage("img/sniper-orange.png");
-						g2.drawImage(img8, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 9) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img9 = Toolkit.getDefaultToolkit().getImage("img/sniper-yellow.png");
-						g2.drawImage(img9, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 10) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img10 = Toolkit.getDefaultToolkit().getImage("img/sniper-green.png");
-						g2.drawImage(img10, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 11 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img11 = Toolkit.getDefaultToolkit().getImage("img/sniper-blue.png");
-						g2.drawImage(img11, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 12){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img12 = Toolkit.getDefaultToolkit().getImage("img/sniper-purple.png");
-						g2.drawImage(img12, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 13){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img13 = Toolkit.getDefaultToolkit().getImage("img/tank-red.png");
-						g2.drawImage(img13, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 14) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img14 = Toolkit.getDefaultToolkit().getImage("img/tank-orange.png");
-						g2.drawImage(img14, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 15) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					    Image img15 = Toolkit.getDefaultToolkit().getImage("img/tank-yellow.png");
-						g2.drawImage(img15, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 16) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img16 = Toolkit.getDefaultToolkit().getImage("img/tank-green.png");
-						g2.drawImage(img16, x+r, y+r, 40, 40, null);
-					}
-					else if (n == 17 ) {
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img17 = Toolkit.getDefaultToolkit().getImage("img/tank-blue.png");
-						g2.drawImage(img17, x+r, y+r, 40, 40, null);
-					}
-					else if(n == 18){
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-						Image img18 = Toolkit.getDefaultToolkit().getImage("img/tank-purple.png");
-						g2.drawImage(img18, x+r, y+r, 40, 40, null);
-					}
-					else;
-					
-				}
+//				showTankRange(i,j, DrawingPanel.N, n, g2);
+//				showScoutRange(i,j,DrawingPanel.N - 12, n, g2);
+//				showSniperRange(i,j,DrawingPanel.N - 6, n, g2);
+				showTankRange(i,j, DrawingPanel.N, n, g2);
 				
-				if ((DrawingPanel.p_old[DrawingPanel.N].y % 2) == 0){
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x + 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
-				else{
-					if((i == DrawingPanel.p_old[DrawingPanel.N].x - 1) && ((j == DrawingPanel.p_old[DrawingPanel.N].y - 1) || (j == DrawingPanel.p_old[DrawingPanel.N].y + 1)) ){
-						g2.setColor(DrawingPanel.COLOURCELL);
-						g2.fillPolygon(hex(x,y));
-						g2.setColor(DrawingPanel.COLOURGRID);
-						g2.drawPolygon(hex(x,y));
-					}
-				}
 			}
-			
 			else;
 	
 			
 			// highlight the range of walk
 			if ((i <= DrawingPanel.p_old[DrawingPanel.N].x + 1) && (i >= DrawingPanel.p_old[DrawingPanel.N].x - 1) && (j >= DrawingPanel.p_old[DrawingPanel.N].y - 1) && (j <= DrawingPanel.p_old[DrawingPanel.N].y + 1)  ){
-				g2.setColor(DrawingPanel.COLOURRED);
+				g2.setColor(DrawingPanel.COLOURGREEN);
 				g2.drawPolygon(hex(x,y));
 			}
 			
@@ -671,123 +264,32 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			if (n == DrawingPanel.N && (n != 0)) {
 				g2.setColor(DrawingPanel.COLOURGRAY);
 				g2.fillPolygon(hex(x,y));
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 			}
 			
-			
-			
 
-		// add the image of picture
-		if (n == 1 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)) {
+		// add the image of picture		
+		if((n>=1) && (n<=6) &&  (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)){
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
-			Image img1 = Toolkit.getDefaultToolkit().getImage("img/scout-red.png");
-			g2.drawImage(img1, x+r, y+r, 40, 40, null);
-
+			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 		}
-		else if (n == 2 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)) {
+		
+		else if((n>=7) && (n<=12) &&  (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
-			Image img2 = Toolkit.getDefaultToolkit().getImage("img/scout-orange.png");
-			g2.drawImage(img2, x+r, y+r, 40, 40, null);
+			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 		}
-		else if (n == 3 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)) {
+		else if((n>=13) && (n<=18) &&  (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
 			g2.setColor(DrawingPanel.COLOURGRID);
 			g2.drawPolygon(hex(x,y));
-		    Image img3 = Toolkit.getDefaultToolkit().getImage("img/scout-yellow.png");
-			g2.drawImage(img3, x+r, y+r, 40, 40, null);
+			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 		}
-		else if (n == 4 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img4 = Toolkit.getDefaultToolkit().getImage("img/scout-green.png");
-			g2.drawImage(img4, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 5 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img5 = Toolkit.getDefaultToolkit().getImage("img/scout-blue.png");
-			g2.drawImage(img5, x+r, y+r, 40, 40, null);
-		}
-		else if(n == 6 && (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img6 = Toolkit.getDefaultToolkit().getImage("img/scout-purple.png");
-			g2.drawImage(img6, x+r, y+r, 40, 40, null);
-		}
-		else if(n == 7 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img7 = Toolkit.getDefaultToolkit().getImage("img/sniper-red.png");
-			g2.drawImage(img7, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 8 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img8 = Toolkit.getDefaultToolkit().getImage("img/sniper-orange.png");
-			g2.drawImage(img8, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 9 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-		    Image img9 = Toolkit.getDefaultToolkit().getImage("img/sniper-yellow.png");
-			g2.drawImage(img9, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 10 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img10 = Toolkit.getDefaultToolkit().getImage("img/sniper-green.png");
-			g2.drawImage(img10, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 11 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img11 = Toolkit.getDefaultToolkit().getImage("img/sniper-blue.png");
-			g2.drawImage(img11, x+r, y+r, 40, 40, null);
-		}
-		else if(n == 12 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n+6 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img12 = Toolkit.getDefaultToolkit().getImage("img/sniper-purple.png");
-			g2.drawImage(img12, x+r, y+r, 40, 40, null);
-		}
-		else if(n == 13 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img13 = Toolkit.getDefaultToolkit().getImage("img/tank-red.png");
-			g2.drawImage(img13, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 14 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img14 = Toolkit.getDefaultToolkit().getImage("img/tank-orange.png");
-			g2.drawImage(img14, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 15 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-		    Image img15 = Toolkit.getDefaultToolkit().getImage("img/tank-yellow.png");
-			g2.drawImage(img15, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 16 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img16 = Toolkit.getDefaultToolkit().getImage("img/tank-green.png");
-			g2.drawImage(img16, x+r, y+r, 40, 40, null);
-		}
-		else if (n == 17 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0) ) {
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img17 = Toolkit.getDefaultToolkit().getImage("img/tank-blue.png");
-			g2.drawImage(img17, x+r, y+r, 40, 40, null);
-		}
-		else if(n == 18 && (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			Image img18 = Toolkit.getDefaultToolkit().getImage("img/tank-purple.png");
-			g2.drawImage(img18, x+r, y+r, 40, 40, null);
-		}
-			
 		else;
+			
+
 		
 	}
 
@@ -809,9 +311,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		mx -= BORDERS;
 		my -= BORDERS;
 		if (XYVertex) mx += r;
-		
-	
-		
+
 		// get array coordinate(i,j) for pointy
 		int y = (int)(my/(s+t)); //j
 		int x = (int)((mx-(y%2)*r)/(2*r)); //i
@@ -857,5 +357,160 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		p.y=y;
 		return p;
 	}
-}
+	
+
+	public static void showScoutRange( int i, int j, int rN,int n, Graphics2D g2){
+		int x = i*2*r + (j%2) * r;
+		int y = j*(s+t);
+		
+			if ((i <= DrawingPanel.p_old[rN].x + 2) && (i >= DrawingPanel.p_old[rN].x - 2) && (j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2)  ){
+				g2.setColor(DrawingPanel.COLOURSHADOW);
+				g2.fillPolygon(hex(x,y));
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+				
+				if(n>0){
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+				}
+				
+			}
+			
+			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				if((i == DrawingPanel.p_old[rN].x - 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+			else{
+				if((i == DrawingPanel.p_old[rN].x - 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				if((i == DrawingPanel.p_old[rN].x + 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+		
+	}// end of showScoutRange
+	
+	
+	
+	
+	
+	public static void showSniperRange( int i, int j, int rN,int n, Graphics2D g2){
+			int x = i*2*r + (j%2) * r;
+			int y = j*(s+t);
+	
+			if ((i <= DrawingPanel.p_old[rN].x + 3) && (i >= DrawingPanel.p_old[rN].x - 3) && (j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3)  ){
+				g2.setColor(DrawingPanel.COLOURSHADOW);
+				g2.fillPolygon(hex(x,y));
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+
+				if(n > 0){
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+				}	
+			}
+			
+			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				if(((i == DrawingPanel.p_old[rN].x + 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
+				if(((i == DrawingPanel.p_old[rN].x - 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2) ) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+			else{
+				if((i == DrawingPanel.p_old[rN].x - 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				if(((i == DrawingPanel.p_old[rN].x - 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
+				if(((i == DrawingPanel.p_old[rN].x + 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y + 2)|| (j == DrawingPanel.p_old[rN].y - 2))){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+			}
+		
+	} // end of showSniperRange
+	
+	
+	public static void showTankRange( int i, int j, int rN,int n, Graphics2D g2){
+				int x = i*2*r + (j%2) * r;
+				int y = j*(s+t);
+
+				// for the all tanks
+					if ((i <= DrawingPanel.p_old[rN].x + 1) && (i >= DrawingPanel.p_old[rN].x - 1) && (j >= DrawingPanel.p_old[rN].y - 1) && (j <= DrawingPanel.p_old[rN].y + 1)  ){
+						g2.setColor(DrawingPanel.COLOURSHADOW);
+						g2.fillPolygon(hex(x,y));
+						g2.setColor(DrawingPanel.COLOURGRID);
+						g2.drawPolygon(hex(x,y));
+						
+						if(n > 0){
+							g2.setColor(DrawingPanel.COLOURGRID);
+							g2.drawPolygon(hex(x,y));
+							g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+						}
+					}
+					
+					if ((DrawingPanel.p_old[rN].y % 2) == 0){
+						if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+							g2.setColor(DrawingPanel.COLOURCELL);
+							g2.fillPolygon(hex(x,y));
+							g2.setColor(DrawingPanel.COLOURGRID);
+							g2.drawPolygon(hex(x,y));
+						}
+					}
+					else{
+						if((i == DrawingPanel.p_old[rN].x - 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+							g2.setColor(DrawingPanel.COLOURCELL);
+							g2.fillPolygon(hex(x,y));
+							g2.setColor(DrawingPanel.COLOURGRID);
+							g2.drawPolygon(hex(x,y));
+						}
+					}
+				} // end of showRange of tank
+	
+		
+}// end of the class
 

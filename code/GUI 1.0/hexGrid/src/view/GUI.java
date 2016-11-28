@@ -85,7 +85,13 @@ public class GUI {
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			 public void actionPerformed(ActionEvent ae) {
+//				for (int i = 1; i<=18; i++){
+//					gameBoardPanel.board[DrawingPanel.p_old[i].x][DrawingPanel.p_old[i].y] = 2;
+//
+//					gameBoardPanel.repaint();			
+//				}
 				(DrawingPanel.N) = 1; 
+				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 				gameBoardPanel.repaint();
 				btnStart.setEnabled(false);
 			}
@@ -112,19 +118,33 @@ public class GUI {
 				DrawingPanel.p_old[5] = new Point(7,8);
 				DrawingPanel.p_old[6] = new Point(3,8);
 				
-				DrawingPanel.p_old[7] = new Point(1,3);
-				DrawingPanel.p_old[8] = new Point(4,0);
-				DrawingPanel.p_old[9] = new Point(6,0);
-				DrawingPanel.p_old[10] = new Point(8,5);
-				DrawingPanel.p_old[11] = new Point(6,8);
-				DrawingPanel.p_old[12] = new Point(2,7);
+				DrawingPanel.p_old[7] = new Point(1,4);
+				DrawingPanel.p_old[8] = new Point(3,0);
+				DrawingPanel.p_old[9] = new Point(7,0);
+				DrawingPanel.p_old[10] = new Point(9,4);
+				DrawingPanel.p_old[11] = new Point(7,8);
+				DrawingPanel.p_old[12] = new Point(3,8);
+
+				DrawingPanel.p_old[13] = new Point(1,4);
+				DrawingPanel.p_old[14] = new Point(3,0);
+				DrawingPanel.p_old[15] = new Point(7,0);
+				DrawingPanel.p_old[16] = new Point(9,4);
+				DrawingPanel.p_old[17] = new Point(7,8);
+				DrawingPanel.p_old[18] = new Point(3,8);
 				
-				DrawingPanel.p_old[13] = new Point(1,5);
-				DrawingPanel.p_old[14] = new Point(2,1);
-				DrawingPanel.p_old[15] = new Point(7,1);
-				DrawingPanel.p_old[16] = new Point(8,3);
-				DrawingPanel.p_old[17] = new Point(7,7);
-				DrawingPanel.p_old[18] = new Point(4,8);
+//				DrawingPanel.p_old[7] = new Point(1,3);
+//				DrawingPanel.p_old[8] = new Point(4,0);
+//				DrawingPanel.p_old[9] = new Point(6,0);
+//				DrawingPanel.p_old[10] = new Point(8,5);
+//				DrawingPanel.p_old[11] = new Point(6,8);
+//				DrawingPanel.p_old[12] = new Point(2,7);
+//				
+//				DrawingPanel.p_old[13] = new Point(1,5);
+//				DrawingPanel.p_old[14] = new Point(2,1);
+//				DrawingPanel.p_old[15] = new Point(7,1);
+//				DrawingPanel.p_old[16] = new Point(8,3);
+//				DrawingPanel.p_old[17] = new Point(7,7);
+//				DrawingPanel.p_old[18] = new Point(4,8);
 				
 				DrawingPanel.status_old[0] = 0;
 				DrawingPanel.status_old[1] = 0;
@@ -145,6 +165,26 @@ public class GUI {
 				DrawingPanel.status_old[16] = 0;
 				DrawingPanel.status_old[17] = 0;
 				DrawingPanel.status_old[18] = 0;
+				
+//				DrawingPanel.status_old[0] = 7;
+//				DrawingPanel.status_old[1] = 8;
+//				DrawingPanel.status_old[2] = 9;
+//				DrawingPanel.status_old[3] = 10;
+//				DrawingPanel.status_old[4] = 11;
+//				DrawingPanel.status_old[5] = 12;
+//				DrawingPanel.status_old[6] = 13;
+//				DrawingPanel.status_old[7] = 14;
+//				DrawingPanel.status_old[8] = 15;
+//				DrawingPanel.status_old[9] = 16;
+//				DrawingPanel.status_old[10] = 17;
+//				DrawingPanel.status_old[11] = 18;
+//				DrawingPanel.status_old[12] = 0;
+//				DrawingPanel.status_old[13] = 0;
+//				DrawingPanel.status_old[14] = 0;
+//				DrawingPanel.status_old[15] = 0;
+//				DrawingPanel.status_old[16] = 0;
+//				DrawingPanel.status_old[17] = 0;
+//				DrawingPanel.status_old[18] = 0;
 				
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
@@ -173,10 +213,11 @@ public class GUI {
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
 					}
+				else;
 					// when overlapping, show the specific robot on the overlapping cell
-					gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 
-					gameBoardPanel.repaint();
+				gameBoardPanel.repaint();
 				
 			}
 		});

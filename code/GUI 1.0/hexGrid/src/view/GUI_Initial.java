@@ -211,7 +211,8 @@ public class GUI_Initial {
 		playButton.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e){
-					GUI.StartButtonClicked();
+				buttonGroup.clearSelection();	
+				GUI.StartButtonClicked();
 			}
 		});
 		playButton.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
