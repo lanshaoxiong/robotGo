@@ -40,7 +40,7 @@ public class DrawingPanel extends JPanel
 			final static int BORDERS = 20;  
 			final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
 
-			int[][] board = new int[BSIZE][BSIZE];
+			static int[][] board = new int[BSIZE][BSIZE];
 			
 			static int PlayersNumber = 6;
 			static int N = 0;
@@ -55,8 +55,9 @@ public class DrawingPanel extends JPanel
 													 new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3,8)};
 			
 
-			static int [] status_old = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//			static int [] status_old = {0,7,8,9,10,11,12,13,14,15,16,17,18,0,0,0,0,0,0};
 			
+			static int [] status_old = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			
 
 	public DrawingPanel()
@@ -85,6 +86,7 @@ public class DrawingPanel extends JPanel
 			hexmech_pointy.setHeight(HEXSIZE); //Either setHeight or setSize must be run to initialize the hex
 			hexmech_pointy.setBorders(BORDERS);
 
+			// deploy again!!!!!!!!!!!!!!
 			for (int i=0;i<BSIZE;i++) {
 				for (int j=0;j<BSIZE;j++) {
 					
@@ -93,11 +95,19 @@ public class DrawingPanel extends JPanel
 						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
+						else if (i == 1 && j == 5)
+							board[i][j]=7;
+						else if (i == 1 && j == 3)
+							board[i][j]=13;
 
 						//green
 						else if(i==9 && j==4)
-							board[i][j]=4;		
-
+							board[i][j]=4;	
+						else if(i==8 && j==5)
+							board[i][j]=10;	
+						else if(i==8 && j==3)
+							board[i][j]=16;	
+						
 						else
 							board[i][j]=EMPTY;			
 					}
@@ -107,12 +117,27 @@ public class DrawingPanel extends JPanel
 						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
+						else if (i == 1 && j == 5)
+							board[i][j]=7;
+						else if (i == 1 && j == 3)
+							board[i][j]=13;
+						
 						// yellow
 						else if(i==7 && j==0)
-							board[i][j]=3;
+							board[i][j]=3;	
+						else if(i==6 && j==0)
+							board[i][j]=9;
+						else if(i==7 && j==1)
+							board[i][j]=15;
+						
 						// blue
 						else if(i==7 && j==8)
 							board[i][j]=5;
+						else if(i==6 && j==8)
+							board[i][j]=11;
+						else if(i==7 && j==7)
+							board[i][j]=17;
+						
 						else
 							board[i][j]=EMPTY;	
 					}
@@ -122,23 +147,51 @@ public class DrawingPanel extends JPanel
 						// red 
 						if(i==1 && j==4)
 							board[i][j]=1;
+						else if (i==1 && j==5)
+							board[i][j]=7;
+						else if (i == 1 && j==3)
+							board[i][j]=13;
+						
 						// orange
 						else if(i==3 && j==0)
 							board[i][j]=2;
+						else if(i==4 && j==0)
+							board[i][j]=8;
+						else if(i==2 && j==1)
+							board[i][j]=14;
+						
 						// yellow
 						else if(i==7 && j==0)
-							board[i][j]=3;
+							board[i][j]=3;	
+						else if(i==6 && j==0)
+							board[i][j]=9;
+						else if(i==7 && j==1)
+							board[i][j]=15;
+						
 						//green
 						else if(i==9 && j==4)
-							board[i][j]=4;		
+							board[i][j]=4;	
+						else if(i==8 && j==5)
+							board[i][j]=10;	
+						else if(i==8 && j==3)
+							board[i][j]=16;		
 
 						// blue
 						else if(i==7 && j==8)
 							board[i][j]=5;
+						else if(i==6 && j==8)
+							board[i][j]=11;
+						else if(i==7 && j==7)
+							board[i][j]=17;
 
 						// purple
 						else if(i==3 && j==8)
 							board[i][j]=6;
+						else if(i==2 && j==7)
+							board[i][j]=12;
+						else if(i==4 && j==8)
+							board[i][j]=18;
+						
 
 						else
 							board[i][j]=EMPTY;			
@@ -257,7 +310,6 @@ public class DrawingPanel extends JPanel
 										status_old[N] = 0;
 								}
 								board[p_old[N].x][p_old[N].y] = status_old[N];
-								
 			        			p_old[N] = p;
 								status_old[N] = board[p.x][p.y];	
 								board[p.x][p.y] = N;

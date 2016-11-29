@@ -20,8 +20,7 @@ public class GUI {
 	private JPanel btnpanel;
 	private DrawingPanel gameBoardPanel;
 	public static robotController rC;
-	
-	
+		
 		
 		/**
 		 * Create the application.
@@ -85,15 +84,77 @@ public class GUI {
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			 public void actionPerformed(ActionEvent ae) {
-//				for (int i = 1; i<=18; i++){
-//					gameBoardPanel.board[DrawingPanel.p_old[i].x][DrawingPanel.p_old[i].y] = 2;
-//
-//					gameBoardPanel.repaint();			
-//				}
+
+				for (int i=0;i<DrawingPanel.BSIZE;i++) {
+					for (int j=0;j<DrawingPanel.BSIZE;j++) {
+						
+						// 2 players
+						if (DrawingPanel.Q == 2){
+							// red 
+							if(i==1 && j==4)
+								DrawingPanel.board[i][j]=1;
+							
+							//green
+							else if(i==9 && j==4)
+								DrawingPanel.board[i][j]=4;		
+							
+							else
+								DrawingPanel.board[i][j]=DrawingPanel.EMPTY;			
+						}
+						
+						// 3 players
+						if (DrawingPanel.Q == 3){
+							// red 
+							if(i==1 && j==4)
+								DrawingPanel.board[i][j]=1;
+							// yellow
+							else if(i==7 && j==0)
+								DrawingPanel.board[i][j]=3;
+							// blue
+							else if(i==7 && j==8)
+								DrawingPanel.board[i][j]=5;
+							else
+								DrawingPanel.board[i][j]=DrawingPanel.EMPTY;	
+						}
+						
+						// 6 players
+						if (DrawingPanel.Q == 6){
+							// red 
+							if(i==1 && j==4)
+								DrawingPanel.board[i][j]=1;
+							// orange
+							else if(i==3 && j==0)
+								DrawingPanel.board[i][j]=2;
+							// yellow
+							else if(i==7 && j==0)
+								DrawingPanel.board[i][j]=3;
+							//green
+							else if(i==9 && j==4)
+								DrawingPanel.board[i][j]=4;		
+
+							// blue
+							else if(i==7 && j==8)
+								DrawingPanel.board[i][j]=5;
+
+							// purple
+							else if(i==3 && j==8)
+								DrawingPanel.board[i][j]=6;
+
+							else
+								DrawingPanel.board[i][j]=DrawingPanel.EMPTY;			
+						}
+						else;
+				 }
+			}
+
 				(DrawingPanel.N) = 1; 
 				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+//				System.out.println(DrawingPanel.N);
 				gameBoardPanel.repaint();
+				
 				btnStart.setEnabled(false);
+
+				
 			}
 		});
 		
@@ -132,20 +193,6 @@ public class GUI {
 				DrawingPanel.p_old[17] = new Point(7,8);
 				DrawingPanel.p_old[18] = new Point(3,8);
 				
-//				DrawingPanel.p_old[7] = new Point(1,3);
-//				DrawingPanel.p_old[8] = new Point(4,0);
-//				DrawingPanel.p_old[9] = new Point(6,0);
-//				DrawingPanel.p_old[10] = new Point(8,5);
-//				DrawingPanel.p_old[11] = new Point(6,8);
-//				DrawingPanel.p_old[12] = new Point(2,7);
-//				
-//				DrawingPanel.p_old[13] = new Point(1,5);
-//				DrawingPanel.p_old[14] = new Point(2,1);
-//				DrawingPanel.p_old[15] = new Point(7,1);
-//				DrawingPanel.p_old[16] = new Point(8,3);
-//				DrawingPanel.p_old[17] = new Point(7,7);
-//				DrawingPanel.p_old[18] = new Point(4,8);
-				
 				DrawingPanel.status_old[0] = 0;
 				DrawingPanel.status_old[1] = 0;
 				DrawingPanel.status_old[2] = 0;
@@ -166,26 +213,7 @@ public class GUI {
 				DrawingPanel.status_old[17] = 0;
 				DrawingPanel.status_old[18] = 0;
 				
-//				DrawingPanel.status_old[0] = 7;
-//				DrawingPanel.status_old[1] = 8;
-//				DrawingPanel.status_old[2] = 9;
-//				DrawingPanel.status_old[3] = 10;
-//				DrawingPanel.status_old[4] = 11;
-//				DrawingPanel.status_old[5] = 12;
-//				DrawingPanel.status_old[6] = 13;
-//				DrawingPanel.status_old[7] = 14;
-//				DrawingPanel.status_old[8] = 15;
-//				DrawingPanel.status_old[9] = 16;
-//				DrawingPanel.status_old[10] = 17;
-//				DrawingPanel.status_old[11] = 18;
-//				DrawingPanel.status_old[12] = 0;
-//				DrawingPanel.status_old[13] = 0;
-//				DrawingPanel.status_old[14] = 0;
-//				DrawingPanel.status_old[15] = 0;
-//				DrawingPanel.status_old[16] = 0;
-//				DrawingPanel.status_old[17] = 0;
-//				DrawingPanel.status_old[18] = 0;
-				
+
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
 			}			
@@ -198,26 +226,28 @@ public class GUI {
 		btnSwitch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+								
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
-					}
-				if (DrawingPanel.Q == 3){
+				}
+				else if (DrawingPanel.Q == 3){
 					DrawingPanel.N = DrawingPanel.N + 2;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
-					}
-				if (DrawingPanel.Q == 6){
+				}
+				else if (DrawingPanel.Q == 6){
 					DrawingPanel.N = DrawingPanel.N + 1;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
-					}
+				}
 				else;
-					// when overlapping, show the specific robot on the overlapping cell
-				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
-
+				
+				// when overlapping, show the specific robot on the overlapping cell
+				DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 				gameBoardPanel.repaint();
+				
 				
 			}
 		});
@@ -228,6 +258,8 @@ public class GUI {
 		gameBoardPanel.setBounds(99, 0, 765, 636);
 		frmGameBoard.getContentPane().add(gameBoardPanel);
 		
-		
 	}
+	
+
+	
 }

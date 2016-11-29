@@ -60,6 +60,8 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 								Toolkit.getDefaultToolkit().getImage("img/tank-purple.png")};
 
 	
+
+	
 	public static void setXYasVertex(boolean b) {
 		XYVertex=b;
 	}
@@ -127,13 +129,10 @@ Purpose: This function draws a hexagon based on the initial point (x,y).
 The hexagon is drawn in the colour specified in grid.COLOURELL.
 *********************************************************************/
 	public static void drawHex(int i, int j, Graphics2D g2) {
-		//int x = i * (s+t);
-		//int y = j * h + (i%2) * h/2;
 		int x = i*2*r + (j%2) * r;
 		int y = j*(s+t);
 		Polygon poly = hex(x,y);
 		g2.setColor(DrawingPanel.COLOURCELL);
-		//g2.fillPolygon(hexmech.hex(x,y));
 		g2.fillPolygon(poly);
 		if((DrawingPanel.p_old[DrawingPanel.N].x == i) && ((DrawingPanel.p_old[DrawingPanel.N].y == j))){
 			g2.setColor(DrawingPanel.COLOURRED);
@@ -214,29 +213,25 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			
 			// for the all scouts
 			if ( DrawingPanel.N >= 1 && DrawingPanel.N <= 6){
-//				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
+				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
 				showScoutRange(i,j,DrawingPanel.N, n, g2);
-//				showScoutRange(i,j,DrawingPanel.N, n, g2);
-//				showSniperRange(i,j,DrawingPanel.N + 6, n, g2);
-//				
+				showSniperRange(i,j,DrawingPanel.N + 6, n, g2);
+			
 			}
 			
 			// for the all snipers
 			else if ( DrawingPanel.N >= 7 && DrawingPanel.N <= 12){
-//				showTankRange(i,j, DrawingPanel.N + 6, n, g2);
-//				showScoutRange(i,j,DrawingPanel.N - 6, n, g2);
-//				showSniperRange(i,j,DrawingPanel.N, n, g2);
+				showTankRange(i,j, DrawingPanel.N + 6, n, g2);
+				showScoutRange(i,j,DrawingPanel.N - 6, n, g2);
 				showSniperRange(i,j,DrawingPanel.N, n, g2);
 			}
 			
 
 			// for the all tanks
 			else if ( DrawingPanel.N >= 13 && DrawingPanel.N <= 18){
-//				showTankRange(i,j, DrawingPanel.N, n, g2);
-//				showScoutRange(i,j,DrawingPanel.N - 12, n, g2);
-//				showSniperRange(i,j,DrawingPanel.N - 6, n, g2);
 				showTankRange(i,j, DrawingPanel.N, n, g2);
-				
+				showScoutRange(i,j,DrawingPanel.N - 12, n, g2);
+				showSniperRange(i,j,DrawingPanel.N - 6, n, g2);				
 			}
 			else;
 	
@@ -268,6 +263,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				g2.drawPolygon(hex(x,y));
 				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 			}
+			
 			
 
 		// add the image of picture		
@@ -374,37 +370,51 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 					g2.drawPolygon(hex(x,y));
 					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 				}
+				if(checkOutofScoutRange(i,j,rN) && checkOutofSniperRange(i,j,rN+6) && checkOutofTankRange(i,j,rN+12)){
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
 				
 			}
+			else;
 			
-			if ((DrawingPanel.p_old[rN].y % 2) == 0){
-				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				if((i == DrawingPanel.p_old[rN].x - 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-			}
-			else{
-				if((i == DrawingPanel.p_old[rN].x - 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				if((i == DrawingPanel.p_old[rN].x + 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-			}
+//			if(checkOutofScoutRange(i,j,rN) &&checkOutofSniperRange(i,j,rN+6) && checkOutofTankRange(i,j,rN+12)){
+//				g2.setColor(DrawingPanel.COLOURCELL);
+//				g2.fillPolygon(hex(x,y));
+//				g2.setColor(DrawingPanel.COLOURGRID);
+//				g2.drawPolygon(hex(x,y));
+//			}
+			
+//			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+//				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				if((i == DrawingPanel.p_old[rN].x - 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//			}
+//			else{
+//				if((i == DrawingPanel.p_old[rN].x - 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				if((i == DrawingPanel.p_old[rN].x + 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//			}
 		
 	}// end of showScoutRange
 	
@@ -427,55 +437,73 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 					g2.drawPolygon(hex(x,y));
 					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 				}	
+				
+				if(checkOutofScoutRange(i,j,rN-6) &&checkOutofSniperRange(i,j,rN) && checkOutofTankRange(i,j,rN+6)){
+					
+					System.out.println(" out of range" + i + j);
+					g2.setColor(DrawingPanel.COLOURCELL);
+					g2.fillPolygon(hex(x,y));
+					g2.setColor(DrawingPanel.COLOURGRID);
+					g2.drawPolygon(hex(x,y));
+				}
+				
 			}
+			else;
 			
-			if ((DrawingPanel.p_old[rN].y % 2) == 0){
-				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				if(((i == DrawingPanel.p_old[rN].x + 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				
-				if(((i == DrawingPanel.p_old[rN].x - 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2) ) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-			}
-			else{
-				if((i == DrawingPanel.p_old[rN].x - 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				if(((i == DrawingPanel.p_old[rN].x - 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-				
-				if(((i == DrawingPanel.p_old[rN].x + 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y + 2)|| (j == DrawingPanel.p_old[rN].y - 2))){
-					g2.setColor(DrawingPanel.COLOURCELL);
-					g2.fillPolygon(hex(x,y));
-					g2.setColor(DrawingPanel.COLOURGRID);
-					g2.drawPolygon(hex(x,y));
-				}
-			}
+//			if(checkOutofScoutRange(i,j,rN-6) &&checkOutofSniperRange(i,j,rN) && checkOutofTankRange(i,j,rN+6)){
+//				g2.setColor(DrawingPanel.COLOURCELL);
+//				g2.fillPolygon(hex(x,y));
+//				g2.setColor(DrawingPanel.COLOURGRID);
+//				g2.drawPolygon(hex(x,y));
+//			}
+			
+//			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+//				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				if(((i == DrawingPanel.p_old[rN].x + 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				
+//				if(((i == DrawingPanel.p_old[rN].x - 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2) ) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//			}
+//			else{
+//				if((i == DrawingPanel.p_old[rN].x - 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				if(((i == DrawingPanel.p_old[rN].x - 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//				
+//				if(((i == DrawingPanel.p_old[rN].x + 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y + 2)|| (j == DrawingPanel.p_old[rN].y - 2))){
+//					g2.setColor(DrawingPanel.COLOURCELL);
+//					g2.fillPolygon(hex(x,y));
+//					g2.setColor(DrawingPanel.COLOURGRID);
+//					g2.drawPolygon(hex(x,y));
+//				}
+//			}
 		
 	} // end of showSniperRange
 	
 	
-	public static void showTankRange( int i, int j, int rN,int n, Graphics2D g2){
+	public static void showTankRange( int i, int j, int rN, int n, Graphics2D g2){
 				int x = i*2*r + (j%2) * r;
 				int y = j*(s+t);
 
@@ -491,25 +519,135 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 							g2.drawPolygon(hex(x,y));
 							g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 						}
+						
+						if(checkOutofScoutRange(i,j,rN-12) && checkOutofSniperRange(i,j,rN-6) && checkOutofTankRange(i,j,rN)){
+							g2.setColor(DrawingPanel.COLOURCELL);
+							g2.fillPolygon(hex(x,y));
+							g2.setColor(DrawingPanel.COLOURGRID);
+							g2.drawPolygon(hex(x,y));
+						}
 					}
+					else;
 					
-					if ((DrawingPanel.p_old[rN].y % 2) == 0){
-						if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
-							g2.setColor(DrawingPanel.COLOURCELL);
-							g2.fillPolygon(hex(x,y));
-							g2.setColor(DrawingPanel.COLOURGRID);
-							g2.drawPolygon(hex(x,y));
-						}
-					}
-					else{
-						if((i == DrawingPanel.p_old[rN].x - 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
-							g2.setColor(DrawingPanel.COLOURCELL);
-							g2.fillPolygon(hex(x,y));
-							g2.setColor(DrawingPanel.COLOURGRID);
-							g2.drawPolygon(hex(x,y));
-						}
-					}
+//					if(checkOutofScoutRange(i,j,rN-12) && checkOutofSniperRange(i,j,rN-6) && checkOutofTankRange(i,j,rN)){
+//						g2.setColor(DrawingPanel.COLOURCELL);
+//						g2.fillPolygon(hex(x,y));
+//						g2.setColor(DrawingPanel.COLOURGRID);
+//						g2.drawPolygon(hex(x,y));
+//					}
+					
+//					if ((DrawingPanel.p_old[rN].y % 2) == 0){
+//						if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+//							g2.setColor(DrawingPanel.COLOURCELL);
+//							g2.fillPolygon(hex(x,y));
+//							g2.setColor(DrawingPanel.COLOURGRID);
+//							g2.drawPolygon(hex(x,y));
+//						}
+//					}
+//					else{
+//						if((i == DrawingPanel.p_old[rN].x - 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+//							g2.setColor(DrawingPanel.COLOURCELL);
+//							g2.fillPolygon(hex(x,y));
+//							g2.setColor(DrawingPanel.COLOURGRID);
+//							g2.drawPolygon(hex(x,y));
+//						}
+//					}
 				} // end of showRange of tank
+	
+	
+	
+	// helper function:
+	public static boolean checkOutofTankRange(int i, int j, int rN){
+		
+		if ((i <= DrawingPanel.p_old[rN].x + 1) && (i >= DrawingPanel.p_old[rN].x - 1) && (j >= DrawingPanel.p_old[rN].y - 1) && (j <= DrawingPanel.p_old[rN].y + 1)  ){
+			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+				if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+					return true;
+				}
+				else 
+					return false;
+			}
+			else{
+				if((i == DrawingPanel.p_old[rN].x - 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
+					return true;
+				}
+				else
+					return false;
+			}
+
+		}
+		else 
+			return true;
+		
+		
+	} // end of checkOutofTankRange
+	
+	
+	public static boolean checkOutofSniperRange(int i, int j, int rN){
+		if ((i <= DrawingPanel.p_old[rN].x + 3) && (i >= DrawingPanel.p_old[rN].x - 3) && (j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3)  ){
+			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+					return true;
+				}
+				else if(((i == DrawingPanel.p_old[rN].x + 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+					return true;
+				}
+				
+				else if(((i == DrawingPanel.p_old[rN].x - 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2) ) ){
+					return true;
+				}
+				else 
+					return false;
+			}
+			else{
+				if((i == DrawingPanel.p_old[rN].x - 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
+					return true;
+				}
+				else if(((i == DrawingPanel.p_old[rN].x - 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
+					return true;
+				}
+				
+				else if(((i == DrawingPanel.p_old[rN].x + 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y + 2)|| (j == DrawingPanel.p_old[rN].y - 2))){
+					return true;
+				}
+				else 
+					return false;
+			}
+			
+		}
+		else
+			return true;
+		
+	} // end of checkoutofSniperrange
+	
+	public static boolean checkOutofScoutRange(int i, int j, int rN){
+		
+		if ((i <= DrawingPanel.p_old[rN].x + 2) && (i >= DrawingPanel.p_old[rN].x - 2) && (j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2)){
+			if ((DrawingPanel.p_old[rN].y % 2) == 0){
+				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+					return true;
+				}
+				else if((i == DrawingPanel.p_old[rN].x - 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+					return true;
+				}
+				else 
+					return false;
+			}
+			else{
+				if((i == DrawingPanel.p_old[rN].x - 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
+					return true;
+				}
+				else if((i == DrawingPanel.p_old[rN].x + 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
+					return true;
+				}
+				else 
+					return false;
+			}
+		}
+		else 
+			return true;
+		
+	} // end of checkOutofScoutrange
 	
 		
 }// end of the class

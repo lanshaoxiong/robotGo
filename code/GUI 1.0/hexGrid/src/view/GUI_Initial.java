@@ -218,9 +218,10 @@ public class GUI_Initial {
 		playButton.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
 		playButton.setBounds(30, 399, 220, 67);
 		frmInitialization.getContentPane().add(playButton);
-		
+//		
 		DrawingPanel thumbnailPanel = new DrawingPanel(50);
 		thumbnailPanel.setBounds(262, 86, 445, 380);
 		frmInitialization.getContentPane().add(thumbnailPanel);
+
 	}
 }
