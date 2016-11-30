@@ -1,5 +1,9 @@
 package view;
 
+import controller.*;
+import models.robot;
+import models.robot.robotClass;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -19,8 +23,22 @@ public class GUI {
 	private JScrollPane statusScrollPane;
 	private JPanel btnpanel;
 	private DrawingPanel gameBoardPanel;
-	public static robotController rC;
-		
+
+	public static DefaultListModel<robot> robotList = new DefaultListModel<robot>();
+	public static controller rC = new controller(robotList);
+	
+	String[] columnNames = {"Robot Name",
+            "Health",
+            "Attack Value",
+            "Movement Point",
+            "Range"};
+	
+	Object[][] data = {
+		    {"scout", new Integer(1), new Integer(1),new Integer(3), new Integer(2)},
+		    {"sniper", new Integer(2), new Integer(2),new Integer(2), new Integer(3)},
+		    {"tank", new Integer(3), new Integer(3),new Integer(1), new Integer(1)}	     
+		};
+	
 		
 		/**
 		 * Create the application.
@@ -55,17 +73,31 @@ public class GUI {
 		frmGameBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGameBoard.getContentPane().setLayout(null);
 		
-		String[] columnNames = {"Robot Name",
-                "Health",
-                "Attack Value",
-                "Movement Point",
-                "Range"};
+		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT);
 		
-		Object[][] data = {
-			    {"scout", new Integer(1), new Integer(1),new Integer(3), new Integer(2)},
-			    {"sniper", new Integer(2), new Integer(2),new Integer(2), new Integer(3)},
-			    {"tank", new Integer(3), new Integer(3),new Integer(1), new Integer(1)}	     
-			};
+		
+		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT);
+		rC.createRobot("scout_orange","orange",Color.ORANGE, robotClass.SCOUT);
+		rC.createRobot("scout_yellow","yellow",Color.YELLOW, robotClass.SCOUT);
+		rC.createRobot("scout_green","green",Color.GREEN, robotClass.SCOUT);
+		rC.createRobot("scout_blue","blue",Color.BLUE, robotClass.SCOUT);
+		rC.createRobot("scout_purple","purple",Color.MAGENTA, robotClass.SCOUT);
+		
+		
+		rC.createRobot("sniper_red","red",Color.RED, robotClass.SNIPER);
+		rC.createRobot("sniper_orange","orange",Color.ORANGE, robotClass.SNIPER);
+		rC.createRobot("sniper_yellow","yellow",Color.YELLOW, robotClass.SNIPER);
+		rC.createRobot("sniper_green","green",Color.GREEN, robotClass.SNIPER);
+		rC.createRobot("sniper_blue","blue",Color.BLUE, robotClass.SNIPER);
+		rC.createRobot("sniper_purple","purple",Color.MAGENTA, robotClass.SNIPER);
+		
+		
+		rC.createRobot("tank_red","red",Color.RED, robotClass.TANK);
+		rC.createRobot("tank_orange","orange",Color.ORANGE, robotClass.TANK);
+		rC.createRobot("tank_yellow","yellow",Color.YELLOW, robotClass.TANK);
+		rC.createRobot("tank_green","green",Color.GREEN, robotClass.TANK);
+		rC.createRobot("tank_blue","blue",Color.BLUE, robotClass.TANK);
+		rC.createRobot("tank_purple","purple",Color.MAGENTA, robotClass.TANK);
 		
 		statusScrollPane = new JScrollPane();
 		statusScrollPane.setBounds(102, 648, 372, 76);
