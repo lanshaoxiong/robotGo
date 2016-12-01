@@ -266,11 +266,92 @@ public class DrawingPanel extends JPanel
 		    Popup popup_cancel = factory_cancel.getPopup(component, button_cancel, e.getX() + 180, e.getY() + 160);
 		    popup_cancel.show();
 		    
-		    ActionListener cancelActionListener = new ActionListener() {
-			     public void actionPerformed(ActionEvent a) {
+		    ActionListener cancelActionListener = new ActionListener(){
+		    	public void actionPerformed(ActionEvent a) {
 			    	popup_move.hide();
 			    	popup_attack.hide();
 			    	popup_cancel.hide();
+			     }
+		    };
+		    
+//			public static Object[][] data = {
+//				    {"scout", new Integer(1), new Integer(1), new Integer(3), new Integer(2)},
+//				    {"sniper", new Integer(2), new Integer(2), new Integer(2), new Integer(3)},
+//				    {"tank", new Integer(3), new Integer(3), new Integer(1), new Integer(1)}	     
+//				};
+		    
+		    
+		    ActionListener attackActionListener = new ActionListener() {
+			     public void actionPerformed(ActionEvent a) {
+			    	Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
+			    	GUI.rC.attack((GUI.robotList).elementAt(N), p);
+			    	// for scout 
+			        if(N >= 1 && N <= 6){
+			        	GUI.data[0][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+			        	GUI.data[0][2] = (GUI.robotList).elementAt(N).getAttackPower();
+			        	GUI.data[0][3] = (GUI.robotList).elementAt(N).getMovePoints();
+			        	GUI.data[0][4] = (GUI.robotList).elementAt(N).getRange();
+			        	if ( (GUI.robotList).elementAt(N).alive())
+			        		GUI.data[0][5] = "alive";
+			        	else 
+			        		GUI.data[0][5] = "dead";
+			        		
+			        }
+			        
+			        // for sniper
+			        else if(N >= 7 && N <= 12){
+			        	GUI.data[1][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+			        	GUI.data[1][2] = (GUI.robotList).elementAt(N).getAttackPower();
+			        	GUI.data[1][3] = (GUI.robotList).elementAt(N).getMovePoints();
+			        	GUI.data[1][4] = (GUI.robotList).elementAt(N).getRange();
+			        	if ( (GUI.robotList).elementAt(N).alive())
+			        		GUI.data[1][5] = "alive";
+			        	else 
+			        		GUI.data[1][5] = "dead";
+			        		
+			        }
+			        
+			     // for tank
+			        else if(N >= 13 && N <= 18){
+			        	GUI.data[2][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+			        	GUI.data[2][2] = (GUI.robotList).elementAt(N).getAttackPower();
+			        	GUI.data[2][3] = (GUI.robotList).elementAt(N).getMovePoints();
+			        	GUI.data[2][4] = (GUI.robotList).elementAt(N).getRange();
+			        	if ( (GUI.robotList).elementAt(N).alive())
+			        		GUI.data[2][5] = "alive";
+			        	else 
+			        		GUI.data[2][5] = "dead";
+			        		
+			        }
+			        
+			        else;
+    	
+//			        if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
+//			        
+//			        // for scout 
+//			        if(N >= 1 && N <= 6){
+//			        	if(!hexmech_pointy.checkOutofScoutRange(p.x, p.y, N))
+//			        		
+//			        		
+//			        }
+//			        
+//			        // for sniper 
+//			        else if (N >= 7 && N <=12){
+//			        	
+//			        }
+//			        
+//			        // for tank
+//			        else if (N >= 13 && N <= 18){
+//			        	
+//			        }
+//			        
+//			        else;
+			        
+
+			    	popup_move.hide();
+			    	popup_attack.hide();
+			    	popup_cancel.hide();
+			    	repaint();
 			     }
 			 };
 			 
@@ -280,7 +361,53 @@ public class DrawingPanel extends JPanel
 						Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
 			        	
+//			        	GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
+//				    	// for scout 
+//				        if(N >= 1 && N <= 6){
+//				        	GUI.data[0][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+//				        	GUI.data[0][2] = (GUI.robotList).elementAt(N).getAttackPower();
+//				        	GUI.data[0][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
+//				        	System.out.println(GUI.data[0][3]);
+//				        	GUI.data[0][4] = (GUI.robotList).elementAt(N).getRange();
+//				        	if ( (GUI.robotList).elementAt(N).alive())
+//				        		GUI.data[0][5] = "alive";
+//				        	else 
+//				        		GUI.data[0][5] = "dead";
+//				        		
+//				        }
+//				        
+//				        // for sniper
+//				        else if(N >= 7 && N <= 12){
+//				        	GUI.data[1][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+//				        	GUI.data[1][2] = (GUI.robotList).elementAt(N).getAttackPower();
+//				        	GUI.data[1][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
+//				        	GUI.data[1][4] = (GUI.robotList).elementAt(N).getRange();
+//				        	if ( (GUI.robotList).elementAt(N).alive())
+//				        		GUI.data[1][5] = "alive";
+//				        	else 
+//				        		GUI.data[1][5] = "dead";
+//				        		
+//				        }
+//				        
+//				     // for tank
+//				        else if(N >= 13 && N <= 18){
+//				        	GUI.data[2][1] = (GUI.robotList).elementAt(N).getCurrentHp();
+//				        	GUI.data[2][2] = (GUI.robotList).elementAt(N).getAttackPower();
+//				        	GUI.data[2][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
+//				        	GUI.data[2][4] = (GUI.robotList).elementAt(N).getRange();
+//				        	if ( (GUI.robotList).elementAt(N).alive())
+//				        		GUI.data[2][5] = "alive";
+//				        	else 
+//				        		GUI.data[2][5] = "dead";
+//				        		
+//				        }
+//				        
+//				        else;
+			        	
+			        	
+			        	
 			        	// walk one cell each click time 
+			        	if (GUI.rC.canMove((GUI.robotList).elementAt(N))){
 			        	if(p_old[N].y % 2 == 0){
 			        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
 			        			
@@ -297,6 +424,8 @@ public class DrawingPanel extends JPanel
 			        			p_old[N] = p;
 								status_old[N] = board[p.x][p.y];	
 								board[p.x][p.y] = N;
+								if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y))
+									GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
 			        		}
 			        	}
 			        	else{
@@ -313,18 +442,26 @@ public class DrawingPanel extends JPanel
 			        			p_old[N] = p;
 								status_old[N] = board[p.x][p.y];	
 								board[p.x][p.y] = N;
+								if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y))
+									GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
 			        		}
 			        	}
-					
+			        	
+			        	}
+			        	
+			        	GUI.updateTable();
 			        	popup_move.hide();
 			        	popup_attack.hide();
 			        	popup_cancel.hide();
 			        	repaint();
+			        	GUI.statusTable.repaint();
 			        }
 			      };
 			button_move.addActionListener(moveActionListener);
 			 
 			button_cancel.addActionListener(cancelActionListener);
+			
+			button_attack.addActionListener(attackActionListener);
 
 		}
 

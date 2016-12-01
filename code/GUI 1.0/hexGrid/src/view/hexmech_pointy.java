@@ -440,7 +440,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				
 				if(checkOutofScoutRange(i,j,rN-6) &&checkOutofSniperRange(i,j,rN) && checkOutofTankRange(i,j,rN+6)){
 					
-					System.out.println(" out of range" + i + j);
+//					System.out.println(" out of range" + i + j);
 					g2.setColor(DrawingPanel.COLOURCELL);
 					g2.fillPolygon(hex(x,y));
 					g2.setColor(DrawingPanel.COLOURGRID);

@@ -3,6 +3,8 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
+import view.robot.robotClass;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,18 +15,42 @@ import java.awt.event.MouseEvent;
 public class GUI {
 
 	private JFrame frmGameBoard;
-	private JTable statusTable;
+	static JTable statusTable;
 	private JButton btnEnd;
 	private JButton btnSwitch;
 	private JScrollPane statusScrollPane;
 	private JPanel btnpanel;
 	private DrawingPanel gameBoardPanel;
-	public static robotController rC;
+	
+	public String[] columnNames = {
+			"Robot Name",
+            "Health",
+            "Attack Value",
+            "Range",
+            "Move Point",
+            "Attack Point",
+            "Status"};
 		
+	public static DefaultListModel<robot> robotList = new DefaultListModel<robot>();
+	public static robotController rC = new robotController(robotList);
+	
+	
+	public static Object[][] data = {
+			{"scout", new Integer(1), new Integer(1), new Integer(2), new Integer(3), new Integer(1), "alive"},
+			{"sniper", new Integer(2), new Integer(2),new Integer(3), new Integer(2), new Integer(1), "alive"},
+			{"tank", new Integer(3), new Integer(3), new Integer(1), new Integer(1), new Integer(1), "alive"}	     
+	};
+
+//	public static Object[][] data = {
+//			{"scout", 1, 1, 2, 3, 1, "alive"},
+//			{"sniper", 2, 2, 3, 2, 1, "alive"},
+//			{"tank", 3, 3, 1, 1, 1, "alive"}	     
+//	};
+//		
 		
-		/**
-		 * Create the application.
-		 */
+	/**
+	 * Create the application.
+	*/
 		public GUI() {		
 			initialize();
 		}
@@ -49,26 +75,43 @@ public class GUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		// initialize the robot in 1 - 18 order
+		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4)); // empty, no use
+		
+		
+		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4));
+		rC.createRobot("scout_orange","orange",Color.ORANGE, robotClass.SCOUT, new Point(3,0));
+		rC.createRobot("scout_yellow","yellow",Color.YELLOW, robotClass.SCOUT, new Point(7,0));
+		rC.createRobot("scout_green","green",Color.GREEN, robotClass.SCOUT, new Point(9,4));
+		rC.createRobot("scout_blue","blue",Color.BLUE, robotClass.SCOUT, new Point(7,8));
+		rC.createRobot("scout_purple","purple",Color.MAGENTA, robotClass.SCOUT, new Point(3,8));
+		
+		
+		rC.createRobot("sniper_red","red",Color.RED, robotClass.SNIPER, new Point(1,4));
+		rC.createRobot("sniper_orange","orange",Color.ORANGE, robotClass.SNIPER, new Point(3,0));
+		rC.createRobot("sniper_yellow","yellow",Color.YELLOW, robotClass.SNIPER, new Point(7,0));
+		rC.createRobot("sniper_green","green",Color.GREEN, robotClass.SNIPER, new Point(9,4));
+		rC.createRobot("sniper_blue","blue",Color.BLUE, robotClass.SNIPER, new Point(7,8));
+		rC.createRobot("sniper_purple","purple",Color.MAGENTA, robotClass.SNIPER, new Point(3,8));
+		
+		
+		rC.createRobot("tank_red","red",Color.RED, robotClass.TANK, new Point(1,4));
+		rC.createRobot("tank_orange","orange",Color.ORANGE, robotClass.TANK, new Point(3,0));
+		rC.createRobot("tank_yellow","yellow",Color.YELLOW, robotClass.TANK, new Point(7,0));
+		rC.createRobot("tank_green","green",Color.GREEN, robotClass.TANK, new Point(9,4));
+		rC.createRobot("tank_blue","blue",Color.BLUE, robotClass.TANK, new Point(7,8));
+		rC.createRobot("tank_purple","purple",Color.MAGENTA, robotClass.TANK, new Point(3,8));
+		
+		
 		frmGameBoard = new JFrame();
 		frmGameBoard.setTitle("game board");
 		frmGameBoard.setBounds(100, 100, 897, 756);
 		frmGameBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGameBoard.getContentPane().setLayout(null);
 		
-		String[] columnNames = {"Robot Name",
-                "Health",
-                "Attack Value",
-                "Movement Point",
-                "Range"};
-		
-		Object[][] data = {
-			    {"scout", new Integer(1), new Integer(1),new Integer(3), new Integer(2)},
-			    {"sniper", new Integer(2), new Integer(2),new Integer(2), new Integer(3)},
-			    {"tank", new Integer(3), new Integer(3),new Integer(1), new Integer(1)}	     
-			};
-		
 		statusScrollPane = new JScrollPane();
-		statusScrollPane.setBounds(102, 648, 372, 76);
+		statusScrollPane.setBounds(102, 648, 480, 76);
 		frmGameBoard.getContentPane().add(statusScrollPane);
 		
 		statusTable = new JTable(data, columnNames);
@@ -76,7 +119,7 @@ public class GUI {
 		statusScrollPane.setViewportView(statusTable);
 		
 		btnpanel = new JPanel();
-		btnpanel.setBounds(510, 673, 381, 39);
+		btnpanel.setBounds(594, 668, 297, 39);
 		frmGameBoard.getContentPane().add(btnpanel);
 		
 		// just click once, then set disable.
@@ -149,12 +192,10 @@ public class GUI {
 
 				(DrawingPanel.N) = 1; 
 				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
-//				System.out.println(DrawingPanel.N);
+				updateTable();
+				statusTable.repaint();
 				gameBoardPanel.repaint();
-				
 				btnStart.setEnabled(false);
-
-				
 			}
 		});
 		
@@ -212,8 +253,62 @@ public class GUI {
 				DrawingPanel.status_old[16] = 0;
 				DrawingPanel.status_old[17] = 0;
 				DrawingPanel.status_old[18] = 0;
+					
+				data[0][0] = "scout";
+				data[0][1] = 1;
+				data[0][2] = 1;
+				data[0][3] = 2;
+				data[0][4] = 3;
+				data[0][5] = 1;
+				data[0][6] = "alive";
 				
-
+				data[1][0] = "sniper";
+				data[1][1] = 2;
+				data[1][2] = 2;
+				data[1][3] = 3;
+				data[1][4] = 2;
+				data[1][5] = 1;
+				data[1][6] = "alive";
+				
+				data[2][0] = "tank";
+				data[2][1] = 3;
+				data[2][2] = 3;
+				data[2][3] = 1;
+				data[2][4] = 1;
+				data[2][5] = 1;
+				data[2][6] = "alive";
+				
+				for (int i = 0; i<=18; i++){
+					rC.delete(i);
+				}
+				
+				rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4)); // empty, no use
+				
+				
+				rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4));
+				rC.createRobot("scout_orange","orange",Color.ORANGE, robotClass.SCOUT, new Point(3,0));
+				rC.createRobot("scout_yellow","yellow",Color.YELLOW, robotClass.SCOUT, new Point(7,0));
+				rC.createRobot("scout_green","green",Color.GREEN, robotClass.SCOUT, new Point(9,4));
+				rC.createRobot("scout_blue","blue",Color.BLUE, robotClass.SCOUT, new Point(7,8));
+				rC.createRobot("scout_purple","purple",Color.MAGENTA, robotClass.SCOUT, new Point(3,8));
+				
+				
+				rC.createRobot("sniper_red","red",Color.RED, robotClass.SNIPER, new Point(1,4));
+				rC.createRobot("sniper_orange","orange",Color.ORANGE, robotClass.SNIPER, new Point(3,0));
+				rC.createRobot("sniper_yellow","yellow",Color.YELLOW, robotClass.SNIPER, new Point(7,0));
+				rC.createRobot("sniper_green","green",Color.GREEN, robotClass.SNIPER, new Point(9,4));
+				rC.createRobot("sniper_blue","blue",Color.BLUE, robotClass.SNIPER, new Point(7,8));
+				rC.createRobot("sniper_purple","purple",Color.MAGENTA, robotClass.SNIPER, new Point(3,8));
+				
+				
+				rC.createRobot("tank_red","red",Color.RED, robotClass.TANK, new Point(1,4));
+				rC.createRobot("tank_orange","orange",Color.ORANGE, robotClass.TANK, new Point(3,0));
+				rC.createRobot("tank_yellow","yellow",Color.YELLOW, robotClass.TANK, new Point(7,0));
+				rC.createRobot("tank_green","green",Color.GREEN, robotClass.TANK, new Point(9,4));
+				rC.createRobot("tank_blue","blue",Color.BLUE, robotClass.TANK, new Point(7,8));
+				rC.createRobot("tank_purple","purple",Color.MAGENTA, robotClass.TANK, new Point(3,8));
+				
+				
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
 			}			
@@ -226,7 +321,9 @@ public class GUI {
 		btnSwitch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-								
+				
+				robotList.getElementAt(DrawingPanel.N).setMoved(0);
+				
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
 					if((DrawingPanel.N) > 18)
@@ -246,6 +343,8 @@ public class GUI {
 				
 				// when overlapping, show the specific robot on the overlapping cell
 				DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				updateTable();
+				statusTable.repaint();
 				gameBoardPanel.repaint();
 				
 				
@@ -258,8 +357,171 @@ public class GUI {
 		gameBoardPanel.setBounds(99, 0, 765, 636);
 		frmGameBoard.getContentPane().add(gameBoardPanel);
 		
-	}
+	} // end of initialize()
+	
+	public static void updateTable(){
+		// for scout turn 
+        if(DrawingPanel.N >= 1 && DrawingPanel.N  <= 6){
+        	// refresh scout row
+        	data[0][1] = robotList.elementAt(DrawingPanel.N).getCurrentHp();
+        	data[0][2] = robotList.elementAt(DrawingPanel.N).getAttackPower();
+        	data[0][3] = robotList.elementAt(DrawingPanel.N).getRange();
+        	data[0][4] = robotList.elementAt(DrawingPanel.N).getMovePoints() - robotList.elementAt(DrawingPanel.N).getMoved();
+        	
+        	
+        	if (robotList.elementAt(DrawingPanel.N).attacked())
+        		data[0][5] = 0;
+        	else 
+        		data[0][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N).alive())
+        		data[0][6] = "alive";
+        	else 
+        		data[0][6] = "dead";
+        	
+        	// refresh sniper row
+        	data[1][1] = robotList.elementAt(DrawingPanel.N + 6).getCurrentHp();
+        	data[1][2] = robotList.elementAt(DrawingPanel.N + 6).getAttackPower();
+        	data[1][3] = robotList.elementAt(DrawingPanel.N + 6).getRange();
+        	data[1][4] = robotList.elementAt(DrawingPanel.N + 6).getMovePoints() - robotList.elementAt(DrawingPanel.N + 6).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 6).attacked())
+        		data[1][5] = 0;
+        	else 
+        		data[1][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 6).alive())
+        		data[1][6] = "alive";
+        	else 
+        		data[1][6] = "dead";
+        	
+        	// refresh tank row
+        	data[2][1] = robotList.elementAt(DrawingPanel.N + 12).getCurrentHp();
+        	data[2][2] = robotList.elementAt(DrawingPanel.N + 12).getAttackPower();
+        	data[2][3] = robotList.elementAt(DrawingPanel.N + 12).getRange();
+        	data[2][4] = robotList.elementAt(DrawingPanel.N + 12).getMovePoints() - robotList.elementAt(DrawingPanel.N + 12).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 12).attacked())
+        		data[2][5] = 0;
+        	else 
+        		data[2][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 12).alive())
+        		data[2][6] = "alive";
+        	else 
+        		data[2][6] = "dead";
+        			
+        }
+        
+        // for sniper turn 
+        else if(DrawingPanel.N  >= 7 && DrawingPanel.N  <= 12){
+        	// refresh scout row
+        	data[0][1] = robotList.elementAt(DrawingPanel.N - 6).getCurrentHp();
+        	data[0][2] = robotList.elementAt(DrawingPanel.N - 6).getAttackPower();
+        	data[0][3] = robotList.elementAt(DrawingPanel.N - 6).getRange();
+        	data[0][4] = robotList.elementAt(DrawingPanel.N - 6).getMovePoints() - robotList.elementAt(DrawingPanel.N - 6).getMoved();
+        	
+
+        	if (robotList.elementAt(DrawingPanel.N - 6).attacked())
+        		data[0][5] = 0;
+        	else 
+        		data[0][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N - 6).alive())
+        		data[0][6] = "alive";
+        	else 
+        		data[0][6] = "dead";
+        	
+        	// refresh sniper row
+        	data[1][1] = robotList.elementAt(DrawingPanel.N ).getCurrentHp();
+        	data[1][2] = robotList.elementAt(DrawingPanel.N).getAttackPower();
+        	data[1][3] = robotList.elementAt(DrawingPanel.N).getRange();
+        	data[1][4] = robotList.elementAt(DrawingPanel.N).getMovePoints() - robotList.elementAt(DrawingPanel.N).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N).attacked())
+        		data[1][5] = 0;
+        	else 
+        		data[1][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N).alive())
+        		data[1][6] = "alive";
+        	else 
+        		data[1][6] = "dead";
+        	
+        	// refresh tank row
+        	data[2][1] = robotList.elementAt(DrawingPanel.N + 6).getCurrentHp();
+        	data[2][2] = robotList.elementAt(DrawingPanel.N + 6).getAttackPower();
+        	data[2][3] = robotList.elementAt(DrawingPanel.N + 6).getRange();
+        	data[2][4] = robotList.elementAt(DrawingPanel.N + 6).getMovePoints() - robotList.elementAt(DrawingPanel.N + 6).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 6).attacked())
+        		data[2][5] = 0;
+        	else 
+        		data[2][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N + 6).alive())
+        		data[2][6] = "alive";
+        	else 
+        		data[2][6] = "dead";
+        		
+        }
+        
+     // for tank turn 
+        else if(DrawingPanel.N  >= 13 && DrawingPanel.N  <= 18){
+        	// refresh scout row
+        	data[0][1] = robotList.elementAt(DrawingPanel.N - 12).getCurrentHp();
+        	data[0][2] = robotList.elementAt(DrawingPanel.N - 12).getAttackPower();
+        	data[0][3] = robotList.elementAt(DrawingPanel.N - 12).getRange();
+        	data[0][4] = robotList.elementAt(DrawingPanel.N - 12).getMovePoints() - robotList.elementAt(DrawingPanel.N - 12).getMoved();
+        	
+
+        	if (robotList.elementAt(DrawingPanel.N - 12).attacked())
+        		data[0][5] = 0;
+        	else 
+        		data[0][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N - 12).alive())
+        		data[0][6] = "alive";
+        	else 
+        		data[0][6] = "dead";
+        	
+        	// refresh sniper row
+        	data[1][1] = robotList.elementAt(DrawingPanel.N - 6).getCurrentHp();
+        	data[1][2] = robotList.elementAt(DrawingPanel.N - 6).getAttackPower();
+        	data[1][3] = robotList.elementAt(DrawingPanel.N - 6).getRange();
+        	data[1][4] = robotList.elementAt(DrawingPanel.N - 6).getMovePoints() - robotList.elementAt(DrawingPanel.N - 6).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N - 6).attacked())
+        		data[1][5] = 0;
+        	else 
+        		data[1][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N - 6).alive())
+        		data[1][6] = "alive";
+        	else 
+        		data[1][6] = "dead";
+        	
+        	// refresh tank row
+        	data[2][1] = robotList.elementAt(DrawingPanel.N).getCurrentHp();
+        	data[2][2] = robotList.elementAt(DrawingPanel.N).getAttackPower();
+        	data[2][3] = robotList.elementAt(DrawingPanel.N).getRange();
+        	data[2][4] = robotList.elementAt(DrawingPanel.N).getMovePoints() - robotList.elementAt(DrawingPanel.N).getMoved();
+        	
+        	if (robotList.elementAt(DrawingPanel.N).attacked())
+        		data[2][5] = 0;
+        	else 
+        		data[2][5] = 1;
+        	
+        	if (robotList.elementAt(DrawingPanel.N).alive())
+        		data[2][6] = "alive";
+        	else 
+        		data[2][6] = "dead";
+        }
+        else;
+	} 
+	
+	
 	
 
 	
-}
+} // end of GUI class
