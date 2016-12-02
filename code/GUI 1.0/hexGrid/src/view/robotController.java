@@ -23,9 +23,7 @@ public class robotController {
     Lock lock = new ReentrantLock();
     
    robotController(DefaultListModel<robot> newRobotList){
-    	robotList = newRobotList;
-    	//gameboardList = newGameboardList;
-    
+    	robotList = newRobotList;    
     }
 
 
@@ -43,31 +41,7 @@ public class robotController {
             lock.unlock();
         }
     }
-    
-//    
-//    /**
-//     *
-//     * @return
-//     */
-//    public void UpdateRobots(int newDirection, int newCurrentHp, int newMoved, boolean newLifeStatus, boolean newAttackStatus, int index, Point newLocation){
-//        try{
-//            lock.lock();
-//            robot temp = robotList.get(index);
-//            temp.setDirection(newDirection);
-//            temp.setCurrentHp(newCurrentHp);
-//            temp.setMoved(newMoved);
-//            temp.setAlive(newLifeStatus);
-//            temp.setAttacked(newAttackStatus);
-//            temp.setLocation(newLocation);
-//            //temp.setDamageCaused(newDamageCaused);
-//            //temp.setTilesMoved(newTilesMoved);
-//            //temp.setKills(newKills);
-//            robotList.setElementAt(temp, index);
-//        }
-//        finally{
-//            lock.unlock();
-//        }
-//    }
+
       
     
     /**
@@ -85,48 +59,44 @@ public class robotController {
     }  
     
     
-//    public void resetRobotList(){
-//    	for(int i = 0; i<= 18; i++){
-//    		if(robotlist.getElementAt(i).type == robotClass.SCOUT){
-//    			range = 2;
-//    			movePoints = 3;
-//    			maxHp = 1;
-//    			attackPower = 1;
-//    		}
-//    		if(type == robotClass.SNIPER){
-//    			range = 3;
-//    			movePoints = 2;
-//    			maxHp = 2;
-//    			attackPower = 2;
-//
-//    		}
-//    		if(type == robotClass.TANK){
-//    			range = 1;
-//    			movePoints = 1;
-//    			maxHp = 3;
-//    			attackPower = 3;
-//    		}
-//    		currentHp = maxHp;
-//    		alive = true;
-//    		attacked = false;
-//    		moved = 0;
-//    		tilesMoved=0;
-//    		kills = 0;
-//    		direction = 0;
-//    		
-//    		this.name = newName;
-//    		this.team = newTeam;
-//    		this.color = newColor;
-//    		this.location = location;
-//    	}
-//    }
+    // reset all robot after press "end" button
+    public void resetRobotList(){
+    	for(int i = 0; i<= 18; i++){
+    		robotList.getElementAt(i).setCurrentHp(robotList.getElementAt(i).getMaxHp());
+    		robotList.getElementAt(i).setAlive(true);
+    		robotList.getElementAt(i).setAttacked(false);
+    		robotList.getElementAt(i).setMoved(0);
+
+    		if(robotList.getElementAt(i).getColor().equals(Color.red)){
+    			robotList.getElementAt(i).setDirection(0);
+    			robotList.getElementAt(i).setLocation(new Point(1,4));
+    		}
+    		else if(robotList.getElementAt(i).getColor().equals(Color.orange)){
+    			robotList.getElementAt(i).setDirection(1);
+    			robotList.getElementAt(i).setLocation(new Point(3,0));
+    		}
+    		else if(robotList.getElementAt(i).getColor().equals(Color.yellow)){
+    			robotList.getElementAt(i).setDirection(2);
+    			robotList.getElementAt(i).setLocation(new Point(7,0));
+    		}
+    		else if(robotList.getElementAt(i).getColor().equals(Color.green)){
+    			robotList.getElementAt(i).setDirection(3);
+    			robotList.getElementAt(i).setLocation(new Point(9,4));
+    		}
+    		else if(robotList.getElementAt(i).getColor().equals(Color.blue)){
+    			robotList.getElementAt(i).setDirection(4);
+    			robotList.getElementAt(i).setLocation(new Point(7,8));
+    		}
+    		else if(robotList.getElementAt(i).getColor().equals(Color.MAGENTA)){
+    			robotList.getElementAt(i).setDirection(5);
+    			robotList.getElementAt(i).setLocation(new Point(3,8));
+    		}
+    		else;
+    	}
+    }
     
     
-    
-    
-    
-    
-    
+
     public void move (robot currentRobot, int direction){
     	// update the coordinates and movePoints info in robotList after each move
     	if (canMove(currentRobot)){ 
@@ -145,11 +115,26 @@ public class robotController {
     	return (currentRobot.getMoved() < currentRobot.getMovePoints());
     }
     
-//    public boolean isInAttackRange(robot currentRobot, Point target){
-//    	
-//    }
+    public boolean canShoot(robot currentRobot){
+    	return !(currentRobot.attacked());
+    }
     
-    // helper function
+    
+    public boolean inRange(robot currentRobot, Point target){
+    	
+    	if(currentRobot.getType() ==  robotClass.SCOUT)
+    		return ! (hexmech_pointy.checkOutofScoutRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    	else if(currentRobot.getType() ==  robotClass.SNIPER)
+    		return ! (hexmech_pointy.checkOutofSniperRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    	else if(currentRobot.getType() ==  robotClass.TANK)
+    		return ! (hexmech_pointy.checkOutofTankRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    	else
+    		return false;
+    	
+    }
+    
+    
+    // helper function for move
     public int PointToDirection(robot currentRobot, Point np){
     	int mx = currentRobot.getLocation().x;
     	int my = currentRobot.getLocation().y;
@@ -188,6 +173,8 @@ public class robotController {
     	}
     }
     
+    // helper function for move
+    // transfer direction info to the corresponding location info 
     public Point DirectionToPoint(robot currentRobot, int nDirection){
     	int mx = currentRobot.getLocation().x;
     	int my = currentRobot.getLocation().y;
@@ -228,6 +215,7 @@ public class robotController {
     	
     }
     
+    // helper function for move
     public void turn(robot currentRobot){
     	int currentDirection = currentRobot.getDirection();
     	currentDirection++;
@@ -236,43 +224,55 @@ public class robotController {
     	currentRobot.setDirection(currentDirection);
     }
     
+    // ==============================================================
     
-
-   public DefaultListModel<robot> getRobotOnTile (Point target) {
-//	   DefaultListModel<robot> robotsOnTile = null;
-	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
-	   for (int i = 0; i < robotList.getSize(); i++) {
-		   // find the target by searching the robotList
-		   if (robotList.getElementAt(i).getLocation() == target) { 
-			   // add the robots on this specific tile to a temporary robot list
-			   robotsOnTile.addElement(robotList.getElementAt(i));
-		   }
-	   }
-	   return robotsOnTile;	   
-   }
+    
     
     
     public void attack(robot currentRobot, Point target){
     	// check if the robot have attacked or not during this term
-    	if (currentRobot.attacked() == false) {
-    		for (int i = 0; i < getRobotOnTile(target).getSize(); i++) {
+    	if (!(currentRobot.attacked()) && inRange(currentRobot, target)) {
+    		for (int i = 0; i < identify(target).getSize(); i++) {
     			// calculate HP changes
-    			int oldHP = getRobotOnTile(target).getElementAt(i).getCurrentHp();
+    			int oldHP = identify(target).getElementAt(i).getCurrentHp();
     			int newHP = oldHP - currentRobot.getAttackPower();
     			// update the HP changes
-    			getRobotOnTile(target).getElementAt(i).setCurrentHp(newHP);
-    			if (getRobotOnTile(target).getElementAt(i).getCurrentHp() <=0) {
-    				getRobotOnTile(target).getElementAt(i).setCurrentHp(0);
-    				getRobotOnTile(target).getElementAt(i).setAlive(false);
+    			identify(target).getElementAt(i).setCurrentHp(newHP);
+    			if (identify(target).getElementAt(i).getCurrentHp() <=0) {
+    				identify(target).getElementAt(i).setCurrentHp(0);
+    				identify(target).getElementAt(i).setAlive(false);
     			}
     		}
     		currentRobot.setAttacked(true);
-    		
     	}	
     }
 
-    	
     
+    
+    public DefaultListModel<robot> identify(Point target) {
+ 	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
+ 	   for (int i = 0; i < robotList.getSize(); i++) {
+ 		   // find the target by searching the robotList
+ 		   if (robotList.getElementAt(i).getLocation().x == target.x && robotList.getElementAt(i).getLocation().y == target.y) { 
+ 			   // add the robots on this specific tile to a temporary robot list
+ 			   robotsOnTile.addElement(robotList.getElementAt(i));
+ 		   }
+ 	   }
+ 	   return robotsOnTile;	   
+    }
+    
+    
+    
+//    // for AI shooting 
+//    public Point scan(robot currentRobot){
+//    	
+//    }
+//
+//    
+//    // for AI move 
+//    public String check(robot currentRobot, int direction){
+//    	
+//    }  
     
     
     

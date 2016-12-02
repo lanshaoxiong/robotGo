@@ -2,6 +2,8 @@ package view;
 
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.*;
 
 
@@ -59,7 +61,7 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 								Toolkit.getDefaultToolkit().getImage("img/tank-blue.png"),
 								Toolkit.getDefaultToolkit().getImage("img/tank-purple.png")};
 
-	
+//	public static AffineTransform identity = new AffineTransform();
 
 	
 	public static void setXYasVertex(boolean b) {
@@ -213,17 +215,19 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			
 			// for the all scouts
 			if ( DrawingPanel.N >= 1 && DrawingPanel.N <= 6){
-				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
 				showScoutRange(i,j,DrawingPanel.N, n, g2);
+				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
 				showSniperRange(i,j,DrawingPanel.N + 6, n, g2);
+				
 			
 			}
 			
 			// for the all snipers
 			else if ( DrawingPanel.N >= 7 && DrawingPanel.N <= 12){
+				showSniperRange(i,j,DrawingPanel.N, n, g2);
 				showTankRange(i,j, DrawingPanel.N + 6, n, g2);
 				showScoutRange(i,j,DrawingPanel.N - 6, n, g2);
-				showSniperRange(i,j,DrawingPanel.N, n, g2);
+				
 			}
 			
 
@@ -231,7 +235,8 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			else if ( DrawingPanel.N >= 13 && DrawingPanel.N <= 18){
 				showTankRange(i,j, DrawingPanel.N, n, g2);
 				showScoutRange(i,j,DrawingPanel.N - 12, n, g2);
-				showSniperRange(i,j,DrawingPanel.N - 6, n, g2);				
+				showSniperRange(i,j,DrawingPanel.N - 6, n, g2);	
+				
 			}
 			else;
 	
@@ -261,27 +266,45 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				g2.fillPolygon(hex(x,y));
 				g2.setColor(DrawingPanel.COLOURGRID);
 				g2.drawPolygon(hex(x,y));
-				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+				//g2.drawImage(img[n], x+r, y+r, 40, 40, null);
 			}
 			
+			
+//		// rotate part 
+//			AffineTransform trans = new AffineTransform();
+//////			trans.setTransform(identity);
+////			trans.scale(40, 40);
+////
+////			trans.rotate( Math.toRadians(60) ,x+r,x+r);
+
 			
 
 		// add the image of picture		
 		if((n>=1) && (n<=6) &&  (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+			if((GUI.robotList.getElementAt(n).alive())){
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+
+
+			}
 		}
 		
 		else if((n>=7) && (n<=12) &&  (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+			if((GUI.robotList.getElementAt(n).alive())){
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+
+			}
 		}
 		else if((n>=13) && (n<=18) &&  (DrawingPanel.N == n || DrawingPanel.N == n-6 || DrawingPanel.N == n-12 || DrawingPanel.N == 0)){
-			g2.setColor(DrawingPanel.COLOURGRID);
-			g2.drawPolygon(hex(x,y));
-			g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+			if((GUI.robotList.getElementAt(n).alive())){
+				g2.setColor(DrawingPanel.COLOURGRID);
+				g2.drawPolygon(hex(x,y));
+				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
+
+			}
 		}
 		else;
 			
@@ -358,14 +381,18 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 	public static void showScoutRange( int i, int j, int rN,int n, Graphics2D g2){
 		int x = i*2*r + (j%2) * r;
 		int y = j*(s+t);
-		
+		if ((GUI.robotList.getElementAt(rN).alive())){
 			if ((i <= DrawingPanel.p_old[rN].x + 2) && (i >= DrawingPanel.p_old[rN].x - 2) && (j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2)  ){
-				g2.setColor(DrawingPanel.COLOURSHADOW);
+				if(DrawingPanel.N == rN){
+					g2.setColor(DrawingPanel.COLOURSHOOT);
+				}
+				else 
+					g2.setColor(DrawingPanel.COLOURSHADOW);
 				g2.fillPolygon(hex(x,y));
 				g2.setColor(DrawingPanel.COLOURGRID);
 				g2.drawPolygon(hex(x,y));
 				
-				if(n>0){
+				if(n>0 && (GUI.robotList.getElementAt(n).alive()) ){
 					g2.setColor(DrawingPanel.COLOURGRID);
 					g2.drawPolygon(hex(x,y));
 					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
@@ -380,41 +407,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			}
 			else;
 			
-//			if(checkOutofScoutRange(i,j,rN) &&checkOutofSniperRange(i,j,rN+6) && checkOutofTankRange(i,j,rN+12)){
-//				g2.setColor(DrawingPanel.COLOURCELL);
-//				g2.fillPolygon(hex(x,y));
-//				g2.setColor(DrawingPanel.COLOURGRID);
-//				g2.drawPolygon(hex(x,y));
-//			}
-			
-//			if ((DrawingPanel.p_old[rN].y % 2) == 0){
-//				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				if((i == DrawingPanel.p_old[rN].x - 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//			}
-//			else{
-//				if((i == DrawingPanel.p_old[rN].x - 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				if((i == DrawingPanel.p_old[rN].x + 2) && ((j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//			}
+		}
 		
 	}// end of showScoutRange
 	
@@ -426,13 +419,18 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			int x = i*2*r + (j%2) * r;
 			int y = j*(s+t);
 	
+			if ((GUI.robotList.getElementAt(rN).alive())){
 			if ((i <= DrawingPanel.p_old[rN].x + 3) && (i >= DrawingPanel.p_old[rN].x - 3) && (j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3)  ){
-				g2.setColor(DrawingPanel.COLOURSHADOW);
+				if(DrawingPanel.N == rN){
+					g2.setColor(DrawingPanel.COLOURSHOOT);
+				}
+				else 
+					g2.setColor(DrawingPanel.COLOURSHADOW);
 				g2.fillPolygon(hex(x,y));
 				g2.setColor(DrawingPanel.COLOURGRID);
 				g2.drawPolygon(hex(x,y));
 
-				if(n > 0){
+				if(n > 0 && (GUI.robotList.getElementAt(n).alive())){
 					g2.setColor(DrawingPanel.COLOURGRID);
 					g2.drawPolygon(hex(x,y));
 					g2.drawImage(img[n], x+r, y+r, 40, 40, null);
@@ -449,56 +447,8 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				
 			}
 			else;
-			
-//			if(checkOutofScoutRange(i,j,rN-6) &&checkOutofSniperRange(i,j,rN) && checkOutofTankRange(i,j,rN+6)){
-//				g2.setColor(DrawingPanel.COLOURCELL);
-//				g2.fillPolygon(hex(x,y));
-//				g2.setColor(DrawingPanel.COLOURGRID);
-//				g2.drawPolygon(hex(x,y));
-//			}
-			
-//			if ((DrawingPanel.p_old[rN].y % 2) == 0){
-//				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				if(((i == DrawingPanel.p_old[rN].x + 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				
-//				if(((i == DrawingPanel.p_old[rN].x - 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y - 2) || (j == DrawingPanel.p_old[rN].y + 2) ) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//			}
-//			else{
-//				if((i == DrawingPanel.p_old[rN].x - 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				if(((i == DrawingPanel.p_old[rN].x - 2)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) ) ){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//				
-//				if(((i == DrawingPanel.p_old[rN].x + 3)) && ((j == DrawingPanel.p_old[rN].y - 3) || (j == DrawingPanel.p_old[rN].y + 3) || (j == DrawingPanel.p_old[rN].y + 2)|| (j == DrawingPanel.p_old[rN].y - 2))){
-//					g2.setColor(DrawingPanel.COLOURCELL);
-//					g2.fillPolygon(hex(x,y));
-//					g2.setColor(DrawingPanel.COLOURGRID);
-//					g2.drawPolygon(hex(x,y));
-//				}
-//			}
+			}
+
 		
 	} // end of showSniperRange
 	
@@ -508,13 +458,19 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				int y = j*(s+t);
 
 				// for the all tanks
+				    if ((GUI.robotList.getElementAt(rN).alive())){
 					if ((i <= DrawingPanel.p_old[rN].x + 1) && (i >= DrawingPanel.p_old[rN].x - 1) && (j >= DrawingPanel.p_old[rN].y - 1) && (j <= DrawingPanel.p_old[rN].y + 1)  ){
-						g2.setColor(DrawingPanel.COLOURSHADOW);
+						
+						if(DrawingPanel.N == rN){
+							g2.setColor(DrawingPanel.COLOURSHOOT);
+						}
+						else 
+							g2.setColor(DrawingPanel.COLOURSHADOW);
 						g2.fillPolygon(hex(x,y));
 						g2.setColor(DrawingPanel.COLOURGRID);
 						g2.drawPolygon(hex(x,y));
 						
-						if(n > 0){
+						if(n > 0 && (GUI.robotList.getElementAt(n).alive())){
 							g2.setColor(DrawingPanel.COLOURGRID);
 							g2.drawPolygon(hex(x,y));
 							g2.drawImage(img[n], x+r, y+r, 40, 40, null);
@@ -528,37 +484,16 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 						}
 					}
 					else;
+				    }
 					
-//					if(checkOutofScoutRange(i,j,rN-12) && checkOutofSniperRange(i,j,rN-6) && checkOutofTankRange(i,j,rN)){
-//						g2.setColor(DrawingPanel.COLOURCELL);
-//						g2.fillPolygon(hex(x,y));
-//						g2.setColor(DrawingPanel.COLOURGRID);
-//						g2.drawPolygon(hex(x,y));
-//					}
-					
-//					if ((DrawingPanel.p_old[rN].y % 2) == 0){
-//						if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
-//							g2.setColor(DrawingPanel.COLOURCELL);
-//							g2.fillPolygon(hex(x,y));
-//							g2.setColor(DrawingPanel.COLOURGRID);
-//							g2.drawPolygon(hex(x,y));
-//						}
-//					}
-//					else{
-//						if((i == DrawingPanel.p_old[rN].x - 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
-//							g2.setColor(DrawingPanel.COLOURCELL);
-//							g2.fillPolygon(hex(x,y));
-//							g2.setColor(DrawingPanel.COLOURGRID);
-//							g2.drawPolygon(hex(x,y));
-//						}
-//					}
+
 				} // end of showRange of tank
 	
 	
 	
 	// helper function:
 	public static boolean checkOutofTankRange(int i, int j, int rN){
-		
+		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 1) && (i >= DrawingPanel.p_old[rN].x - 1) && (j >= DrawingPanel.p_old[rN].y - 1) && (j <= DrawingPanel.p_old[rN].y + 1)  ){
 			if ((DrawingPanel.p_old[rN].y % 2) == 0){
 				if((i == DrawingPanel.p_old[rN].x + 1) && ((j == DrawingPanel.p_old[rN].y - 1) || (j == DrawingPanel.p_old[rN].y + 1)) ){
@@ -578,12 +513,15 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		}
 		else 
 			return true;
-		
+		}
+		else 
+			return true;
 		
 	} // end of checkOutofTankRange
 	
 	
 	public static boolean checkOutofSniperRange(int i, int j, int rN){
+		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 3) && (i >= DrawingPanel.p_old[rN].x - 3) && (j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3)  ){
 			if ((DrawingPanel.p_old[rN].y % 2) == 0){
 				if((i == DrawingPanel.p_old[rN].x + 3) && ((j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3) && (j != DrawingPanel.p_old[rN].y)) ){
@@ -617,11 +555,14 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		}
 		else
 			return true;
+		}
+		else 
+			return true;
 		
 	} // end of checkoutofSniperrange
 	
 	public static boolean checkOutofScoutRange(int i, int j, int rN){
-		
+		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 2) && (i >= DrawingPanel.p_old[rN].x - 2) && (j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2)){
 			if ((DrawingPanel.p_old[rN].y % 2) == 0){
 				if((i == DrawingPanel.p_old[rN].x + 2) && ((j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2) && (j != DrawingPanel.p_old[rN].y)) ){
@@ -646,7 +587,9 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		}
 		else 
 			return true;
-		
+		}
+		else 
+			return true;
 	} // end of checkOutofScoutrange
 	
 		

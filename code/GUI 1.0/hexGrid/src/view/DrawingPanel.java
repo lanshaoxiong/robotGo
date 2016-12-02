@@ -31,6 +31,7 @@ public class DrawingPanel extends JPanel
 			final static Color COLOURONETXT = Color.BLUE;
 			final static Color COLOURGRAY = Color.gray; 
 			final static Color COLOURSHADOW = Color.white;
+			final static Color COLOURSHOOT = Color.white;
 			
 			final static Color COLOURTWOTXT = new Color(255,100,255);
 			final static int EMPTY = 0;
@@ -284,74 +285,41 @@ public class DrawingPanel extends JPanel
 		    ActionListener attackActionListener = new ActionListener() {
 			     public void actionPerformed(ActionEvent a) {
 			    	Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
-			    	GUI.rC.attack((GUI.robotList).elementAt(N), p);
-			    	// for scout 
-			        if(N >= 1 && N <= 6){
-			        	GUI.data[0][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-			        	GUI.data[0][2] = (GUI.robotList).elementAt(N).getAttackPower();
-			        	GUI.data[0][3] = (GUI.robotList).elementAt(N).getMovePoints();
-			        	GUI.data[0][4] = (GUI.robotList).elementAt(N).getRange();
-			        	if ( (GUI.robotList).elementAt(N).alive())
-			        		GUI.data[0][5] = "alive";
-			        	else 
-			        		GUI.data[0][5] = "dead";
-			        		
-			        }
-			        
-			        // for sniper
-			        else if(N >= 7 && N <= 12){
-			        	GUI.data[1][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-			        	GUI.data[1][2] = (GUI.robotList).elementAt(N).getAttackPower();
-			        	GUI.data[1][3] = (GUI.robotList).elementAt(N).getMovePoints();
-			        	GUI.data[1][4] = (GUI.robotList).elementAt(N).getRange();
-			        	if ( (GUI.robotList).elementAt(N).alive())
-			        		GUI.data[1][5] = "alive";
-			        	else 
-			        		GUI.data[1][5] = "dead";
-			        		
-			        }
-			        
-			     // for tank
-			        else if(N >= 13 && N <= 18){
-			        	GUI.data[2][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-			        	GUI.data[2][2] = (GUI.robotList).elementAt(N).getAttackPower();
-			        	GUI.data[2][3] = (GUI.robotList).elementAt(N).getMovePoints();
-			        	GUI.data[2][4] = (GUI.robotList).elementAt(N).getRange();
-			        	if ( (GUI.robotList).elementAt(N).alive())
-			        		GUI.data[2][5] = "alive";
-			        	else 
-			        		GUI.data[2][5] = "dead";
-			        		
-			        }
-			        
-			        else;
-    	
-//			        if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
-//			        
-//			        // for scout 
-//			        if(N >= 1 && N <= 6){
-//			        	if(!hexmech_pointy.checkOutofScoutRange(p.x, p.y, N))
-//			        		
-//			        		
-//			        }
-//			        
-//			        // for sniper 
-//			        else if (N >= 7 && N <=12){
-//			        	
-//			        }
-//			        
-//			        // for tank
-//			        else if (N >= 13 && N <= 18){
-//			        	
-//			        }
-//			        
-//			        else;
-			        
+			    	
 
-			    	popup_move.hide();
-			    	popup_attack.hide();
-			    	popup_cancel.hide();
-			    	repaint();
+			    	
+			    	if(GUI.rC.canShoot((GUI.robotList).elementAt(N))){
+			    		
+			    		// for scout 
+			    		if(N >= 1 && N<=6){
+			    			if(! hexmech_pointy.checkOutofScoutRange(p.x, p.y, N)){
+			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
+			    			}
+			    		}
+			    		
+			    		// for sniper 
+			    		else if (N >= 7 && N<=12){
+			    			if(! hexmech_pointy.checkOutofSniperRange(p.x, p.y, N)){
+			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
+			    			}
+			    		}
+			    		
+			    		// for tank
+			    		else if (N >= 13 && N<=18){
+			    			if(! hexmech_pointy.checkOutofTankRange(p.x, p.y, N)){
+			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
+			    			}
+			    		}
+			    		else;	
+			    	}
+			    	
+			    	
+			    	GUI.updateTable();
+		        	popup_move.hide();
+		        	popup_attack.hide();
+		        	popup_cancel.hide();
+		        	repaint();
+		        	GUI.statusTable.repaint();
 			     }
 			 };
 			 
@@ -360,51 +328,7 @@ public class DrawingPanel extends JPanel
 						
 						Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
-			        	
-//			        	GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
-//				    	// for scout 
-//				        if(N >= 1 && N <= 6){
-//				        	GUI.data[0][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-//				        	GUI.data[0][2] = (GUI.robotList).elementAt(N).getAttackPower();
-//				        	GUI.data[0][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
-//				        	System.out.println(GUI.data[0][3]);
-//				        	GUI.data[0][4] = (GUI.robotList).elementAt(N).getRange();
-//				        	if ( (GUI.robotList).elementAt(N).alive())
-//				        		GUI.data[0][5] = "alive";
-//				        	else 
-//				        		GUI.data[0][5] = "dead";
-//				        		
-//				        }
-//				        
-//				        // for sniper
-//				        else if(N >= 7 && N <= 12){
-//				        	GUI.data[1][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-//				        	GUI.data[1][2] = (GUI.robotList).elementAt(N).getAttackPower();
-//				        	GUI.data[1][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
-//				        	GUI.data[1][4] = (GUI.robotList).elementAt(N).getRange();
-//				        	if ( (GUI.robotList).elementAt(N).alive())
-//				        		GUI.data[1][5] = "alive";
-//				        	else 
-//				        		GUI.data[1][5] = "dead";
-//				        		
-//				        }
-//				        
-//				     // for tank
-//				        else if(N >= 13 && N <= 18){
-//				        	GUI.data[2][1] = (GUI.robotList).elementAt(N).getCurrentHp();
-//				        	GUI.data[2][2] = (GUI.robotList).elementAt(N).getAttackPower();
-//				        	GUI.data[2][3] = (GUI.robotList).elementAt(N).getMovePoints() - (GUI.robotList).elementAt(N).getMoved();
-//				        	GUI.data[2][4] = (GUI.robotList).elementAt(N).getRange();
-//				        	if ( (GUI.robotList).elementAt(N).alive())
-//				        		GUI.data[2][5] = "alive";
-//				        	else 
-//				        		GUI.data[2][5] = "dead";
-//				        		
-//				        }
-//				        
-//				        else;
-			        	
-			        	
+			      
 			        	
 			        	// walk one cell each click time 
 			        	if (GUI.rC.canMove((GUI.robotList).elementAt(N))){

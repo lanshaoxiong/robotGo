@@ -18,6 +18,7 @@ public class robot {
 	private int movePoints;
 	private int moved;
 	private boolean alive;
+	private robotClass type;
 	
 	private int damageCaused;
 	private int tilesMoved;
@@ -54,19 +55,33 @@ public class robot {
 			maxHp = 3;
 			attackPower = 3;
 		}
+		
+		// initialize the direction for different team.
+		if(newColor.equals(Color.red))
+			direction = 0;
+		else if(newColor.equals(Color.orange))
+			direction = 1;
+		else if(newColor.equals(Color.yellow))
+			direction = 2;
+		else if(newColor.equals(Color.green))
+			direction = 3;
+		else if(newColor.equals(Color.blue))
+			direction = 4;
+		else if(newColor.equals(Color.MAGENTA))
+			direction = 5;
+		else;
+		
 		currentHp = maxHp;
 		alive = true;
 		attacked = false;
-//		canMove = true;
 		moved = 0;
 		tilesMoved=0;
 		kills = 0;
-		direction = 0;
-		
 		this.name = newName;
 		this.team = newTeam;
 		this.color = newColor;
 		this.location = location;
+		this.type = type;
 	}
 	
 	public String getName(){
@@ -135,6 +150,11 @@ public class robot {
 	public String getforthCode(){
 		return forthCode;
 	}
+	
+	public robotClass getType(){
+		return type;
+	}
+	
 	
 	
 	public void setName(String newName){

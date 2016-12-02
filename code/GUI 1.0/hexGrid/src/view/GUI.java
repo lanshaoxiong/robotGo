@@ -33,6 +33,7 @@ public class GUI {
 		
 	public static DefaultListModel<robot> robotList = new DefaultListModel<robot>();
 	public static robotController rC = new robotController(robotList);
+	public static int temp = 1;
 	
 	
 	public static Object[][] data = {
@@ -77,7 +78,7 @@ public class GUI {
 	private void initialize() {
 		
 		// initialize the robot in 1 - 18 order
-		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4)); // empty, no use
+		rC.createRobot("empty","empty",Color.RED, robotClass.SCOUT, new Point(0,0)); // empty, no use
 		
 		
 		rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4));
@@ -278,37 +279,8 @@ public class GUI {
 				data[2][5] = 1;
 				data[2][6] = "alive";
 				
-				for (int i = 0; i<=18; i++){
-					rC.delete(i);
-				}
-				
-				rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4)); // empty, no use
-				
-				
-				rC.createRobot("scout_red","red",Color.RED, robotClass.SCOUT, new Point(1,4));
-				rC.createRobot("scout_orange","orange",Color.ORANGE, robotClass.SCOUT, new Point(3,0));
-				rC.createRobot("scout_yellow","yellow",Color.YELLOW, robotClass.SCOUT, new Point(7,0));
-				rC.createRobot("scout_green","green",Color.GREEN, robotClass.SCOUT, new Point(9,4));
-				rC.createRobot("scout_blue","blue",Color.BLUE, robotClass.SCOUT, new Point(7,8));
-				rC.createRobot("scout_purple","purple",Color.MAGENTA, robotClass.SCOUT, new Point(3,8));
-				
-				
-				rC.createRobot("sniper_red","red",Color.RED, robotClass.SNIPER, new Point(1,4));
-				rC.createRobot("sniper_orange","orange",Color.ORANGE, robotClass.SNIPER, new Point(3,0));
-				rC.createRobot("sniper_yellow","yellow",Color.YELLOW, robotClass.SNIPER, new Point(7,0));
-				rC.createRobot("sniper_green","green",Color.GREEN, robotClass.SNIPER, new Point(9,4));
-				rC.createRobot("sniper_blue","blue",Color.BLUE, robotClass.SNIPER, new Point(7,8));
-				rC.createRobot("sniper_purple","purple",Color.MAGENTA, robotClass.SNIPER, new Point(3,8));
-				
-				
-				rC.createRobot("tank_red","red",Color.RED, robotClass.TANK, new Point(1,4));
-				rC.createRobot("tank_orange","orange",Color.ORANGE, robotClass.TANK, new Point(3,0));
-				rC.createRobot("tank_yellow","yellow",Color.YELLOW, robotClass.TANK, new Point(7,0));
-				rC.createRobot("tank_green","green",Color.GREEN, robotClass.TANK, new Point(9,4));
-				rC.createRobot("tank_blue","blue",Color.BLUE, robotClass.TANK, new Point(7,8));
-				rC.createRobot("tank_purple","purple",Color.MAGENTA, robotClass.TANK, new Point(3,8));
-				
-				
+				rC.resetRobotList();
+						
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
 			}			
@@ -323,21 +295,52 @@ public class GUI {
 			public void mouseClicked(MouseEvent e) {
 				
 				robotList.getElementAt(DrawingPanel.N).setMoved(0);
+				robotList.getElementAt(DrawingPanel.N).setAttacked(false);
 				
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
+					while(!robotList.getElementAt(DrawingPanel.N).alive()){
+						DrawingPanel.N = DrawingPanel.N + 3;
+						if((DrawingPanel.N) > 18)
+							(DrawingPanel.N) = 1;
+					}
 				}
+				
+				
+//				if (DrawingPanel.Q == 2){
+//					DrawingPanel.N = temp;
+//					DrawingPanel.N = DrawingPanel.N + 3;
+//					if((DrawingPanel.N) > 18)
+//						(DrawingPanel.N) = 1;
+//					temp = DrawingPanel.N;
+//					while(!robotList.getElementAt(DrawingPanel.N).alive()){
+//						DrawingPanel.N = DrawingPanel.N + 6;
+//						if((DrawingPanel.N) > 18)
+//							DrawingPanel.N = 1;
+//					}
+//					
+//				}
 				else if (DrawingPanel.Q == 3){
 					DrawingPanel.N = DrawingPanel.N + 2;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
+					while(!robotList.getElementAt(DrawingPanel.N).alive()){
+						DrawingPanel.N = DrawingPanel.N + 2;
+						if((DrawingPanel.N) > 18)
+							(DrawingPanel.N) = 1;
+					}
 				}
 				else if (DrawingPanel.Q == 6){
 					DrawingPanel.N = DrawingPanel.N + 1;
 					if((DrawingPanel.N) > 18)
 						(DrawingPanel.N) = 1;
+					while(!robotList.getElementAt(DrawingPanel.N).alive()){
+						DrawingPanel.N = DrawingPanel.N + 1;
+						if((DrawingPanel.N) > 18)
+							(DrawingPanel.N) = 1;
+					}
 				}
 				else;
 				
