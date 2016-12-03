@@ -20,7 +20,7 @@ public class GUI {
 	private JButton btnSwitch;
 	private JScrollPane statusScrollPane;
 	private JPanel btnpanel;
-	private DrawingPanel gameBoardPanel;
+	static DrawingPanel gameBoardPanel;
 	
 	public String[] columnNames = {
 			"Robot Name",
@@ -296,6 +296,7 @@ public class GUI {
 				
 				robotList.getElementAt(DrawingPanel.N).setMoved(0);
 				robotList.getElementAt(DrawingPanel.N).setAttacked(false);
+				robotController.scanTileList.removeAllElements();
 				
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
