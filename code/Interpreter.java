@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.Stack;
 import models.*;
 
@@ -7,20 +8,22 @@ public class Interpreter {
 	public Stack<Object> DS;
 	public Stack<Object> CS;
 	public Stack<Object> ConS;
-	public Stack<Integer> loopCount;
+	public Stack<Object> loopCount;
 	public Stack<Object> LS;
 	public words W;
 	public variables V;
+	public robot currentRobot;
 	Interpreter() {
 		DS = new Stack<Object>();
 		CS = new Stack<Object>();
 		ConS = new Stack<Object>();
-		loopCount = new Stack<Integer>();
+		loopCount = new Stack<Object>();
 		LS = new Stack<Object>();
 		
 		//String options[]= {"+","-","*","/mod","<",">","<=",">=","=","<>",".","random", "(", "drop", "dup", "swap", "rot", "and", "or", "invert", "if", "else", "then", "do", "loop", "health", "healthleft", "moves", "movesleft", "attack", "range", "team", "type", "turn!", "move!", "shoot!", "check!", "identify!", "send!", "mesg?", "recv!"};
 		words W = new words();
 		variables V = new variables();
+		
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -60,18 +63,18 @@ public class Interpreter {
 		*/
 		//I.Read(": Sentence Hey how are you ; variable NUMBER");
 		//System.out.println(words.findWord("Sentence"));
-		
-		//System.out.println(I.CS.pop());
+		//System.out.println(variables.findVariable("NUMBER"));
 		//I.Play("1 1 + . 4 3 - . 2 5 * . 47 5 /mod . . ");
 		//I.Play("1 drop 2 dup . 3 swap . . ");
-		I.Play(" true if 1 drop 2 dup . 3 swap . . else NO . then end . " );
-		I.Play("1 2 = if equal else unequal then .");
-		I.Play("1 1 <> if different else the_same then . ");
-		I.Play("same same <> if different else same then .");
+		//I.Play(" false if HI . else NO . then END ." );
+		//I.Play("1 2 = if equal else unequal then .");
+		//I.Play("1 1 <> if different else the_same then . ");
+		//I.Play("same same <> if different else same then .");
+		
+		I.Play("4 0 do 5 0 do I 1 + . loop loop");
 		
 		
 	}
-	
 	public void Play(String play) throws Exception{
 		Tokenize1 (play);
 		
@@ -80,24 +83,51 @@ public class Interpreter {
 		//"else", "then", "do", "loop", "health", "healthleft", "moves", 
 		//"movesleft", "attack", "range", "team", "type", "turn!", "move!", 
 		//"shoot!", "check!", "identify!", "send!", "mesg?", "recv!"
-		while(!CS.isEmpty()){
+		while(!CS.isEmpty() ){
+			
+			if(!loopCount.isEmpty()){
+				
+				LS.push(CS.peek());
+//				System.out.println("command stack:" + CS.toString());
+//				System.out.println("list stack:" + LS.toString());
+//				System.out.println("loopcount: " + loopCount.toString());
+			}
+			
 		switch((String)CS.peek()){
+		case ":":
+			String temp = "";
+			CS.pop();
+			String name= (String)CS.pop();
+			while(!CS.peek().equals(";")){
+			temp=temp.concat((String)CS.pop()+ " ");
+			}
+			words.defineWord(name, temp);
+			CS.pop();
+			break;
+		case "variable":
+			CS.pop();
+			variables.defineVariable((String)CS.pop());
+			break;
 		case "+":
 			CS.pop();
 			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "+");
 			break;
+			
 		case "-":
 			CS.pop();
 			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "-");
 			break;
+			
 		case "*":
 			CS.pop();
 			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "*");
 			break;
+			
 		case "/mod":
 			CS.pop();
 			Arithmetic((Integer.parseInt((String) DS.pop())), (Integer.parseInt((String) DS.pop())), "/mod");
 			break;
+			
 		case ".":
 			CS.pop();
 			
@@ -108,34 +138,42 @@ public class Interpreter {
 				throw new Exception("You can't print from an empty stack!");
 			}
 			break;
+			
 		case "<":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), "<");
 			break;
+			
 		case ">":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), ">");
 			break;
+			
 		case "<=":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), "<=");
 			break;
+			
 		case ">=":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), ">=");
 			break;
+			
 		case "=":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), "=");
 			break;
+			
 		case "<>":
 			CS.pop();
 			Compare(DS.pop(), DS.pop(), "<>");
 			break;
+			
 		case "drop":
 			CS.pop();
 			StackFunction("drop");
 			break;
+			
 		case "dup":
 			CS.pop();
 			StackFunction("dup");
@@ -144,59 +182,205 @@ public class Interpreter {
 			CS.pop();
 			StackFunction("swap");
 			break;
+			
 		case "rot":
 			CS.pop();
 			StackFunction("rot");
 			break;
+			
 		case "if":
 			CS.pop();
 			Conditional();
 			break;
+			
 		case "do":
 			CS.pop();
 			StartLoop();
 			break;
-		case "IncreaseIndex":
-			int end = loopCount.pop();
-			int index = loopCount.pop();
-			index++;
-			loopCount.push(index);
-			loopCount.push(end);
 			
-			break;
 		case "loop":
 			loop();
 			break;
-		default :
 			
+		case "leave":
+			EndLoop();
+			break;
+			
+		case "I":
+			CS.pop();
+			Integer end = Integer.parseInt((String) loopCount.pop());
+			Integer index = Integer.parseInt((String) loopCount.pop());
+			
+			DS.push(index.toString());
+			loopCount.push(index.toString());
+			loopCount.push(end.toString());
+			break;
+		case "!":
+			variables.setVariable((String)DS.pop(), DS.pop());
+			break;
+		case "?":
+			DS.push(variables.findVariable((String)DS.pop()));
+			break;
+		case "identify!":
+			Point D = new Point((Integer)DS.pop(), (Integer)DS.pop());
+			robot R = robotController.identify(D);
+			DS.push(R.getCurrentHp());
+			DS.push(R.getLocation().y);
+			DS.push(R.getLocation().x);
+			DS.push(R.getColor().toString());
+			break;
+		case "check!":
+			DS.push(robotController.check(currentRobot, currentRobot.getDirection()));
+			break;
+		case "scan!":
+			DS.push(robotController.scan(currentRobot));
+			break;
+		case "shoot!":
+			Point P = new Point((Integer)DS.pop(), (Integer)DS.pop());
+			robotController.attack(currentRobot, P );
+			break;
+		case "move":
+			robotController.move(currentRobot, currentRobot.getDirection());
+			break;
+		case "turn!":
+			robotController.turn(currentRobot);
+			break;
+		case "health":
+			DS.push(currentRobot.getMaxHp());
+			break;
+		case "healthleft":
+			DS.push(currentRobot.getCurrentHp());
+			break;
+		case "moves":
+			DS.push(currentRobot.getMovePoints());
+			break;
+		case "movesleft":
+			DS.push((currentRobot.getMovePoints()-currentRobot.getMoved()));
+			break;
+		case "attack":
+			DS.push(currentRobot.getAttackPower());
+			break;
+		case "range":
+			DS.push(currentRobot.getRange());
+			break;
+		case "team":
+			DS.push(currentRobot.getTeam());
+			break;
+		case "type":
+			DS.push(currentRobot.getType());
+			break;
+		default :
 			if(!CS.isEmpty()){
+				
 				DS.push(CS.pop());
+				//System.out.println(DS.peek());
 			}
 		break;
 		}
+		
 		}
 	}
 	
 	public void loop(){
+		if(!loopCount.isEmpty()){
+			Integer end = Integer.parseInt((String) loopCount.pop());
+			Integer index = Integer.parseInt((String) loopCount.pop());
+			
+			if(index+1<end){
+				CS.pop();
+			while(((String) LS.peek()).compareTo("do")!=0){
+					CS.push(LS.pop());
+				}
+			index++;
+			loopCount.push(index.toString());
+			loopCount.push(end.toString());
+			}
+			else {
+				EndLoop();
+			}
+			}
+		else{
+			CS.pop();
+		}
 		
 	}
 	
 	public void StartLoop(){
-		loopCount.push((Integer) DS.pop());
-		loopCount.push((Integer) DS.pop());
-
-		while(((String) CS.peek()).compareTo("loop")!=0){
-			LS.push(CS.pop());
+//		if(!loopCount.empty()){
+//			LS.pop();
+//			LS.pop();
+//		}
+		//System.out.println(DS.peek());
+		loopCount.push(DS.pop());
+		loopCount.push(DS.pop());
+		
+	}
+	public void EndLoop(){
+		//loopCount.pop();
+		//loopCount.pop();
+		
+		if(!loopCount.empty()){
+			Integer end = Integer.parseInt((String) loopCount.pop());
+			Integer index = Integer.parseInt((String) loopCount.pop());
+			//System.out.println(index+ " "+ end);
+			if(index+1<end){
+				index++;
+				loopCount.push(index.toString());
+				loopCount.push(end.toString());
+				CS.pop();
+				
+		while(!LS.empty()){
+			CS.push(LS.pop());
+		}
+			}
+			else{
+				System.out.println("command stack:" + CS.toString());
+				System.out.println("list stack:" + LS.toString());
+				System.out.println("loopcount: " + loopCount.toString());
+				CS.pop();
+				System.out.println("command stack:" + CS.toString());
+				System.out.println("list stack:" + LS.toString());
+				System.out.println("loopcount: " + loopCount.toString());
+				EndLoop();
+			}
+		}
+		else{
+			while(((String) CS.peek()).compareTo("loop")!=0){
+				CS.pop();
+			}
+			CS.pop();
+			while(!LS.empty()){
+				LS.pop();
+			}
+//			System.out.println("command stack:" + CS.toString());
+//			System.out.println("list stack:" + LS.toString());
+//			System.out.println("loopcount: " + loopCount.toString());
+		}
+	}
+	
+	public void Read(robot Robot, String code) throws Exception {
+		currentRobot=Robot;
+		Play(currentRobot.getforthCode());
+		Play(words.findWord("play"));
+		
+	}
+	public void Tokenize1(String code){
+		Object[] tokens = code.split(" ");
+		
+		for(Object t : tokens){
+			DS.push(t);
+			
 		}
 		
-		/*
-		while(!LS.isEmpty()){
-			CS.push(LS.pop());	
+		Object[] tokens2 = new Object[tokens.length];
+		for(int i =0; i<tokens.length;i++){
+			tokens2[i]= (Object) DS.pop();
 		}
-		*/	
-		CS.push("IncreaseIndex");
 		
-		
+		for(Object t : tokens2){
+			CS.push(t);
+			
+		}
 	}
 	
 	public void Conditional(){
@@ -232,47 +416,7 @@ public class Interpreter {
 		}
 
 	
-	public void Read(String code) {
-		Tokenize1(code);
-		
-		String temp = "";
-		while(!CS.empty()){
-			
-		if (CS.peek().equals(":")){
-			CS.pop();
-			String name= (String)CS.pop();
-			while(!CS.peek().equals(";")){
-			temp=temp.concat((String)CS.pop()+ " ");
-			}
-			words.defineWord(name, temp);
-			CS.pop();
-		}
-		else if (CS.peek().equals("variable")){
-			CS.pop();
-			variables.defineVariable((String)CS.pop());
-		}
 	
-		}
-		
-	}
-	public void Tokenize1(String code){
-		Object[] tokens = code.split(" ");
-		
-		for(Object t : tokens){
-			DS.push(t);
-			
-		}
-		
-		Object[] tokens2 = new Object[tokens.length];
-		for(int i =0; i<tokens.length;i++){
-			tokens2[i]= (Object) DS.pop();
-		}
-		
-		for(Object t : tokens2){
-			CS.push(t);
-			
-		}
-	}
 	public void Arithmetic(int t1, int t2, String op) throws Exception {
 		int F = 0;
 
