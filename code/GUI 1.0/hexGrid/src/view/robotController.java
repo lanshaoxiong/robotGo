@@ -11,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.DefaultListModel;
 
+import view.DrawingPanel.MyMouseListener;
 import view.robot.robotClass;
 
 
@@ -18,16 +19,19 @@ public class robotController {
   
     public static final String FILE_NAME_robotList = "robotList.txt";
 
-    DefaultListModel<robot> robotList;
+    static DefaultListModel<robot> robotList;
     
     Lock lock = new ReentrantLock();
+    
+    static Interpreter ITP = new Interpreter();
+
     
    robotController(DefaultListModel<robot> newRobotList){
     	robotList = newRobotList;    
     }
    
-   public static DefaultListModel<Point> scanTileList = new DefaultListModel<>();
-
+//   public static DefaultListModel<Point> scanTileList = new DefaultListModel<>();
+   public static DefaultListModel<robot> scanRobotList = new DefaultListModel<>();
 
     /**
      *
@@ -68,6 +72,9 @@ public class robotController {
     		robotList.getElementAt(i).setAlive(true);
     		robotList.getElementAt(i).setAttacked(false);
     		robotList.getElementAt(i).setMoved(0);
+    		robotList.getElementAt(i).setisAI(false);
+    		
+    		
 
     		if(robotList.getElementAt(i).getColor().equals(Color.red)){
     			robotList.getElementAt(i).setDirection(0);
@@ -99,11 +106,18 @@ public class robotController {
     
     
 
-    public void move (robot currentRobot, int direction){
+    public static void move (robot currentRobot, int direction){
+    	
+    	if(currentRobot.getisAI()){
+    		DrawingPanel.updateMoveGUI(DirectionToPoint(currentRobot, direction));
+//    		System.out.println("test");
+    		GUI.gameBoardPanel.repaint();
+    	}
+    	
     	// update the coordinates and movePoints info in robotList after each move
     	if (canMove(currentRobot)){ 
     		int moved = currentRobot.getMoved();
-    		Point mLocation = this.DirectionToPoint(currentRobot, direction);
+    		Point mLocation = DirectionToPoint(currentRobot, direction);
     		if((mLocation.x != currentRobot.getLocation().getX()) || (mLocation.y != currentRobot.getLocation().getY())){
     			moved++;
         		currentRobot.setMoved(moved);
@@ -113,7 +127,7 @@ public class robotController {
     	}
     }
     
-    public boolean canMove(robot currentRobot){
+    public static boolean canMove(robot currentRobot){
     	return (currentRobot.getMoved() < currentRobot.getMovePoints());
     }
     
@@ -122,7 +136,7 @@ public class robotController {
     }
     
     
-    public boolean inRange(robot currentRobot, Point target){
+    public static boolean inRange(robot currentRobot, Point target){
     	
     	if(currentRobot.getType() ==  robotClass.SCOUT)
     		return ! (hexmech_pointy.checkOutofScoutRange(target.x, target.y, robotList.indexOf(currentRobot)));
@@ -177,7 +191,7 @@ public class robotController {
     
     // helper function for move
     // transfer direction info to the corresponding location info 
-    public Point DirectionToPoint(robot currentRobot, int nDirection){
+    public static Point DirectionToPoint(robot currentRobot, int nDirection){
     	int mx = currentRobot.getLocation().x;
     	int my = currentRobot.getLocation().y;
     	
@@ -218,7 +232,7 @@ public class robotController {
     }
     
     // helper function for move
-    public void turn(robot currentRobot){
+    public static void turn(robot currentRobot){
     	int currentDirection = currentRobot.getDirection();
     	currentDirection++;
     	if (currentDirection > 5)
@@ -231,7 +245,7 @@ public class robotController {
     
     
     
-    public void attack(robot currentRobot, Point target){
+    public static void attack(robot currentRobot, Point target){
     	// check if the robot have attacked or not during this term
     	if (!(currentRobot.attacked()) && inRange(currentRobot, target)) {
     		for (int i = 0; i < getRobotOnTile(target).getSize(); i++) {
@@ -250,7 +264,7 @@ public class robotController {
     }
 
     
-    public DefaultListModel<robot> getRobotOnTile(Point target) {
+    public static DefaultListModel<robot> getRobotOnTile(Point target) {
   	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
   	   for (int i = 0; i < robotList.getSize(); i++) {
   		   // find the target by searching the robotList
@@ -263,28 +277,33 @@ public class robotController {
      }
     
     
-    public DefaultListModel<robot> identify(int index) {
- 	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
- 	   for (int i = 0; i < robotList.getSize(); i++) {
- 		   // find the target by searching the robotList
- 		   if (robotList.getElementAt(i).getLocation().x == scanTileList.getElementAt(index).x && robotList.getElementAt(i).getLocation().y == scanTileList.getElementAt(index).y) { 
- 			   // add the robots on this specific tile to a temporary robot list
- 			   robotsOnTile.addElement(robotList.getElementAt(i));
- 		   }
- 	   }
- 	   return robotsOnTile;	   
+    public static robot identify(int index) {
+// 	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
+// 	   for (int i = 0; i < robotList.getSize(); i++) {
+// 		   // find the target by searching the robotList
+// 		   if (robotList.getElementAt(i).getLocation().x == scanTileList.getElementAt(index).x && robotList.getElementAt(i).getLocation().y == scanTileList.getElementAt(index).y) { 
+// 			   // add the robots on this specific tile to a temporary robot list
+// 			   robotsOnTile.addElement(robotList.getElementAt(i));
+// 		   }
+// 	   }
+// 	   return robotsOnTile;	   
+    	return scanRobotList.getElementAt(index);
     }
     
     
     
 //    // for AI shooting 
-    public int scan(robot currentRobot){
+    public static int scan(robot currentRobot){
     	
     	if(currentRobot.getType() == robotClass.SCOUT){
     		for(int i = currentRobot.getLocation().x - 2; i<= currentRobot.getLocation().x + 2; i++){
     			for (int j = currentRobot.getLocation().y - 2; i<= currentRobot.getLocation().y + 2; j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
-    					scanTileList.addElement(new Point(i,j));
+//    					scanTileList.addElement(new Point(i,j));
+    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					for(int in = 0; in < tempList.getSize(); in++){
+    						scanRobotList.addElement(tempList.getElementAt(in));
+    					}
     				}
     			}
     		}
@@ -293,7 +312,11 @@ public class robotController {
     		for(int i = currentRobot.getLocation().x - 3; i<= currentRobot.getLocation().x + 3; i++){
     			for (int j = currentRobot.getLocation().y - 3; i<= currentRobot.getLocation().y + 3; j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
-    					scanTileList.addElement(new Point(i,j));
+//    					scanTileList.addElement(new Point(i,j));
+    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					for(int in = 0; in < tempList.getSize(); in++){
+    						scanRobotList.addElement(tempList.getElementAt(in));
+    					}
     				}
     			}
     		}
@@ -302,82 +325,97 @@ public class robotController {
     		for(int i = currentRobot.getLocation().x - 1; i<= currentRobot.getLocation().x + 1; i++){
     			for (int j = currentRobot.getLocation().y - 1; i<= currentRobot.getLocation().y + 1; j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
-    					scanTileList.addElement(new Point(i,j));
+//    					scanTileList.addElement(new Point(i,j));
+    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					for(int in = 0; in < tempList.getSize(); in++){
+    						scanRobotList.addElement(tempList.getElementAt(in));
+    					}
     				}
     			}
     		}
     	}
     	else;
     	
-    	return scanTileList.getSize();
+    	return scanRobotList.getSize();
     	
     }
 
+
     
-    public void goNext(){
-    	robotList.getElementAt(DrawingPanel.N).setMoved(0);
-		robotList.getElementAt(DrawingPanel.N).setAttacked(false);
-		
-		if (DrawingPanel.Q == 2){
-			DrawingPanel.N = DrawingPanel.N + 3;
-			if((DrawingPanel.N) > 18)
-				(DrawingPanel.N) = 1;
-			while(!robotList.getElementAt(DrawingPanel.N).alive()){
-				DrawingPanel.N = DrawingPanel.N + 3;
-				if((DrawingPanel.N) > 18)
-					(DrawingPanel.N) = 1;
-			}
+    public static void AI(){
+    	if(robotList.getElementAt(DrawingPanel.N).getisAI()){
+    		
+    	try {
+			ITP.Read(robotList.getElementAt(DrawingPanel.N));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
+    	
+//	
+//    	robotList.getElementAt(DrawingPanel.N).setMoved(0);
+//		robotList.getElementAt(DrawingPanel.N).setAttacked(false);
+//		
 //		if (DrawingPanel.Q == 2){
-//			DrawingPanel.N = temp;
 //			DrawingPanel.N = DrawingPanel.N + 3;
 //			if((DrawingPanel.N) > 18)
 //				(DrawingPanel.N) = 1;
-//			temp = DrawingPanel.N;
 //			while(!robotList.getElementAt(DrawingPanel.N).alive()){
-//				DrawingPanel.N = DrawingPanel.N + 6;
+//				DrawingPanel.N = DrawingPanel.N + 3;
 //				if((DrawingPanel.N) > 18)
-//					DrawingPanel.N = 1;
+//					(DrawingPanel.N) = 1;
 //			}
-//			
 //		}
-		else if (DrawingPanel.Q == 3){
-			DrawingPanel.N = DrawingPanel.N + 2;
-			if((DrawingPanel.N) > 18)
-				(DrawingPanel.N) = 1;
-			while(!robotList.getElementAt(DrawingPanel.N).alive()){
-				DrawingPanel.N = DrawingPanel.N + 2;
-				if((DrawingPanel.N) > 18)
-					(DrawingPanel.N) = 1;
-			}
-		}
-		else if (DrawingPanel.Q == 6){
-			DrawingPanel.N = DrawingPanel.N + 1;
-			if((DrawingPanel.N) > 18)
-				(DrawingPanel.N) = 1;
-			while(!robotList.getElementAt(DrawingPanel.N).alive()){
-				DrawingPanel.N = DrawingPanel.N + 1;
-				if((DrawingPanel.N) > 18)
-					(DrawingPanel.N) = 1;
-			}
-		}
-		else;
-		
-		scanTileList.removeAllElements(); 
-		
-		// when overlapping, show the specific robot on the overlapping cell
-		DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
-		GUI.updateTable();
-		GUI.statusTable.repaint();
-		GUI.gameBoardPanel.repaint();
-		
-		scanTileList.removeAllElements();
+//		
+//		
+////		if (DrawingPanel.Q == 2){
+////			DrawingPanel.N = temp;
+////			DrawingPanel.N = DrawingPanel.N + 3;
+////			if((DrawingPanel.N) > 18)
+////				(DrawingPanel.N) = 1;
+////			temp = DrawingPanel.N;
+////			while(!robotList.getElementAt(DrawingPanel.N).alive()){
+////				DrawingPanel.N = DrawingPanel.N + 6;
+////				if((DrawingPanel.N) > 18)
+////					DrawingPanel.N = 1;
+////			}
+////			
+////		}
+//		else if (DrawingPanel.Q == 3){
+//			DrawingPanel.N = DrawingPanel.N + 2;
+//			if((DrawingPanel.N) > 18)
+//				(DrawingPanel.N) = 1;
+//			while(!robotList.getElementAt(DrawingPanel.N).alive()){
+//				DrawingPanel.N = DrawingPanel.N + 2;
+//				if((DrawingPanel.N) > 18)
+//					(DrawingPanel.N) = 1;
+//			}
+//		}
+//		else if (DrawingPanel.Q == 6){
+//			DrawingPanel.N = DrawingPanel.N + 1;
+//			if((DrawingPanel.N) > 18)
+//				(DrawingPanel.N) = 1;
+//			while(!robotList.getElementAt(DrawingPanel.N).alive()){
+//				DrawingPanel.N = DrawingPanel.N + 1;
+//				if((DrawingPanel.N) > 18)
+//					(DrawingPanel.N) = 1;
+//			}
+//		}
+//		else;
+//		
+//		scanRobotList.removeAllElements(); 
+//		
+//		// when overlapping, show the specific robot on the overlapping cell
+//		DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+//		GUI.updateTable();
+//		GUI.statusTable.repaint();
+//		GUI.gameBoardPanel.repaint();
+    	}
+    	else;
     }
     
     // for AI move 
-    public String check(robot currentRobot, int direction){
+    public static String check(robot currentRobot, int direction){
     	Point target = DirectionToPoint(currentRobot, direction);
     	if (checkInBoundary(target.x, target.y)){
     		if(DrawingPanel.board[target.x][target.y] > 0)
@@ -393,7 +431,7 @@ public class robotController {
     
     
     // check for boundary
-    public boolean checkInBoundary(int i, int j){
+    public static boolean checkInBoundary(int i, int j){
     	if(i>=3 && i<=7 && (j==0 || j==8))
 			return true;
 		else if(i>=2 && i<=7 && (j==1 || j==7))

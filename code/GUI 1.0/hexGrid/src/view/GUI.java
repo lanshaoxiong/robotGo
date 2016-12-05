@@ -33,9 +33,9 @@ public class GUI {
 		
 	public static DefaultListModel<robot> robotList = new DefaultListModel<robot>();
 	public static robotController rC = new robotController(robotList);
-	public static int temp = 1;
+//	public static int temp = 1;
 	
-	
+	static JLabel prosessLabel;
 	public static Object[][] data = {
 			{"scout", new Integer(1), new Integer(1), new Integer(2), new Integer(3), new Integer(1), "alive"},
 			{"sniper", new Integer(2), new Integer(2),new Integer(3), new Integer(2), new Integer(1), "alive"},
@@ -77,6 +77,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		
+		
 		// initialize the robot in 1 - 18 order
 		rC.createRobot("empty","empty",Color.RED, robotClass.SCOUT, new Point(0,0)); // empty, no use
 		
@@ -107,7 +108,7 @@ public class GUI {
 		
 		frmGameBoard = new JFrame();
 		frmGameBoard.setTitle("game board");
-		frmGameBoard.setBounds(100, 100, 897, 756);
+		frmGameBoard.setBounds(100, 100, 965, 783);
 		frmGameBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGameBoard.getContentPane().setLayout(null);
 		
@@ -120,8 +121,16 @@ public class GUI {
 		statusScrollPane.setViewportView(statusTable);
 		
 		btnpanel = new JPanel();
-		btnpanel.setBounds(594, 668, 297, 39);
+		btnpanel.setBounds(594, 685, 270, 39);
 		frmGameBoard.getContentPane().add(btnpanel);
+		
+		
+		prosessLabel = new JLabel("");
+		prosessLabel.setBounds(594, 649, 365, 24);
+		frmGameBoard.getContentPane().add(prosessLabel);
+		
+		
+		updateLabel();
 		
 		// just click once, then set disable.
 		JButton btnStart = new JButton("Start");
@@ -193,12 +202,17 @@ public class GUI {
 
 				(DrawingPanel.N) = 1; 
 				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				
+				robotController.AI();
 				updateTable();
+				updateLabel();
 				statusTable.repaint();
 				gameBoardPanel.repaint();
 				btnStart.setEnabled(false);
 			}
 		});
+		
+		
 		
 		
 		btnpanel.add(btnStart);
@@ -235,26 +249,10 @@ public class GUI {
 				DrawingPanel.p_old[17] = new Point(7,8);
 				DrawingPanel.p_old[18] = new Point(3,8);
 				
-				DrawingPanel.status_old[0] = 0;
-				DrawingPanel.status_old[1] = 0;
-				DrawingPanel.status_old[2] = 0;
-				DrawingPanel.status_old[3] = 0;
-				DrawingPanel.status_old[4] = 0;
-				DrawingPanel.status_old[5] = 0;
-				DrawingPanel.status_old[6] = 0;
-				DrawingPanel.status_old[7] = 0;
-				DrawingPanel.status_old[8] = 0;
-				DrawingPanel.status_old[9] = 0;
-				DrawingPanel.status_old[10] = 0;
-				DrawingPanel.status_old[11] = 0;
-				DrawingPanel.status_old[12] = 0;
-				DrawingPanel.status_old[13] = 0;
-				DrawingPanel.status_old[14] = 0;
-				DrawingPanel.status_old[15] = 0;
-				DrawingPanel.status_old[16] = 0;
-				DrawingPanel.status_old[17] = 0;
-				DrawingPanel.status_old[18] = 0;
-					
+				for(int i = 0; i<=18; i++){
+					DrawingPanel.status_old[i] = 0;
+				}
+				
 				data[0][0] = "scout";
 				data[0][1] = 1;
 				data[0][2] = 1;
@@ -279,7 +277,12 @@ public class GUI {
 				data[2][5] = 1;
 				data[2][6] = "alive";
 				
-				rC.resetRobotList();
+				for(int i = 0; i<=18; i++){
+					DrawingPanel.isAI[i] = false;
+				}
+				
+////				rC.resetRobotList();
+				robotList.removeAllElements();
 						
 			    gameBoardPanel.setVisible(false);
 				frmGameBoard.dispose();				
@@ -294,9 +297,11 @@ public class GUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				
+				
 				robotList.getElementAt(DrawingPanel.N).setMoved(0);
 				robotList.getElementAt(DrawingPanel.N).setAttacked(false);
-				robotController.scanTileList.removeAllElements();
+				robotController.scanRobotList.removeAllElements();
 				
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
@@ -347,10 +352,13 @@ public class GUI {
 				
 				// when overlapping, show the specific robot on the overlapping cell
 				DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
+				
+				updateLabel();
+				robotController.AI();
 				updateTable();
 				statusTable.repaint();
-				gameBoardPanel.repaint();
-				
+				gameBoardPanel.repaint();	
+				updateTable();
 				
 			}
 		});
@@ -358,10 +366,21 @@ public class GUI {
 		
 		
 		gameBoardPanel = new DrawingPanel(80);
-		gameBoardPanel.setBounds(99, 0, 765, 636);
+		gameBoardPanel.setBounds(99, -17, 792, 659);
 		frmGameBoard.getContentPane().add(gameBoardPanel);
 		
+		
+		
 	} // end of initialize()
+	
+	
+	
+	public static void updateLabel(){
+		if (DrawingPanel.N == 0)
+			prosessLabel.setText("Press Start button to fight!!!");
+		else 
+			prosessLabel.setText(robotList.getElementAt(DrawingPanel.N).getInfo());
+	}
 	
 	public static void updateTable(){
 		// for scout turn 
@@ -523,9 +542,4 @@ public class GUI {
         }
         else;
 	} 
-	
-	
-	
-
-	
 } // end of GUI class

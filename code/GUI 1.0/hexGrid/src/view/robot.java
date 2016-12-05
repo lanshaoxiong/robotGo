@@ -19,6 +19,7 @@ public class robot {
 	private int moved;
 	private boolean alive;
 	private robotClass type;
+	private boolean isAI;
 	
 	private int damageCaused;
 	private int tilesMoved;
@@ -57,18 +58,30 @@ public class robot {
 		}
 		
 		// initialize the direction for different team.
-		if(newColor.equals(Color.red))
+		if(newColor.equals(Color.red)){
 			direction = 0;
-		else if(newColor.equals(Color.orange))
+			isAI = DrawingPanel.isAI[1];
+		}
+		else if(newColor.equals(Color.orange)){
 			direction = 1;
-		else if(newColor.equals(Color.yellow))
+			isAI = DrawingPanel.isAI[2];
+		}
+		else if(newColor.equals(Color.yellow)){
 			direction = 2;
-		else if(newColor.equals(Color.green))
+			isAI = DrawingPanel.isAI[3];
+		}
+		else if(newColor.equals(Color.green)){
 			direction = 3;
-		else if(newColor.equals(Color.blue))
+			isAI = DrawingPanel.isAI[4];
+		}
+		else if(newColor.equals(Color.blue)){
 			direction = 4;
-		else if(newColor.equals(Color.MAGENTA))
+			isAI = DrawingPanel.isAI[5];
+		}
+		else if(newColor.equals(Color.MAGENTA)){
 			direction = 5;
+			isAI = DrawingPanel.isAI[6];
+		}
 		else;
 		
 		currentHp = maxHp;
@@ -82,6 +95,88 @@ public class robot {
 		this.color = newColor;
 		this.location = location;
 		this.type = type;
+		this.forthCode = "move! move!";
+//				" variable moved ; ( have I moved? ) : moved? moved ? ;moved false ! : firstMove ( align along left edge )        moved? if                            
+//					                     ( already moved )           
+//					                   else                          
+//					                     5 turn!                     
+//					                   then ;                        
+//					                                                 
+//					     : edgeMove ( -- ) ( move along an edge )    
+//					                0 check!                         
+//					                .\ OUT OF BOUNDS\  =             
+//					                if                               
+//					                  1 turn!                        
+//					                else                             
+//					                  ( )                            
+//					                then move! ;                     
+//					                                                 
+//					     : noMovesLeft? ( -- b ) ( no moves left? )  
+//					                  movesLeft 0 <> ;               
+//					                                                 
+//					     variable shot ; ( have I shot this play? )  
+//		                             : canShoot? ( -- b ) ( shot available? )    
+//					                 shot? ;                         
+//					                                                 
+//					     : shoot!! ( id ir -- ) ( shoot if allowed ) 
+//					               canShoot? if                      
+//					                  pop pop      ( remove ir id )  
+//					               else                              
+//					                   shoot!      ( really shoot )  
+//					                   shot true ! ( remember it )   
+//					                 then                            
+//					               then ;                            
+//					                                                 
+//					     : doNotShoot ( id ir -- ) ( pretend shot )  
+//					                  pop pop ;                      
+//					                                                 
+//					     : enemy? ( s -- b ) ( decide if enemy )     
+//					              team <> ;                          
+//					                                                 
+//					     : nonZeroRange? ( i -- b i )                
+//					                  dup 0 <> ;                     
+//					                                                 
+//					     : tryShooting! ( ih id ir st -- )           
+//					                  enemy?                         
+//					                  swap nonZeroRange? rot         
+//					                  and if                         
+//		                                                shoot!!                  
+//		                                              else                       
+//		                                                doNotShoot               
+//		                                              then pop ( remove ih ) ;   
+//		                                                                         
+//					     : shootEveryone ( try shot at all targets ) 
+//					            scan!                                
+//					            1 -                                  
+//					            dup 0 < if                           
+//					              ( no one to shoot at )             
+//		                                    else 0 do                            
+//					                     I identify! tryShooting!    
+//					                   loop                          
+//					            then ;                               
+//		                                                                         
+//					     : play ( -- )                               
+//					            firstMove                            
+//					            shot false ! ( prepare to shoot )    
+//		                                    begin                                
+//		                                      edgeMove                           
+//					              shootEveryone                      
+//					            noMovesLeft? until ;        "         
+//					  
+		} // end of constructor
+				
+
+	public String getInfo(){
+		return "Team: " + team + ", "+  " Name: " + name + ", " + "Type: " + type;
+	}
+	
+	
+	public boolean getisAI(){
+		return isAI;
+	}
+	
+	public void setisAI(boolean status){
+		isAI = status;
 	}
 	
 	public String getName(){

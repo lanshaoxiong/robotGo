@@ -46,7 +46,10 @@ public class DrawingPanel extends JPanel
 			static int PlayersNumber = 6;
 			static int N = 0;
 			static int Q = 0;
-			
+		    static boolean [] isAI = {false, false, false, false, false, false, false,
+		    								 false, false, false, false, false, false,
+		    								 false, false, false, false, false, false};
+ 			
 //			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8),  
 //													 new Point(1,3), new Point(4,0), new Point(6,0), new Point(8,5), new Point(6,8), new Point(2, 7),  
 //													 new Point(1,5), new Point(2,1), new Point(7,1), new Point(8,3), new Point(7,7), new Point(4, 8)};
@@ -330,48 +333,7 @@ public class DrawingPanel extends JPanel
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
 			      
 			        	
-			        	// walk one cell each click time 
-			        	if (GUI.rC.canMove((GUI.robotList).elementAt(N))){
-			        	if(p_old[N].y % 2 == 0){
-			        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
-			        			
-			        			for(int i=1; i <= 18 ; i++){
-									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N) ){
-										status_old[N] = i;
-										break;
-									}
-									else 
-										status_old[N] = 0;
-								}
-								board[p_old[N].x][p_old[N].y] = status_old[N];
-								
-			        			p_old[N] = p;
-								status_old[N] = board[p.x][p.y];	
-								board[p.x][p.y] = N;
-								if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y))
-									GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
-			        		}
-			        	}
-			        	else{
-			        		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x)  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
-			        			for(int i=1; i <= 18; i++){
-									if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
-										status_old[N] = i;
-										break;
-									}
-									else 
-										status_old[N] = 0;
-								}
-								board[p_old[N].x][p_old[N].y] = status_old[N];
-			        			p_old[N] = p;
-								status_old[N] = board[p.x][p.y];	
-								board[p.x][p.y] = N;
-								if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y))
-									GUI.rC.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
-			        		}
-			        	}
-			        	
-			        	}
+			        	updateMoveGUI(p);
 			        	
 			        	GUI.updateTable();
 			        	popup_move.hide();
@@ -388,6 +350,61 @@ public class DrawingPanel extends JPanel
 			button_attack.addActionListener(attackActionListener);
 
 		}
-
-	}//end of MyMouseListener class 
+	}//end of MyMouseListener class
+	
+		public static void updateMoveGUI(Point p){
+			
+        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
+      
+        	
+        	// walk one cell each click time 
+        	if (robotController.canMove((GUI.robotList).elementAt(N))){
+        	if(p_old[N].y % 2 == 0){
+        		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
+        			
+        			for(int i=1; i <= 18 ; i++){
+						if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N) ){
+							status_old[N] = i;
+							break;
+						}
+						else 
+							status_old[N] = 0;
+					}
+					board[p_old[N].x][p_old[N].y] = status_old[N];
+					
+        			p_old[N] = p;
+					status_old[N] = board[p.x][p.y];	
+					board[p.x][p.y] = N;
+					if( (((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y)) && !(GUI.robotList).elementAt(N).getisAI())
+						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
+        		}
+        	}
+        	else{
+        		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x)  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
+        			for(int i=1; i <= 18; i++){
+						if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
+							status_old[N] = i;
+							break;
+						}
+						else 
+							status_old[N] = 0;
+					}
+					board[p_old[N].x][p_old[N].y] = status_old[N];
+        			p_old[N] = p;
+					status_old[N] = board[p.x][p.y];	
+					board[p.x][p.y] = N;
+					if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y) && !(GUI.robotList).elementAt(N).getisAI())
+						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
+        		}
+        	}
+        	
+        	}
+        	
+        	GUI.prosessLabel.setText("Moving " + GUI.robotList.getElementAt(N).getMoved() + " steps" );
+        	GUI.updateTable();
+//        	repaint();
+        	GUI.statusTable.repaint();
+		} // end of UpdateMoveGUI()
+		
+	
 } // end of DrawingPanel class
