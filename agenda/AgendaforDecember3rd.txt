@@ -1,0 +1,7 @@
+Location: health science
+Time: December 3rd
+
+1 the demo of current working part.
+2 figure out the realization of the rest of the AI part.
+3 debug by playing the game as a group
+4 assign the documentation part to each of the teammates
