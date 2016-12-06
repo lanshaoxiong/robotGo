@@ -293,24 +293,31 @@ public class robotController {
     
     
 //    // for AI shooting 
+    
+    
     public static int scan(robot currentRobot){
-    	
+    	scanRobotList.clear();
     	if(currentRobot.getType() == robotClass.SCOUT){
-    		for(int i = currentRobot.getLocation().x - 2; i<= currentRobot.getLocation().x + 2; i++){
-    			for (int j = currentRobot.getLocation().y - 2; i<= currentRobot.getLocation().y + 2; j++){
+    		
+    		for(int i = Math.max(currentRobot.getLocation().x - 2 , 0); i<= Math.min(currentRobot.getLocation().x + 2,9); i++){
+    			for (int j = Math.max(currentRobot.getLocation().y - 2,0); j<= Math.min(currentRobot.getLocation().y + 2,9); j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
+    					
     					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
     					for(int in = 0; in < tempList.getSize(); in++){
     						scanRobotList.addElement(tempList.getElementAt(in));
     					}
+    					
     				}
     			}
     		}
+    		
     	}
     	else if (currentRobot.getType() == robotClass.SNIPER){
-    		for(int i = currentRobot.getLocation().x - 3; i<= currentRobot.getLocation().x + 3; i++){
-    			for (int j = currentRobot.getLocation().y - 3; i<= currentRobot.getLocation().y + 3; j++){
+    		
+    		for(int i = Math.max(currentRobot.getLocation().x - 3 , 0); i<= Math.min(currentRobot.getLocation().x + 3,9); i++){
+    			for (int j = Math.max(currentRobot.getLocation().y - 3,0); j<= Math.min(currentRobot.getLocation().y + 3,9); j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
     					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
@@ -320,10 +327,13 @@ public class robotController {
     				}
     			}
     		}
+    		
+    		
     	}
     	else if(currentRobot.getType() == robotClass.TANK){
-    		for(int i = currentRobot.getLocation().x - 1; i<= currentRobot.getLocation().x + 1; i++){
-    			for (int j = currentRobot.getLocation().y - 1; i<= currentRobot.getLocation().y + 1; j++){
+    		
+    		for(int i = Math.max(currentRobot.getLocation().x - 1 , 0); i<= Math.min(currentRobot.getLocation().x + 1,9); i++){
+    			for (int j = Math.max(currentRobot.getLocation().y - 1,0); j<= Math.min(currentRobot.getLocation().y + 1,9); j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
     					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
@@ -333,6 +343,8 @@ public class robotController {
     				}
     			}
     		}
+    		
+    		
     	}
     	else;
     	

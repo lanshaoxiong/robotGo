@@ -95,7 +95,7 @@ public class robot {
 		this.color = newColor;
 		this.location = location;
 		this.type = type;
-		this.forthCode = "move! move!";
+		this.forthCode = "move! move! scan! 0 identify! drop shoot! ";
 //				" variable moved ; ( have I moved? ) : moved? moved ? ;moved false ! : firstMove ( align along left edge )        moved? if                            
 //					                     ( already moved )           
 //					                   else                          

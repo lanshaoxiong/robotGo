@@ -2,6 +2,7 @@ package view;
 
 
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.Stack;
 
@@ -77,7 +78,7 @@ public class Interpreter {
 		
 		//I.Play("4 0 do 5 0 do I 1 + . loop loop");
 		
-		
+		//I.Play("5 0 do I 1 + . loop");
 	}
 	public void Play(String play) throws Exception{
 		Tokenize1 (play);
@@ -212,7 +213,12 @@ public class Interpreter {
 			
 		case "I":
 			CS.pop();
-			Integer end = Integer.parseInt((String) loopCount.pop());
+			Integer end;
+			if(loopCount.peek() instanceof Integer){
+				end = (Integer) loopCount.pop();
+			}else{
+				end = Integer.parseInt((String) loopCount.pop());
+			}
 			Integer index = Integer.parseInt((String) loopCount.pop());
 			
 			DS.push(index.toString());
@@ -226,38 +232,69 @@ public class Interpreter {
 			DS.push(variables.findVariable((String)DS.pop()));
 			break;
 		case "identify!":
+			CS.pop();
 //			Point D = new Point((Integer)DS.pop(), (Integer)DS.pop());
-			robot R = robotController.identify((Integer)DS.pop());
+			robot R = robotController.identify(Integer.parseInt((String)DS.pop()));
 			DS.push(R.getCurrentHp());
 			DS.push(R.getLocation().y);
 			DS.push(R.getLocation().x);
 			DS.push(R.getColor().toString());
 			break;
 		case "check!":
+			CS.pop();
 			DS.push(robotController.check(currentRobot, currentRobot.getDirection()));
 			break;
 		case "scan!":
+			//System.out.println("scan");
+			CS.pop();
 			DS.push(robotController.scan(currentRobot));
+			//System.out.println("scanned");
+			//System.out.print(DS.toString());
 			break;
 		case "shoot!":
-			Point P = new Point((Integer)DS.pop(), (Integer)DS.pop());
+			CS.pop();
+			System.out.println(currentRobot.getLocation().x);
+			System.out.println(currentRobot.getLocation().y);
+			System.out.println(DS.toString());
+			Point P;
+			if(DS.peek() instanceof Integer){
+				P = new Point((Integer)DS.pop(), (Integer)DS.pop());
+			}else{
+				P = new Point(Integer.parseInt((String)DS.pop()), Integer.parseInt((String)DS.pop()));
+			}
 			robotController.attack(currentRobot, P );
 			break;
 		case "move!":
 			CS.pop();
-			System.out.println("HEYYYY");
+			//System.out.println("HEYYYY");
 			robotController.move(currentRobot, currentRobot.getDirection());
 			break;
+		case "enemy!":
+			CS.pop();
+			System.out.println(DS.toString());
+			String a = (String)DS.pop();
+			if(a.equals(currentRobot.getColor().toString())){
+				DS.push("false");
+			}else{
+				DS.push("true");
+			}
+			System.out.println(a);
+			
+			break;
 		case "turn!":
+			CS.pop();
 			robotController.turn(currentRobot);
 			break;
 		case "health":
+			CS.pop();
 			DS.push(currentRobot.getMaxHp());
 			break;
 		case "healthleft":
+			CS.pop();
 			DS.push(currentRobot.getCurrentHp());
 			break;
 		case "moves":
+			
 			DS.push(currentRobot.getMovePoints());
 			break;
 		case "movesleft":
