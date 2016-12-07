@@ -7,31 +7,21 @@ import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 
-/* This is a companion class to grid.java. It handles all of the mechanics related to hexagon grids. */
 
+/*
+ * this is the helper class for the DrawingPanel 
+ * to construct the pointy-top hexagon
+ * we found some tutorial online to help me understand to construct the flat-top hexagon.
+ * Based on it, we do some calculation to get the pointy-top hexagon
+ */
 public class hexmech_pointy
 {
-  /* Helpful references: 
-http://www.codeproject.com/Articles/14948/Hexagonal-grid-for-games-and-other-projects-Part-1
-http://weblogs.java.net/blog/malenkov/archive/2009/02/hexagonal_tile.html
-http://www.tonypa.pri.ee/tbw/tut25.html
-	 */
-
-	/*
-#define HEXEAST 0
-#define HEXSOUTHEAST 1
-#define HEXSOUTHWEST 2
-#define HEXWEST 3
-#define HEXNORTHWEST 4
-#define HEXNORTHEAST 5
-	 */
 
 	//Constants
 	public final static boolean orFLAT= true;
 	public final static boolean orPOINT= false;
 	public static boolean ORIENT= orFLAT;  //this is not used. We're never going to do pointy orientation
 	public static boolean XYVertex=true;	//true: x,y are the coords of the first vertex.
-	//false: x,y are the coords of the top left rect. co-ord.
 
 	
 	private static int BORDERS=50;	//default number of pixels for the border.
@@ -61,8 +51,6 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 								Toolkit.getDefaultToolkit().getImage("img/tank-blue.png"),
 								Toolkit.getDefaultToolkit().getImage("img/tank-purple.png")};
 
-//	public static AffineTransform identity = new AffineTransform();
-
 	
 	public static void setXYasVertex(boolean b) {
 		XYVertex=b;
@@ -76,15 +64,15 @@ http://www.tonypa.pri.ee/tbw/tut25.html
 	*/
 	public static void setSide(int side) {
 		s=side;
-		t =  (int) (s/2);			//t = s sin(30) = (int) CalculateH(s);
-		r =  (int) (s * 0.8660254037844);	//r = s cos(30) = (int) CalculateR(s); 
+		t =  (int) (s/2);			
+		r =  (int) (s * 0.8660254037844); 
 		h=2*s;
 	}
 	public static void setHeight(int height) {
-		h = height;			// h = basic dimension: height (distance between two adj centresr aka size)
-		r = (int) (h * 0.433012702);			// r = radius of inscribed circle
-		s = (int) (h / 2);	// s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2) = h / sqrt(3)
-		t = (int) (h / 4);	// t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / (2 sqrt(3)) = r / sqrt(3)
+		h = height;			
+		r = (int) (h * 0.433012702);			
+		s = (int) (h / 2);	
+		t = (int) (h / 4);	
 	}
 
 /*********************************************************
@@ -98,6 +86,7 @@ Called from: drawHex(), fillhex()
 Purpose: This function takes two points that describe a hexagon
 and calculates all six of the points in the hexagon.
 *********************************************************/
+	
 	public static Polygon hex (int x0, int y0) {
 
 		int y = y0 + BORDERS;
@@ -110,11 +99,10 @@ and calculates all six of the points in the hexagon.
 
 		int[] cx,cy;
 
-//I think that this XYvertex stuff is taken care of in the int x line above. Why is it here twice?
 		if (XYVertex) 
-			cx = new int[] {x,x+r,x+r,x,x-r,x-r};  //this is for the top left vertex being at x,y. Which means that some of the hex is cutoff.
+			cx = new int[] {x,x+r,x+r,x,x-r,x-r}; 
 		else
-			cx = new int[] {x+r,x+r+r,x+r+r,x+r,x,x};	//this is for the whole hexagon to be below and to the right of this point
+			cx = new int[] {x+r,x+r+r,x+r+r,x+r,x,x};	
 
 		cy = new int[] {y,y+t,y+s+t,y+t+s+t,y+t+s,y+t};
 		return new Polygon(cx,cy,6);
@@ -123,12 +111,12 @@ and calculates all six of the points in the hexagon.
 
 /********************************************************************
 Name: drawHex()
-Parameters: (i,j) : the x,y coordinates of the inital point of the hexagon
+Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
 	    g2: the Graphics2D object to draw on.
 Returns: void
 Calls: hex() 
 Purpose: This function draws a hexagon based on the initial point (x,y).
-The hexagon is drawn in the colour specified in grid.COLOURELL.
+The hexagon is drawn in the color specified in grid.COLOURELL.
 *********************************************************************/
 	public static void drawHex(int i, int j, Graphics2D g2) {
 		int x = i*2*r + (j%2) * r;
@@ -147,20 +135,21 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 /***************************************************************************
 * Name: fillHex()
 * Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
-		n   : an integer number to indicate a letter to draw in the hex
+		n   : an integer number to indicate the image to draw in the hex
 		g2  : the graphics context to draw on
 * Return: void
 * Called from:
 * Calls: hex()
 *Purpose: This draws a filled in polygon based on the coordinates of the hexagon.
-	  The colour depends on whether n is negative or positive.
-	  The colour is set by grid.COLOURONE and grid.COLOURTWO.
-	  The value of n is converted to letter and drawn in the hexagon.
+		  if the n is between the 1 and 18, then draw the robot picture on the corresponding cell
+		  Otherwise, then just make the cell is filled with gray color.
+	  
 *****************************************************************************/
 	public static void fillHex(int i, int j, int n, Graphics2D g2) {
 
 		int x = i*2*r + (j%2) * r;
 		int y = j*(s+t);
+		// initialize the starting point and color them based on different color of team 
 		if((i==3 && j==0) || (i==4 && j==0) || (i==2 && j==1)){
 			g2.setColor(DrawingPanel.COLOURORANGE);
 			g2.fillPolygon(hex(x,y));
@@ -218,8 +207,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				showScoutRange(i,j,DrawingPanel.N, n, g2);
 				showTankRange(i,j, DrawingPanel.N + 12, n, g2);
 				showSniperRange(i,j,DrawingPanel.N + 6, n, g2);
-				
-			
+
 			}
 			
 			// for the all snipers
@@ -270,14 +258,6 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 			}
 			
 			
-//		// rotate part 
-//			AffineTransform trans = new AffineTransform();
-//////			trans.setTransform(identity);
-////			trans.scale(40, 40);
-////
-////			trans.rotate( Math.toRadians(60) ,x+r,x+r);
-
-			
 
 		// add the image of picture		
 		if((n>=1) && (n<=6) &&  (DrawingPanel.N == n || DrawingPanel.N == n+6 || DrawingPanel.N == n+12 || DrawingPanel.N == 0)){
@@ -285,8 +265,6 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				g2.setColor(DrawingPanel.COLOURGRID);
 				g2.drawPolygon(hex(x,y));
 				g2.drawImage(img[n], x+r, y+r, 40, 40, null);
-
-
 			}
 		}
 		
@@ -308,20 +286,16 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		}
 		else;
 			
-
-		
+	
 	}
 
 	//This function changes pixel location from a mouse click to a hex grid location
 /*****************************************************************************
 * Name: pxtoHex (pixel to hex)
-* Parameters: mx, my. These are the co-ordinates of mouse click.
+* Parameters: mx, my. These are the coordinates of mouse click.
 * Returns: point. A point containing the coordinates of the hex that is clicked in.
            If the point clicked is not a valid hex (ie. on the borders of the board, (-1,-1) is returned.
-* Function: This only works for hexes in the FLAT orientation. The POINTY orientation would require
-            a whole other function (different math).
-            It takes into account the size of borders.
-            It also works with XYVertex being True or False.
+* Function: This works for hexes in the Pointy orientation. 
 *****************************************************************************/
 	public static Point pxtoHex(int mx, int my) {
 		Point p = new Point(-1,-1);
@@ -377,7 +351,10 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		return p;
 	}
 	
-
+	/*
+	 * to make the cells in the range of current scout white
+	 * We can see the all things in this range
+	 */
 	public static void showScoutRange( int i, int j, int rN,int n, Graphics2D g2){
 		int x = i*2*r + (j%2) * r;
 		int y = j*(s+t);
@@ -414,7 +391,10 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 	
 	
 	
-	
+	/*
+	 * to make the cells in the range of current sniper white
+	 * We can see the all things in this range
+	 */
 	public static void showSniperRange( int i, int j, int rN,int n, Graphics2D g2){
 			int x = i*2*r + (j%2) * r;
 			int y = j*(s+t);
@@ -437,8 +417,7 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 				}	
 				
 				if(checkOutofScoutRange(i,j,rN-6) &&checkOutofSniperRange(i,j,rN) && checkOutofTankRange(i,j,rN+6)){
-					
-//					System.out.println(" out of range" + i + j);
+
 					g2.setColor(DrawingPanel.COLOURCELL);
 					g2.fillPolygon(hex(x,y));
 					g2.setColor(DrawingPanel.COLOURGRID);
@@ -453,6 +432,11 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 	} // end of showSniperRange
 	
 	
+	
+	/*
+	 * to make the cells in the range of current tank white
+	 * We can see the all things in this range
+	 */
 	public static void showTankRange( int i, int j, int rN, int n, Graphics2D g2){
 				int x = i*2*r + (j%2) * r;
 				int y = j*(s+t);
@@ -485,13 +469,15 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 					}
 					else;
 				    }
-					
-
 				} // end of showRange of tank
 	
 	
 	
 	// helper function:
+	
+	/*
+	 * to check whether the given coordinates is out of the shooting range of corresponding index of tank
+	 */
 	public static boolean checkOutofTankRange(int i, int j, int rN){
 		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 1) && (i >= DrawingPanel.p_old[rN].x - 1) && (j >= DrawingPanel.p_old[rN].y - 1) && (j <= DrawingPanel.p_old[rN].y + 1)  ){
@@ -520,6 +506,9 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 	} // end of checkOutofTankRange
 	
 	
+	/*
+	 * to check whether the given coordinates is out of the shooting range of corresponding index of sniper
+	 */
 	public static boolean checkOutofSniperRange(int i, int j, int rN){
 		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 3) && (i >= DrawingPanel.p_old[rN].x - 3) && (j >= DrawingPanel.p_old[rN].y - 3) && (j <= DrawingPanel.p_old[rN].y + 3)  ){
@@ -561,6 +550,9 @@ The hexagon is drawn in the colour specified in grid.COLOURELL.
 		
 	} // end of checkoutofSniperrange
 	
+	/*
+	 * to check whether the given coordinates is out of the shooting range of corresponding index of scout
+	 */
 	public static boolean checkOutofScoutRange(int i, int j, int rN){
 		if ((GUI.robotList.getElementAt(rN).alive())){
 		if ((i <= DrawingPanel.p_old[rN].x + 2) && (i >= DrawingPanel.p_old[rN].x - 2) && (j >= DrawingPanel.p_old[rN].y - 2) && (j <= DrawingPanel.p_old[rN].y + 2)){

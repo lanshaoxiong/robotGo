@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
+/*
+ * the helper class for game board
+ */
 public class DrawingPanel extends JPanel
 {		
 	
@@ -44,23 +47,26 @@ public class DrawingPanel extends JPanel
 			static int[][] board = new int[BSIZE][BSIZE];
 			
 			static int PlayersNumber = 6;
+			
+			// N is very important index to indicate the current robot. 
+			// Ex: 1-6 is the scouts of red, orange, yellow, green, blue and purple
+			//     7-12 is the snipers of red, orange, yellow, green, blue and purple
+			// 	   8-16 is the tanks of red, orange, yellow, green, blue and purple
 			static int N = 0;
 			static int Q = 0;
+			
+			// the initial state of robot are not AI, which can be changed in initial interface
 		    static boolean [] isAI = {false, false, false, false, false, false, false,
 		    								 false, false, false, false, false, false,
 		    								 false, false, false, false, false, false};
  			
-//			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3, 8),  
-//													 new Point(1,3), new Point(4,0), new Point(6,0), new Point(8,5), new Point(6,8), new Point(2, 7),  
-//													 new Point(1,5), new Point(2,1), new Point(7,1), new Point(8,3), new Point(7,7), new Point(4, 8)};
-			
+			// the initial position of all robots
 			static Point [] p_old = {new Point(0,0), new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3,8),  
 													 new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3,8),  
 													 new Point(1,4), new Point(3,0), new Point(7,0), new Point(9,4), new Point(7,8), new Point(3,8)};
 			
 
-//			static int [] status_old = {0,7,8,9,10,11,12,13,14,15,16,17,18,0,0,0,0,0,0};
-			
+			// the array to store the lastest status of the tile for 18 robots
 			static int [] status_old = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			
 
@@ -204,7 +210,11 @@ public class DrawingPanel extends JPanel
 			 }
 		}
 	}
-
+	 
+	 /*
+	  * overwrite the paintComponent 
+	  * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	  */
 	public void paintComponent(Graphics g)
 	{	
 		
@@ -228,7 +238,7 @@ public class DrawingPanel extends JPanel
 				else;
 			}
 		}
-		//fill in hexes
+		//fill in hexes (color or robot image)
 		for (int i=0;i<BSIZE;i++) {
 			for (int j=0;j<BSIZE;j++) {					
 				if(i>=3 && i<=7 && (j==0 || j==8))
@@ -247,6 +257,9 @@ public class DrawingPanel extends JPanel
 
 	}
 
+	/*
+	 * the subclass in DrawingPanel which is the mouse action listener on the DrawingPanel 
+	 */
 	class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
 		private Component component;
 
@@ -255,21 +268,25 @@ public class DrawingPanel extends JPanel
 	    }
 		public void mouseClicked(MouseEvent e) { 
 				      
+			// the popup button "move"
 			JButton button_move = new JButton("Move");
 		    PopupFactory factory_move = PopupFactory.getSharedInstance();
 		    Popup popup_move = factory_move.getPopup(component, button_move, e.getX() + 180, e.getY() + 100);
 		    popup_move.show();
 		    
+		    // the popup button "attack"
 		    JButton button_attack = new JButton("Attack");
 		    PopupFactory factory_attack = PopupFactory.getSharedInstance();
 		    Popup popup_attack = factory_attack.getPopup(component, button_attack, e.getX() + 180, e.getY() + 130);
 		    popup_attack.show();
 		    
+		    // the popup button "cancel"
 		    JButton button_cancel = new JButton("Cancel");
 		    PopupFactory factory_cancel = PopupFactory.getSharedInstance();
 		    Popup popup_cancel = factory_cancel.getPopup(component, button_cancel, e.getX() + 180, e.getY() + 160);
 		    popup_cancel.show();
 		    
+		    // when click "cancel" button to hide all popup buttons
 		    ActionListener cancelActionListener = new ActionListener(){
 		    	public void actionPerformed(ActionEvent a) {
 			    	popup_move.hide();
@@ -278,13 +295,8 @@ public class DrawingPanel extends JPanel
 			     }
 		    };
 		    
-//			public static Object[][] data = {
-//				    {"scout", new Integer(1), new Integer(1), new Integer(3), new Integer(2)},
-//				    {"sniper", new Integer(2), new Integer(2), new Integer(2), new Integer(3)},
-//				    {"tank", new Integer(3), new Integer(3), new Integer(1), new Integer(1)}	     
-//				};
-		    
-		    
+
+		    // when click "attack" button
 		    ActionListener attackActionListener = new ActionListener() {
 			     public void actionPerformed(ActionEvent a) {
 			    	Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
@@ -327,6 +339,7 @@ public class DrawingPanel extends JPanel
 			     }
 			 };
 			 
+			// when click the "move" popup button 
 			ActionListener moveActionListener = new ActionListener() {
 			        public void actionPerformed(ActionEvent a) {
 						
@@ -353,14 +366,20 @@ public class DrawingPanel extends JPanel
 		}
 	}//end of MyMouseListener class
 	
+		
+		/*
+		 * the helper function to change the GUI for each "move" button click
+		 */
 		public static void updateMoveGUI(Point p){
 			
         	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
       
         	
-        	// walk one cell each click time 
+        	// make sure the current robot can still move 
         	if (robotController.canMove((GUI.robotList).elementAt(N))){
-        	if(p_old[N].y % 2 == 0){
+        		// when the robot is in the even number row of game board
+        		if(p_old[N].y % 2 == 0){
+        		// make sure just move one cell, otherwise do nothing
         		if(((p.x <= p_old[N].x) && (p.x >= p_old[N].x - 1 )  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x + 1) && (p.y == p_old[N].y)) ){
         			
         			for(int i=1; i <= 18 ; i++){
@@ -372,15 +391,18 @@ public class DrawingPanel extends JPanel
 							status_old[N] = 0;
 					}
 					board[p_old[N].x][p_old[N].y] = status_old[N];
-					
         			p_old[N] = p;
 					status_old[N] = board[p.x][p.y];	
 					board[p.x][p.y] = N;
+					
+					// update the data in the model through the controller 
 					if( (((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y)) && !(GUI.robotList).elementAt(N).getisAI())
 						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
         		}
         	}
+        	// when the robot is in the odd number row of game board
         	else{
+        		// make sure just move one cell, otherwise do nothing
         		if(((p.x <= p_old[N].x + 1) && (p.x >= p_old[N].x)  && (p.y >= p_old[N].y - 1 ) && (p.y <= p_old[N].y + 1 ) ) || ((p.x == p_old[N].x - 1) && (p.y == p_old[N].y)) ){
         			for(int i=1; i <= 18; i++){
 						if((p_old[N].x == p_old[i].x) && (p_old[N].y == p_old[i].y) && (i != N)){
@@ -394,6 +416,7 @@ public class DrawingPanel extends JPanel
         			p_old[N] = p;
 					status_old[N] = board[p.x][p.y];	
 					board[p.x][p.y] = N;
+					// update the data in the model through the controller 
 					if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y) && !(GUI.robotList).elementAt(N).getisAI())
 						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
         		}
@@ -403,7 +426,6 @@ public class DrawingPanel extends JPanel
         	
         	GUI.prosessLabel.setText("Moving " + GUI.robotList.getElementAt(N).getMoved() + " steps" );
         	GUI.updateTable();
-//        	repaint();
         	GUI.statusTable.repaint();
 		} // end of UpdateMoveGUI()
 		
