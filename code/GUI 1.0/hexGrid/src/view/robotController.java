@@ -431,7 +431,7 @@ public class robotController {
     	Point target = DirectionToPoint(currentRobot, direction);
     	if (checkInBoundary(target.x, target.y)){
     		if(DrawingPanel.board[target.x][target.y] > 0)
-    			return "OCCUPIED";
+    			return "EMPTY";
     		else 
     			return "EMPTY";
     	}

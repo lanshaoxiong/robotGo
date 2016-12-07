@@ -22,7 +22,6 @@ public class GUI {
 	private JPanel btnpanel;
 	static DrawingPanel gameBoardPanel;
 	public static SoundClip sc= new SoundClip("RobotGo.wav","RobotGoAttack.wav");
-	
 	public String[] columnNames = {
 			"Robot Name",
             "Health",
@@ -209,9 +208,7 @@ public class GUI {
 				updateLabel();
 				statusTable.repaint();
 				gameBoardPanel.repaint();
-				
 				sc.soundPlay();
-
 				btnStart.setEnabled(false);
 			}
 		});
@@ -289,9 +286,7 @@ public class GUI {
 				robotList.removeAllElements();
 						
 			    gameBoardPanel.setVisible(false);
-			    
 			    sc.stopPlay();
-				
 				frmGameBoard.dispose();				
 			}			
 		});
@@ -304,8 +299,8 @@ public class GUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				GUI.sc.stopAttackSound();
 				
+				GUI.sc.stopAttackSound();
 				robotList.getElementAt(DrawingPanel.N).setMoved(0);
 				robotList.getElementAt(DrawingPanel.N).setAttacked(false);
 				robotController.scanRobotList.removeAllElements();
@@ -319,8 +314,6 @@ public class GUI {
 						if((DrawingPanel.N) > 18)
 							(DrawingPanel.N) = 1;
 					}
-					
-				    
 				}
 				
 				

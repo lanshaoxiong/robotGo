@@ -238,7 +238,7 @@ public class Interpreter {
 			DS.push(R.getCurrentHp());
 			DS.push(R.getLocation().y);
 			DS.push(R.getLocation().x);
-			DS.push(R.getColor().toString());
+			DS.push(R.getTeam());
 			break;
 		case "check!":
 			CS.pop();
@@ -253,9 +253,9 @@ public class Interpreter {
 			break;
 		case "shoot!":
 			CS.pop();
-			System.out.println(currentRobot.getLocation().x);
-			System.out.println(currentRobot.getLocation().y);
-			System.out.println(DS.toString());
+			//System.out.println(currentRobot.getLocation().x);
+			//System.out.println(currentRobot.getLocation().y);
+			//System.out.println(DS.toString());
 			Point P;
 			if(DS.peek() instanceof Integer){
 				P = new Point((Integer)DS.pop(), (Integer)DS.pop());
@@ -273,6 +273,7 @@ public class Interpreter {
 			CS.pop();
 			System.out.println(DS.toString());
 			String a = (String)DS.pop();
+			System.out.println(a);
 			if(a.equals(currentRobot.getColor().toString())){
 				DS.push("false");
 			}else{
@@ -307,6 +308,8 @@ public class Interpreter {
 			DS.push(currentRobot.getRange());
 			break;
 		case "team":
+			CS.pop();
+			System.out.println(currentRobot.getTeam());
 			DS.push(currentRobot.getTeam());
 			break;
 		case "type":

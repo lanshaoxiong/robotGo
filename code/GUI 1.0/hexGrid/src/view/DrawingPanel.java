@@ -323,10 +323,7 @@ public class DrawingPanel extends JPanel
 		        	popup_cancel.hide();
 		        	repaint();
 		        	GUI.statusTable.repaint();
-		        	
-			    	//play the attck sound 
-			    	GUI.sc.attackPlay();
-			    	
+		        	GUI.sc.attackPlay();
 			     }
 			 };
 			 
