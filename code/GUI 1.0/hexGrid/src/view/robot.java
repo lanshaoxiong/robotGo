@@ -31,11 +31,18 @@ public class robot {
 //	private boolean canMove;
 	private boolean attacked;
 	
-	
+    /**
+     * @ robot type
+     **/  	
 	public enum robotClass{
 		SCOUT, SNIPER, TANK
 	}
 	
+
+    /**
+     * @constructor
+     **/  
+
 	public robot(String newName, String newTeam, Color newColor, robotClass type, Point location){
 		if(type == robotClass.SCOUT){
 			range = 2;
@@ -165,7 +172,9 @@ public class robot {
 //					  
 		} // end of constructor
 				
-
+    /**
+     * @return the team, name, and type of a robot
+     **/  
 	public String getInfo(){
 		return "Team: " + team + ", "+  " Name: " + name + ", " + "Type: " + type;
 	}
@@ -250,8 +259,6 @@ public class robot {
 		return type;
 	}
 	
-	
-	
 	public void setName(String newName){
 		name = newName; 
 	}
@@ -314,7 +321,5 @@ public class robot {
 	public void setLocation (Point newLocation){
 		this.location = newLocation;
 	}
-
-	
 	
 }
