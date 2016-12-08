@@ -18,6 +18,12 @@ public class Interpreter {
 	public words W;
 	public variables V;
 	public robot currentRobot;
+
+
+
+    /**
+     * @consturctor  
+     **/
 	Interpreter() {
 		DS = new Stack<Object>();
 		CS = new Stack<Object>();
@@ -31,6 +37,10 @@ public class Interpreter {
 		
 	}
 
+
+	/**
+     * @mainFunction 
+     **/
 	public static void main(String[] args) throws Exception {
 
 		Interpreter I = new Interpreter();
@@ -80,6 +90,16 @@ public class Interpreter {
 		
 		//I.Play("5 0 do I 1 + . loop");
 	}
+
+
+
+
+
+   /**
+     * @pre: script for the AI robot to play its turn
+     * @post: the AI robot finishes its turn 
+     * @return: nothing
+     **/
 	public void Play(String play) throws Exception{
 		Tokenize1 (play);
 		
@@ -326,7 +346,16 @@ public class Interpreter {
 		
 		}
 	}
-	
+
+
+
+
+    /**
+     * Helper function for 
+     * @pre: nothing
+     * @post: 
+     * @return: nothing
+     **/	
 	public void loop(){
 		if(!loopCount.isEmpty()){
 			Integer end = Integer.parseInt((String) loopCount.pop());
@@ -350,7 +379,9 @@ public class Interpreter {
 		}
 		
 	}
-	
+
+
+
 	public void StartLoop(){
 //		if(!loopCount.empty()){
 //			LS.pop();
@@ -403,6 +434,8 @@ public class Interpreter {
 //			System.out.println("loopcount: " + loopCount.toString());
 		}
 	}
+
+
 	
 	public void Read(robot Robot) throws Exception {
 		currentRobot = Robot;
@@ -410,6 +443,9 @@ public class Interpreter {
 		//Play(words.findWord("play"));
 		
 	}
+
+
+
 	public void Tokenize1(String code){
 		Object[] tokens = code.split(" ");
 		
@@ -429,6 +465,8 @@ public class Interpreter {
 		}
 	}
 	
+
+
 	public void Conditional(){
 		if (((String) DS.pop()).compareTo("true")==0){
 			while(((String) CS.peek()).compareTo("else")!=0){
@@ -489,6 +527,8 @@ public class Interpreter {
 		}
 
 	}
+
+
 
 	public void Compare(Object object, Object object2, String op) throws Exception {
 		if (op.equals("<")) {
@@ -557,10 +597,22 @@ public class Interpreter {
 			throw new Exception("Operator not recognised: " + op);
 		}
 	}
+
+    /** 
+     * @pre: given two integers, min and max
+     * @post: push a radom integer to the stack
+     * @return: nothing
+     **/
 	public void Random(int min, int max) {
 		DS.push(min + (int) (Math.random() * ((max - min) + 1)));
 	}
 
+
+    /** 
+     * @pre: given a word and code
+     * @post: call words to define the word
+     * @return: nothing
+     **/	
 	public void DefineWord(String Word, String Code) {
 		words.defineWord(Word, Code);
 	}
