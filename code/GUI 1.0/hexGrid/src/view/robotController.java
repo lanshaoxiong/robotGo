@@ -18,25 +18,27 @@ import view.robot.robotClass;
 public class robotController {
   
     public static final String FILE_NAME_robotList = "robotList.txt";
-
-    static DefaultListModel<robot> robotList;
-    
+    static DefaultListModel<robot> robotList;    
     Lock lock = new ReentrantLock();
-    
     static Interpreter ITP = new Interpreter();
+    public static DefaultListModel<robot> scanRobotList = new DefaultListModel<>();
 
-    
+
+    /**
+     * @consturctor  
+     **/
    robotController(DefaultListModel<robot> newRobotList){
     	robotList = newRobotList;    
     }
    
-//   public static DefaultListModel<Point> scanTileList = new DefaultListModel<>();
-   public static DefaultListModel<robot> scanRobotList = new DefaultListModel<>();
+
+
 
     /**
-     *
-     * @return
-     */
+     * @pre: all the parameters needed to create a new robor
+     * @post: add the new robot to the robot list 
+     * @return: nothing
+     **/
     public void createRobot(String newName, String newTeam, Color newColor, robotClass newType, Point location){
         try{
             lock.lock();
@@ -51,21 +53,21 @@ public class robotController {
       
     
     /**
-     *
-     * @return
-     */
+     * @pre: the corresponding robot index in robot list
+     * @post: add the new robot to the robot list 
+     * @return: nothing
+     **/
     public void delete(int index){
-//        try{
-//            lock.lock();
-            robotList.removeElementAt(index);
-//        }        
-//        finally{
-//            lock.unlock();
-//        }
+        robotList.removeElementAt(index);
     }  
     
-    
-    // reset all robot after press "end" button
+
+   
+    /**
+     * @pre: nothing
+     * @post: reset all robot after press "end" button
+     * @return: nothing
+     **/    
     public void resetRobotList(){
     	for(int i = 0; i<= 18; i++){
     		robotList.getElementAt(i).setCurrentHp(robotList.getElementAt(i).getMaxHp());
@@ -74,8 +76,6 @@ public class robotController {
     		robotList.getElementAt(i).setMoved(0);
     		robotList.getElementAt(i).setisAI(false);
     		
-    		
-
     		if(robotList.getElementAt(i).getColor().equals(Color.red)){
     			robotList.getElementAt(i).setDirection(0);
     			robotList.getElementAt(i).setLocation(new Point(1,4));
@@ -103,14 +103,144 @@ public class robotController {
     		else;
     	}
     }
-    
+
+
+
+
+    /**
+     * Helper function for move
+     * @pre: the robot in the current turn, the location (x, y) of the robot
+     * @post: calculate the direction of the robot by using its location information
+     * @return: an integer, which represents the direction of the current robot. 
+     **/  
+    public int PointToDirection(robot currentRobot, Point np){
+        int mx = currentRobot.getLocation().x;
+        int my = currentRobot.getLocation().y;
+        
+        if(my % 2 == 0){
+            if((np.x == mx + 1) && (np.y == my))
+                return 0;
+            else if((np.x == mx) && (np.y == my + 1))
+                return 1; 
+            else if((np.x == mx - 1 ) && (np.y == my + 1))
+                return 2;
+            else if((np.x == mx - 1 ) && (np.y == my))
+                return 3;
+            else if((np.x == mx - 1 ) && (np.y == my - 1))
+                return 4;
+            else if((np.x == mx) && (np.y == my - 1))
+                return 5;
+            else 
+                return currentRobot.getDirection();     
+        }
+        else {
+            if((np.x == mx + 1) && (np.y == my))
+                return 0;
+            else if((np.x == mx + 1) && (np.y == my + 1))
+                return 1; 
+            else if((np.x == mx) && (np.y == my + 1))
+                return 2;
+            else if((np.x == mx - 1 ) && (np.y == my))
+                return 3;
+            else if((np.x == mx) && (np.y == my - 1))
+                return 4;
+            else if((np.x == mx + 1) && (np.y == my - 1))
+                return 5;
+            else 
+                return currentRobot.getDirection();     
+        }
+    }
     
 
+
+    /**
+     * Helper function for move
+     * @pre: the robot in the current turn, the direction of the robot
+     * @post: calculate the location (x, y)  of the robot by using its direction information
+     * @return: the direction of the current robot. 
+     **/  
+
+    public static Point DirectionToPoint(robot currentRobot, int nDirection){
+        int mx = currentRobot.getLocation().x;
+        int my = currentRobot.getLocation().y;
+        
+        if(my % 2 == 0){
+            if(nDirection == 0)
+                return new Point(mx+1, my);
+            else if (nDirection == 1)
+                return new Point(mx, my+1);
+            else if (nDirection == 2)
+                return new Point(mx-1, my+1);
+            else if (nDirection == 3)
+                return new Point(mx-1, my);
+            else if (nDirection == 4)
+                return new Point(mx-1, my-1);
+            else if (nDirection == 5)
+                return new Point(mx, my-1);
+            else 
+                return currentRobot.getLocation();
+        }
+        
+        else{
+            if(nDirection == 0)
+                return new Point(mx+1, my);
+            else if (nDirection == 1)
+                return new Point(mx+1, my+1);
+            else if (nDirection == 2)
+                return new Point(mx, my+1);
+            else if (nDirection == 3)
+                return new Point(mx-1, my);
+            else if (nDirection == 4)
+                return new Point(mx, my-1);
+            else if (nDirection == 5)
+                return new Point(mx+1, my-1);
+            else 
+                return currentRobot.getLocation();
+        }
+        
+    }
+    
+
+
+    /**
+     * Helper function for move
+     * @pre: the robot in the current turn
+     * @post: reset the robot's direction number to zero if it exceeds six
+     * @return: nothing
+     **/  
+    public static void turn(robot currentRobot){
+        int currentDirection = currentRobot.getDirection();
+        currentDirection++;
+        if (currentDirection > 5)
+            currentDirection = 0;
+        currentRobot.setDirection(currentDirection);
+    }
+
+
+
+     /**
+     * Helper function for move function
+     * @pre: the robot in the current turn
+     * @post: nothing
+     * @return: nothing
+     **/  
+    public static boolean canMove(robot currentRobot){
+        return (currentRobot.getMoved() < currentRobot.getMovePoints());
+    }
+
+
+
+
+    /**
+     * @pre: the robot in current turn, the right direction
+     * @post: the robot finish its movement
+     * @return: nothing
+     **/  
     public static void move (robot currentRobot, int direction){
     	
     	if(currentRobot.getisAI()){
     		DrawingPanel.updateMoveGUI(DirectionToPoint(currentRobot, direction));
-//    		System.out.println("test");
+    	//	System.out.println("test");
     		GUI.gameBoardPanel.repaint();
     	}
     	
@@ -127,15 +257,28 @@ public class robotController {
     	}
     }
     
-    public static boolean canMove(robot currentRobot){
-    	return (currentRobot.getMoved() < currentRobot.getMovePoints());
-    }
-    
+
+
+
+    /**
+     * Helper function for the shoot function
+     * @pre: the robot in the current turn
+     * @post: nothing
+     * @return: nothing
+     **/     
     public boolean canShoot(robot currentRobot){
     	return !(currentRobot.attacked());
     }
-    
-    
+
+
+
+
+    /**
+     * Helper function for the shoot function
+     * @pre: the robot in the current turn, the location (x,y) of the target
+     * @post: nothing
+     * @return: true if the target is in attack range
+     **/     
     public static boolean inRange(robot currentRobot, Point target){
     	
     	if(currentRobot.getType() ==  robotClass.SCOUT)
@@ -145,106 +288,17 @@ public class robotController {
     	else if(currentRobot.getType() ==  robotClass.TANK)
     		return ! (hexmech_pointy.checkOutofTankRange(target.x, target.y, robotList.indexOf(currentRobot)));
     	else
-    		return false;
-    	
+    		return false; 	
     }
     
     
-    // helper function for move
-    public int PointToDirection(robot currentRobot, Point np){
-    	int mx = currentRobot.getLocation().x;
-    	int my = currentRobot.getLocation().y;
-    	
-    	if(my % 2 == 0){
-    		if((np.x == mx + 1) && (np.y == my))
-    			return 0;
-    		else if((np.x == mx) && (np.y == my + 1))
-    			return 1; 
-    		else if((np.x == mx - 1 ) && (np.y == my + 1))
-    			return 2;
-    		else if((np.x == mx - 1 ) && (np.y == my))
-    			return 3;
-    		else if((np.x == mx - 1 ) && (np.y == my - 1))
-    			return 4;
-    		else if((np.x == mx) && (np.y == my - 1))
-    			return 5;
-    		else 
-    			return currentRobot.getDirection();		
-    	}
-    	else {
-    		if((np.x == mx + 1) && (np.y == my))
-    			return 0;
-    		else if((np.x == mx + 1) && (np.y == my + 1))
-    			return 1; 
-    		else if((np.x == mx) && (np.y == my + 1))
-    			return 2;
-    		else if((np.x == mx - 1 ) && (np.y == my))
-    			return 3;
-    		else if((np.x == mx) && (np.y == my - 1))
-    			return 4;
-    		else if((np.x == mx + 1) && (np.y == my - 1))
-    			return 5;
-    		else 
-    			return currentRobot.getDirection();		
-    	}
-    }
+
     
-    // helper function for move
-    // transfer direction info to the corresponding location info 
-    public static Point DirectionToPoint(robot currentRobot, int nDirection){
-    	int mx = currentRobot.getLocation().x;
-    	int my = currentRobot.getLocation().y;
-    	
-    	if(my % 2 == 0){
-    		if(nDirection == 0)
-    			return new Point(mx+1, my);
-    		else if (nDirection == 1)
-    			return new Point(mx, my+1);
-    		else if (nDirection == 2)
-    			return new Point(mx-1, my+1);
-    		else if (nDirection == 3)
-    			return new Point(mx-1, my);
-    		else if (nDirection == 4)
-    			return new Point(mx-1, my-1);
-    		else if (nDirection == 5)
-    			return new Point(mx, my-1);
-    		else 
-    			return currentRobot.getLocation();
-    	}
-    	
-    	else{
-    		if(nDirection == 0)
-    			return new Point(mx+1, my);
-    		else if (nDirection == 1)
-    			return new Point(mx+1, my+1);
-    		else if (nDirection == 2)
-    			return new Point(mx, my+1);
-    		else if (nDirection == 3)
-    			return new Point(mx-1, my);
-    		else if (nDirection == 4)
-    			return new Point(mx, my-1);
-    		else if (nDirection == 5)
-    			return new Point(mx+1, my-1);
-    		else 
-    			return currentRobot.getLocation();
-    	}
-    	
-    }
-    
-    // helper function for move
-    public static void turn(robot currentRobot){
-    	int currentDirection = currentRobot.getDirection();
-    	currentDirection++;
-    	if (currentDirection > 5)
-    		currentDirection = 0;
-    	currentRobot.setDirection(currentDirection);
-    }
-    
-    // ==============================================================
-    
-    
-    
-    
+    /**
+     * @pre: the robot in the current turn, the location (x,y) of the target
+     * @post: the robot finishes its shoot on a specific tile. 
+     * @return: nothing
+     **/             
     public static void attack(robot currentRobot, Point target){
     	// check if the robot have attacked or not during this term
     	if (!(currentRobot.attacked()) && inRange(currentRobot, target)) {
@@ -263,7 +317,14 @@ public class robotController {
     	}	
     }
 
-    
+  
+
+
+    /**
+     * @pre: the location (x,y) information of the tile.
+     * @post: nothing
+     * @return: a robot list, containing all the robots in that specific tile
+     **/  
     public static DefaultListModel<robot> getRobotOnTile(Point target) {
   	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
   	   for (int i = 0; i < robotList.getSize(); i++) {
@@ -276,25 +337,27 @@ public class robotController {
   	   return robotsOnTile;	   
      }
     
-    
+
+    /**
+     * @pre: the index of robot in scan robot list.
+     * @post: nothing
+     * @return: the identified robot
+     **/    
     public static robot identify(int index) {
-// 	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
-// 	   for (int i = 0; i < robotList.getSize(); i++) {
-// 		   // find the target by searching the robotList
-// 		   if (robotList.getElementAt(i).getLocation().x == scanTileList.getElementAt(index).x && robotList.getElementAt(i).getLocation().y == scanTileList.getElementAt(index).y) { 
-// 			   // add the robots on this specific tile to a temporary robot list
-// 			   robotsOnTile.addElement(robotList.getElementAt(i));
-// 		   }
-// 	   }
-// 	   return robotsOnTile;	   
+  
     	return scanRobotList.getElementAt(index);
     }
+ 
+
+
+
     
-    
-    
-//    // for AI shooting 
-    
-    
+    /**
+     * for AI shooting 
+     * @pre: the robot in current turn
+     * @post: nothing
+     * @return: return the number of robots within the range of the current robot
+     **/     
     public static int scan(robot currentRobot){
     	scanRobotList.clear();
     	if(currentRobot.getType() == robotClass.SCOUT){
@@ -308,12 +371,12 @@ public class robotController {
     					for(int in = 0; in < tempList.getSize(); in++){
     						scanRobotList.addElement(tempList.getElementAt(in));
     					}
-    					
     				}
     			}
     		}
     		
     	}
+
     	else if (currentRobot.getType() == robotClass.SNIPER){
     		
     		for(int i = Math.max(currentRobot.getLocation().x - 3 , 0); i<= Math.min(currentRobot.getLocation().x + 3,9); i++){
@@ -327,9 +390,8 @@ public class robotController {
     				}
     			}
     		}
-    		
-    		
     	}
+
     	else if(currentRobot.getType() == robotClass.TANK){
     		
     		for(int i = Math.max(currentRobot.getLocation().x - 1 , 0); i<= Math.min(currentRobot.getLocation().x + 1,9); i++){
@@ -342,9 +404,7 @@ public class robotController {
     					}
     				}
     			}
-    		}
-    		
-    		
+    		}	
     	}
     	else;
     	
@@ -353,7 +413,13 @@ public class robotController {
     }
 
 
-    
+
+    /**
+     * for AI shooting 
+     * @pre: nothing
+     * @post: if the current robot is AI, pass it to the interpreter
+     * @return: nothing
+     **/     
     public static void AI(){
     	if(robotList.getElementAt(DrawingPanel.N).getisAI()){
     		
@@ -362,8 +428,7 @@ public class robotController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-    	
+		}    	
 //	
 //    	robotList.getElementAt(DrawingPanel.N).setMoved(0);
 //		robotList.getElementAt(DrawingPanel.N).setAttacked(false);
@@ -426,7 +491,17 @@ public class robotController {
     	else;
     }
     
-    // for AI move 
+
+
+
+
+
+    /**
+     * for AI check
+     * @pre: the robot in the current turn, and a given direction number
+     * @post: nothing
+     * @return: return a string describing the adjacent space in that direction
+     **/   
     public static String check(robot currentRobot, int direction){
     	Point target = DirectionToPoint(currentRobot, direction);
     	if (checkInBoundary(target.x, target.y)){
@@ -441,8 +516,15 @@ public class robotController {
 
     
     
-    
-    // check for boundary
+
+
+    /**
+     * for AI bodundary check
+     * @pre: a given location (i, j)
+     * @post: nothing
+     * @return: return true if the robot is within boundary.
+     **/  
+
     public static boolean checkInBoundary(int i, int j){
     	if(i>=3 && i<=7 && (j==0 || j==8))
 			return true;
@@ -459,14 +541,14 @@ public class robotController {
     }
     
 
-    
-//    ================================================================================================
+
     
 
     /**
-     *
-     * @return
-     */
+     * @pre: nothing
+     * @post: read from the robot list
+     * @return: nothing
+     **/  
     public void readFromFile() throws IOException, ClassNotFoundException{
         ObjectInputStream is_robot = new ObjectInputStream(new FileInputStream(FILE_NAME_robotList));
         DefaultListModel<robot> inObject_robot =  (DefaultListModel<robot>) is_robot.readObject();
@@ -486,10 +568,13 @@ public class robotController {
         
     }
     
+
     /**
-     *
-     * @return
-     */
+     * for AI bodundary check
+     * @pre: nothing
+     * @post: write to the robot list
+     * @return: nothing
+     **/  
     public void writeToFile() throws IOException{
         ObjectOutputStream os_robot = new ObjectOutputStream(new FileOutputStream(FILE_NAME_robotList));
         os_robot.writeObject(robotList);
@@ -498,11 +583,5 @@ public class robotController {
         //ObjectOutputStream os_gameboard = new ObjectOutputStream(new FileOutputStream(FILE_NAME_gameboardList));
         //os_gameboard.writeObject(gameboardList);
         //os_gameboard.close();
-
-    }
-    
-
-    
+    } 
 }
-
-
