@@ -1,10 +1,14 @@
-package view;
+package controller;
 
 
 
 import java.awt.Color;
 import java.awt.Point;
 import java.util.Stack;
+
+import model.Robot;
+import model.Variables;
+import model.Words;
 
 
 public class Interpreter {
@@ -15,9 +19,9 @@ public class Interpreter {
 	public Stack<Object> ConS;
 	public Stack<Object> loopCount;
 	public Stack<Object> LS;
-	public words W;
-	public variables V;
-	public robot currentRobot;
+	public Words W;
+	public Variables V;
+	public Robot currentRobot;
 
 
 
@@ -32,8 +36,8 @@ public class Interpreter {
 		LS = new Stack<Object>();
 		
 		//String options[]= {"+","-","*","/mod","<",">","<=",">=","=","<>",".","random", "(", "drop", "dup", "swap", "rot", "and", "or", "invert", "if", "else", "then", "do", "loop", "health", "healthleft", "moves", "movesleft", "attack", "range", "team", "type", "turn!", "move!", "shoot!", "check!", "identify!", "send!", "mesg?", "recv!"};
-		words W = new words();
-		variables V = new variables();
+		Words W = new Words();
+		Variables V = new Variables();
 		
 	}
 
@@ -126,12 +130,12 @@ public class Interpreter {
 			while(!CS.peek().equals(";")){
 			temp=temp.concat((String)CS.pop()+ " ");
 			}
-			words.defineWord(name, temp);
+			Words.defineWord(name, temp);
 			CS.pop();
 			break;
 		case "variable":
 			CS.pop();
-			variables.defineVariable((String)CS.pop());
+			Variables.defineVariable((String)CS.pop());
 			break;
 		case "+":
 			CS.pop();
@@ -246,15 +250,15 @@ public class Interpreter {
 			loopCount.push(end.toString());
 			break;
 		case "!":
-			variables.setVariable((String)DS.pop(), DS.pop());
+			Variables.setVariable((String)DS.pop(), DS.pop());
 			break;
 		case "?":
-			DS.push(variables.findVariable((String)DS.pop()));
+			DS.push(Variables.findVariable((String)DS.pop()));
 			break;
 		case "identify!":
 			CS.pop();
 //			Point D = new Point((Integer)DS.pop(), (Integer)DS.pop());
-			robot R = robotController.identify(Integer.parseInt((String)DS.pop()));
+			Robot R = RobotController.identify(Integer.parseInt((String)DS.pop()));
 			DS.push(R.getCurrentHp());
 			DS.push(R.getLocation().y);
 			DS.push(R.getLocation().x);
@@ -262,12 +266,12 @@ public class Interpreter {
 			break;
 		case "check!":
 			CS.pop();
-			DS.push(robotController.check(currentRobot, currentRobot.getDirection()));
+			DS.push(RobotController.check(currentRobot, currentRobot.getDirection()));
 			break;
 		case "scan!":
 			//System.out.println("scan");
 			CS.pop();
-			DS.push(robotController.scan(currentRobot));
+			DS.push(RobotController.scan(currentRobot));
 			//System.out.println("scanned");
 			//System.out.print(DS.toString());
 			break;
@@ -282,12 +286,12 @@ public class Interpreter {
 			}else{
 				P = new Point(Integer.parseInt((String)DS.pop()), Integer.parseInt((String)DS.pop()));
 			}
-			robotController.attack(currentRobot, P );
+			RobotController.attack(currentRobot, P );
 			break;
 		case "move!":
 			CS.pop();
 			//System.out.println("HEYYYY");
-			robotController.move(currentRobot, currentRobot.getDirection());
+			RobotController.move(currentRobot, currentRobot.getDirection());
 			break;
 		case "enemy!":
 			CS.pop();
@@ -304,7 +308,7 @@ public class Interpreter {
 			break;
 		case "turn!":
 			CS.pop();
-			robotController.turn(currentRobot);
+			RobotController.turn(currentRobot);
 			break;
 		case "health":
 			CS.pop();
@@ -437,7 +441,7 @@ public class Interpreter {
 
 
 	
-	public void Read(robot Robot) throws Exception {
+	public void Read(Robot Robot) throws Exception {
 		currentRobot = Robot;
 		Play(currentRobot.getforthCode());
 		//Play(words.findWord("play"));
@@ -614,6 +618,6 @@ public class Interpreter {
      * @return: nothing
      **/	
 	public void DefineWord(String Word, String Code) {
-		words.defineWord(Word, Code);
+		Words.defineWord(Word, Code);
 	}
 }

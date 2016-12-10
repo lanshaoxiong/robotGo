@@ -1,16 +1,16 @@
-package view;
+package model;
 
 
 import java.util.*;
-public class words {
+public class Words {
 
 	private static Map<String,String> wordDictionary;
 	
 
 	/**
-     * @consturctor  
+     * @constructor  
      **/	
-	public words(){
+	public Words(){
 		wordDictionary = new HashMap<String,String>();
 	}
 	
@@ -65,9 +65,9 @@ public class words {
 	
 	
 	public static void main(String[] args){
-		new words();
-		words.defineWord("aaa", "bbbbb");
-		words.defineWord("aaa", "bffbb");
+		new Words();
+		Words.defineWord("aaa", "bbbbb");
+		Words.defineWord("aaa", "bffbb");
 		//words.removeWord("aaa");
 		System.out.println((getDictionary().toString()));
 		System.out.println(getDictionary().get("aaa"));

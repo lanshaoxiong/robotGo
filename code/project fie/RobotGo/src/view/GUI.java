@@ -3,13 +3,15 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import view.robot.robotClass;
+import controller.SoundClip;
+import controller.RobotController;
+import model.Robot;
+import model.Robot.robotClass;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.event.MouseEvent;;
 
 
 public class GUI {
@@ -20,8 +22,9 @@ public class GUI {
 	private JButton btnSwitch;
 	private JScrollPane statusScrollPane;
 	private JPanel btnpanel;
-	static DrawingPanel gameBoardPanel;
+	public static DrawingPanel gameBoardPanel;
 	public static SoundClip sc= new SoundClip("RobotGo.wav","RobotGoAttack.wav");
+	
 	public String[] columnNames = {
 			"Robot Name",
             "Health",
@@ -31,10 +34,10 @@ public class GUI {
             "Attack Point",
             "Status"};
 		
-	public static DefaultListModel<robot> robotList = new DefaultListModel<robot>();
-	public static robotController rC = new robotController(robotList);
+	public static DefaultListModel<Robot> robotList = new DefaultListModel<Robot>();
+	public static RobotController rC = new RobotController(robotList);
+//	public static int temp = 1;
 	
-	// the table to display the data of current robot
 	static JLabel prosessLabel;
 	public static Object[][] data = {
 			{"scout", new Integer(1), new Integer(1), new Integer(2), new Integer(3), new Integer(1), "alive"},
@@ -42,6 +45,12 @@ public class GUI {
 			{"tank", new Integer(3), new Integer(3), new Integer(1), new Integer(1), new Integer(1), "alive"}	     
 	};
 
+//	public static Object[][] data = {
+//			{"scout", 1, 1, 2, 3, 1, "alive"},
+//			{"sniper", 2, 2, 3, 2, 1, "alive"},
+//			{"tank", 3, 3, 1, 1, 1, "alive"}	     
+//	};
+//		
 		
 	/**
 	 * Create the application.
@@ -49,7 +58,6 @@ public class GUI {
 		public GUI() {		
 			initialize();
 		}
-		
 
 	/**
 	 * Launch the application.
@@ -66,12 +74,12 @@ public class GUI {
 			}
 		});
 	}
-		
 	 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {	
+	private void initialize() {
+		
 		
 		// initialize the robot in 1 - 18 order
 		rC.createRobot("empty","empty",Color.RED, robotClass.SCOUT, new Point(0,0)); // empty, no use
@@ -126,10 +134,6 @@ public class GUI {
 		
 		
 		updateLabel();
-		
-		/*
-		 * the start button with action to start the game
-		 */
 		
 		// just click once, then set disable.
 		JButton btnStart = new JButton("Start");
@@ -199,15 +203,17 @@ public class GUI {
 				 }
 			}
 
-				// the first robot is the scout in red team
 				(DrawingPanel.N) = 1; 
 				gameBoardPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
-				robotController.AI();
+				
+				RobotController.AI();
 				updateTable();
 				updateLabel();
 				statusTable.repaint();
 				gameBoardPanel.repaint();
+				
 				sc.soundPlay();
+
 				btnStart.setEnabled(false);
 			}
 		});
@@ -217,9 +223,6 @@ public class GUI {
 		
 		btnpanel.add(btnStart);
 		
-		/*
-		 * the end button with the function to close the current game board interface and switch to the initial game interface
-		 */
 		btnEnd = new JButton("End");
 		btnpanel.add(btnEnd);
 		btnEnd.addActionListener(new ActionListener(){
@@ -288,30 +291,27 @@ public class GUI {
 				robotList.removeAllElements();
 						
 			    gameBoardPanel.setVisible(false);
+			    
 			    sc.stopPlay();
+				
 				frmGameBoard.dispose();				
 			}			
 		});
 		
 		
 		
-		/*
-		 * the switch button with action to switch the turn to the next robot
-		 */
+		
 		btnSwitch = new JButton("Switch");
 		btnSwitch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				
 				GUI.sc.stopAttackSound();
+				
 				robotList.getElementAt(DrawingPanel.N).setMoved(0);
 				robotList.getElementAt(DrawingPanel.N).setAttacked(false);
-				robotController.scanRobotList.removeAllElements();
+				RobotController.scanRobotList.removeAllElements();
 				
-				/*
-				 * when there are two players 
-				 */
 				if (DrawingPanel.Q == 2){
 					DrawingPanel.N = DrawingPanel.N + 3;
 					if((DrawingPanel.N) > 18)
@@ -321,12 +321,24 @@ public class GUI {
 						if((DrawingPanel.N) > 18)
 							(DrawingPanel.N) = 1;
 					}
+					
+				    
 				}
 				
-
-				/*
-				 * when they are three players
-				 */
+				
+//				if (DrawingPanel.Q == 2){
+//					DrawingPanel.N = temp;
+//					DrawingPanel.N = DrawingPanel.N + 3;
+//					if((DrawingPanel.N) > 18)
+//						(DrawingPanel.N) = 1;
+//					temp = DrawingPanel.N;
+//					while(!robotList.getElementAt(DrawingPanel.N).alive()){
+//						DrawingPanel.N = DrawingPanel.N + 6;
+//						if((DrawingPanel.N) > 18)
+//							DrawingPanel.N = 1;
+//					}
+//					
+//				}
 				else if (DrawingPanel.Q == 3){
 					DrawingPanel.N = DrawingPanel.N + 2;
 					if((DrawingPanel.N) > 18)
@@ -337,10 +349,6 @@ public class GUI {
 							(DrawingPanel.N) = 1;
 					}
 				}
-				
-				/*
-				 * when they are six players 
-				 */
 				else if (DrawingPanel.Q == 6){
 					DrawingPanel.N = DrawingPanel.N + 1;
 					if((DrawingPanel.N) > 18)
@@ -357,7 +365,7 @@ public class GUI {
 				DrawingPanel.board[DrawingPanel.p_old[DrawingPanel.N].x][DrawingPanel.p_old[DrawingPanel.N].y] = DrawingPanel.N;
 				
 				updateLabel();
-				robotController.AI();
+				RobotController.AI();
 				updateTable();
 				statusTable.repaint();
 				gameBoardPanel.repaint();	
@@ -377,9 +385,7 @@ public class GUI {
 	} // end of initialize()
 	
 	
-	/*
-	 * the helper function to update the label to help user understand current robot state
-	 */
+	
 	public static void updateLabel(){
 		if (DrawingPanel.N == 0)
 			prosessLabel.setText("Press Start button to fight!!!");
@@ -387,9 +393,6 @@ public class GUI {
 			prosessLabel.setText(robotList.getElementAt(DrawingPanel.N).getInfo());
 	}
 	
-	/*
-	 * the helper function to update the table to help user understand current robot status
-	 */
 	public static void updateTable(){
 		// for scout turn 
         if(DrawingPanel.N >= 1 && DrawingPanel.N  <= 6){

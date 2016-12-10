@@ -1,13 +1,13 @@
-package view;
+package model;
 
 import java.awt.*;
 import javax.swing.*;
 
-
+import view.DrawingPanel;
 
 import java.awt.Color;
 
-public class robot {
+public class Robot {
 	private String name;
 	private String team;
 	private Color color;
@@ -43,7 +43,7 @@ public class robot {
      * @constructor
      **/  
 
-	public robot(String newName, String newTeam, Color newColor, robotClass type, Point location){
+	public Robot(String newName, String newTeam, Color newColor, robotClass type, Point location){
 		if(type == robotClass.SCOUT){
 			range = 2;
 			movePoints = 3;

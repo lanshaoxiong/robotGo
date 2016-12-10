@@ -71,16 +71,10 @@ public class GUI_Initial {
 		numberPanel.setBounds(30, 36, 503, 38);
 		frmInitialization.getContentPane().add(numberPanel);
 		
-		/*
-		 * the panel to select the number of players
-		 */
 		JLabel numberLabel = new JLabel("Number of players:");
 		numberLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		numberPanel.add(numberLabel);
 		
-		/*
-		 * the radio button to select the two players and corresponding action listener
-		 */
 		JRadioButton rdbtnTwoPlayers = new JRadioButton("Two Players");
 		rdbtnTwoPlayers.setHorizontalAlignment(SwingConstants.CENTER);
 		numberPanel.add(rdbtnTwoPlayers);
@@ -101,10 +95,7 @@ public class GUI_Initial {
 				}
 			});
 		
-		
-		/*
-		 * the radio button to select the three players and corresponding action listener
-		 */
+
 		JRadioButton rdbtnThreePlayers = new JRadioButton("Three Players ");
 		numberPanel.add(rdbtnThreePlayers);
 		buttonGroup.add(rdbtnThreePlayers);
@@ -122,9 +113,6 @@ public class GUI_Initial {
 				}
 			});
 		
-		/*
-		 * the radio button to select the six players and the corresponding action listener
-		 */
 		JRadioButton rdbtnSixPlayers = new JRadioButton("Six Players");
 		numberPanel.add(rdbtnSixPlayers);
 		buttonGroup.add(rdbtnSixPlayers);
@@ -143,9 +131,6 @@ public class GUI_Initial {
 				}
 			});
 		
-		/*
-		 * the panel with radio buttons to select the first robot mode (human/AI)
-		 */
 		Player1Panel = new JPanel();
 		Player1Panel.setBounds(30, 94, 220, 38);
 		frmInitialization.getContentPane().add(Player1Panel);
@@ -178,9 +163,6 @@ public class GUI_Initial {
 		Player1AIButton.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player1Panel.add(Player1AIButton);
 		
-		/*
-		 * the panel with radio buttons to select the second robot mode (human/AI)
-		 */
 		Player2Panel = new JPanel();
 		Player2Panel.setBounds(30, 136, 220, 38);
 		frmInitialization.getContentPane().add(Player2Panel);
@@ -212,10 +194,6 @@ public class GUI_Initial {
 		radioButton_1.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player2Panel.add(radioButton_1);
 		
-		
-		/*
-		 * the panel with radio buttons to select the third robot mode (human/AI)
-		 */
 		Player3Panel = new JPanel();
 		Player3Panel.setBounds(30, 177, 220, 38);
 		frmInitialization.getContentPane().add(Player3Panel);
@@ -247,9 +225,6 @@ public class GUI_Initial {
 		radioButton_3.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player3Panel.add(radioButton_3);
 		
-		/*
-		 * the panel with radio buttons to select the fourth robot mode (human/AI)
-		 */
 		Player4Panel = new JPanel();
 		Player4Panel.setBounds(30, 217, 220, 38);
 		frmInitialization.getContentPane().add(Player4Panel);
@@ -269,7 +244,6 @@ public class GUI_Initial {
 		Player4HumanButton.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player4Panel.add(Player4HumanButton);
 		
-		
 		JRadioButton radioButton_5 = new JRadioButton("AI");
 		radioButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -282,9 +256,6 @@ public class GUI_Initial {
 		radioButton_5.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player4Panel.add(radioButton_5);
 		
-		/*
-		 * the panel with radio buttons to select the fifth robot mode (human/AI)
-		 */
 		Player5Panel = new JPanel();
 		Player5Panel.setBounds(30, 259, 220, 38);
 		frmInitialization.getContentPane().add(Player5Panel);
@@ -316,9 +287,6 @@ public class GUI_Initial {
 		radioButton_7.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player5Panel.add(radioButton_7);
 		
-		/*
-		 * the panel with radio buttons to select the sixth robot mode (human/AI)
-		 */
 		Player6Panel = new JPanel();
 		Player6Panel.setBounds(30, 299, 220, 38);
 		frmInitialization.getContentPane().add(Player6Panel);
@@ -350,12 +318,11 @@ public class GUI_Initial {
 		radioButton_9.setVerticalAlignment(SwingConstants.BOTTOM);
 		Player6Panel.add(radioButton_9);
 		
-		/*
-		 * the play button with the action to switch to the second interface
-		 */
 		JButton playButton = new JButton("Play");
+
 	 	
 		playButton.addActionListener(new ActionListener(){
+
 			public void actionPerformed(ActionEvent e){
 				buttonGroup.clearSelection();
 				buttonGroup_1.clearSelection();
@@ -370,16 +337,14 @@ public class GUI_Initial {
 		playButton.setFont(new Font("Lucida Grande", Font.PLAIN, 26));
 		playButton.setBounds(30, 399, 220, 67);
 		frmInitialization.getContentPane().add(playButton);
-		
+//		
 		DrawingPanel thumbnailPanel = new DrawingPanel(50);
 		thumbnailPanel.setBounds(262, 86, 445, 380);
 		frmInitialization.getContentPane().add(thumbnailPanel);
 
 	}
 	
-	/*
-	 * the helper function to enable the panel or disable the panel
-	 */
+	// helper function to enable panel
 	void setPanelEnabled(JPanel panel, Boolean isEnabled) {
 	    panel.setEnabled(isEnabled);
 	    Component[] components = panel.getComponents();
@@ -390,5 +355,14 @@ public class GUI_Initial {
 	        }
 	        components[i].setEnabled(isEnabled);    
 	    }
+//	    if(panel == personPortion){
+//	        streetAdsField.setEnabled(isEnabled);
+//	    }
+//	    if(panel == graduatePortion){
+//	        titleField.setEnabled(isEnabled);
+//	        areaField.setEnabled(isEnabled);
+//	        streetAdsField_prof.setEnabled(isEnabled);
+//	    }
+	    
 	}
 }

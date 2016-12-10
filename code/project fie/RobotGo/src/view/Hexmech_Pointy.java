@@ -14,7 +14,7 @@ import javax.swing.*;
  * we found some tutorial online to help me understand to construct the flat-top hexagon.
  * Based on it, we do some calculation to get the pointy-top hexagon
  */
-public class hexmech_pointy
+public class Hexmech_Pointy
 {
 
 	//Constants
@@ -586,4 +586,3 @@ The hexagon is drawn in the color specified in grid.COLOURELL.
 	
 		
 }// end of the class
-

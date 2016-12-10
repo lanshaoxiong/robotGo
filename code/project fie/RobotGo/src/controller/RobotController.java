@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -11,23 +11,26 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.DefaultListModel;
 
-import view.DrawingPanel.MyMouseListener;
-import view.robot.robotClass;
+import model.Robot;
+import model.Robot.robotClass;
+import view.DrawingPanel;
+import view.GUI;
+import view.Hexmech_Pointy;
 
 
-public class robotController {
+public class RobotController {
   
     public static final String FILE_NAME_robotList = "robotList.txt";
-    static DefaultListModel<robot> robotList;    
+    static DefaultListModel<Robot> robotList;    
     Lock lock = new ReentrantLock();
     static Interpreter ITP = new Interpreter();
-    public static DefaultListModel<robot> scanRobotList = new DefaultListModel<>();
+    public static DefaultListModel<Robot> scanRobotList = new DefaultListModel<>();
 
 
     /**
      * @consturctor  
      **/
-   robotController(DefaultListModel<robot> newRobotList){
+   public RobotController(DefaultListModel<Robot> newRobotList){
     	robotList = newRobotList;    
     }
    
@@ -42,7 +45,7 @@ public class robotController {
     public void createRobot(String newName, String newTeam, Color newColor, robotClass newType, Point location){
         try{
             lock.lock();
-            robot newRobot = new robot(newName, newTeam, newColor, newType, location);
+            Robot newRobot = new Robot(newName, newTeam, newColor, newType, location);
             robotList.addElement(newRobot);
         }
         finally{
@@ -113,7 +116,7 @@ public class robotController {
      * @post: calculate the direction of the robot by using its location information
      * @return: an integer, which represents the direction of the current robot. 
      **/  
-    public int PointToDirection(robot currentRobot, Point np){
+    public int PointToDirection(Robot currentRobot, Point np){
         int mx = currentRobot.getLocation().x;
         int my = currentRobot.getLocation().y;
         
@@ -160,7 +163,7 @@ public class robotController {
      * @return: the direction of the current robot. 
      **/  
 
-    public static Point DirectionToPoint(robot currentRobot, int nDirection){
+    public static Point DirectionToPoint(Robot currentRobot, int nDirection){
         int mx = currentRobot.getLocation().x;
         int my = currentRobot.getLocation().y;
         
@@ -208,7 +211,7 @@ public class robotController {
      * @post: reset the robot's direction number to zero if it exceeds six
      * @return: nothing
      **/  
-    public static void turn(robot currentRobot){
+    public static void turn(Robot currentRobot){
         int currentDirection = currentRobot.getDirection();
         currentDirection++;
         if (currentDirection > 5)
@@ -224,7 +227,7 @@ public class robotController {
      * @post: nothing
      * @return: nothing
      **/  
-    public static boolean canMove(robot currentRobot){
+    public static boolean canMove(Robot currentRobot){
         return (currentRobot.getMoved() < currentRobot.getMovePoints());
     }
 
@@ -236,7 +239,7 @@ public class robotController {
      * @post: the robot finish its movement
      * @return: nothing
      **/  
-    public static void move (robot currentRobot, int direction){
+    public static void move (Robot currentRobot, int direction){
     	
     	if(currentRobot.getisAI()){
     		DrawingPanel.updateMoveGUI(DirectionToPoint(currentRobot, direction));
@@ -266,7 +269,7 @@ public class robotController {
      * @post: nothing
      * @return: nothing
      **/     
-    public boolean canShoot(robot currentRobot){
+    public boolean canShoot(Robot currentRobot){
     	return !(currentRobot.attacked());
     }
 
@@ -279,14 +282,14 @@ public class robotController {
      * @post: nothing
      * @return: true if the target is in attack range
      **/     
-    public static boolean inRange(robot currentRobot, Point target){
+    public static boolean inRange(Robot currentRobot, Point target){
     	
     	if(currentRobot.getType() ==  robotClass.SCOUT)
-    		return ! (hexmech_pointy.checkOutofScoutRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    		return ! (Hexmech_Pointy.checkOutofScoutRange(target.x, target.y, robotList.indexOf(currentRobot)));
     	else if(currentRobot.getType() ==  robotClass.SNIPER)
-    		return ! (hexmech_pointy.checkOutofSniperRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    		return ! (Hexmech_Pointy.checkOutofSniperRange(target.x, target.y, robotList.indexOf(currentRobot)));
     	else if(currentRobot.getType() ==  robotClass.TANK)
-    		return ! (hexmech_pointy.checkOutofTankRange(target.x, target.y, robotList.indexOf(currentRobot)));
+    		return ! (Hexmech_Pointy.checkOutofTankRange(target.x, target.y, robotList.indexOf(currentRobot)));
     	else
     		return false; 	
     }
@@ -299,7 +302,7 @@ public class robotController {
      * @post: the robot finishes its shoot on a specific tile. 
      * @return: nothing
      **/             
-    public static void attack(robot currentRobot, Point target){
+    public static void attack(Robot currentRobot, Point target){
     	// check if the robot have attacked or not during this term
     	if (!(currentRobot.attacked()) && inRange(currentRobot, target)) {
     		for (int i = 0; i < getRobotOnTile(target).getSize(); i++) {
@@ -325,8 +328,8 @@ public class robotController {
      * @post: nothing
      * @return: a robot list, containing all the robots in that specific tile
      **/  
-    public static DefaultListModel<robot> getRobotOnTile(Point target) {
-  	   DefaultListModel<robot> robotsOnTile = new DefaultListModel<robot>();
+    public static DefaultListModel<Robot> getRobotOnTile(Point target) {
+  	   DefaultListModel<Robot> robotsOnTile = new DefaultListModel<Robot>();
   	   for (int i = 0; i < robotList.getSize(); i++) {
   		   // find the target by searching the robotList
   		   if (robotList.getElementAt(i).getLocation().x == target.x && robotList.getElementAt(i).getLocation().y == target.y) { 
@@ -343,7 +346,7 @@ public class robotController {
      * @post: nothing
      * @return: the identified robot
      **/    
-    public static robot identify(int index) {
+    public static Robot identify(int index) {
   
     	return scanRobotList.getElementAt(index);
     }
@@ -358,7 +361,7 @@ public class robotController {
      * @post: nothing
      * @return: return the number of robots within the range of the current robot
      **/     
-    public static int scan(robot currentRobot){
+    public static int scan(Robot currentRobot){
     	scanRobotList.clear();
     	if(currentRobot.getType() == robotClass.SCOUT){
     		
@@ -367,7 +370,7 @@ public class robotController {
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
     					
-    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					DefaultListModel<Robot> tempList = getRobotOnTile(new Point(i,j));
     					for(int in = 0; in < tempList.getSize(); in++){
     						scanRobotList.addElement(tempList.getElementAt(in));
     					}
@@ -383,7 +386,7 @@ public class robotController {
     			for (int j = Math.max(currentRobot.getLocation().y - 3,0); j<= Math.min(currentRobot.getLocation().y + 3,9); j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
-    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					DefaultListModel<Robot> tempList = getRobotOnTile(new Point(i,j));
     					for(int in = 0; in < tempList.getSize(); in++){
     						scanRobotList.addElement(tempList.getElementAt(in));
     					}
@@ -398,7 +401,7 @@ public class robotController {
     			for (int j = Math.max(currentRobot.getLocation().y - 1,0); j<= Math.min(currentRobot.getLocation().y + 1,9); j++){
     				if(inRange(currentRobot, new Point(i,j)) && (DrawingPanel.board[i][j] > 0)){
 //    					scanTileList.addElement(new Point(i,j));
-    					DefaultListModel<robot> tempList = getRobotOnTile(new Point(i,j));
+    					DefaultListModel<Robot> tempList = getRobotOnTile(new Point(i,j));
     					for(int in = 0; in < tempList.getSize(); in++){
     						scanRobotList.addElement(tempList.getElementAt(in));
     					}
@@ -502,7 +505,7 @@ public class robotController {
      * @post: nothing
      * @return: return a string describing the adjacent space in that direction
      **/   
-    public static String check(robot currentRobot, int direction){
+    public static String check(Robot currentRobot, int direction){
     	Point target = DirectionToPoint(currentRobot, direction);
     	if (checkInBoundary(target.x, target.y)){
     		if(DrawingPanel.board[target.x][target.y] > 0)
@@ -551,7 +554,7 @@ public class robotController {
      **/  
     public void readFromFile() throws IOException, ClassNotFoundException{
         ObjectInputStream is_robot = new ObjectInputStream(new FileInputStream(FILE_NAME_robotList));
-        DefaultListModel<robot> inObject_robot =  (DefaultListModel<robot>) is_robot.readObject();
+        DefaultListModel<Robot> inObject_robot =  (DefaultListModel<Robot>) is_robot.readObject();
         is_robot.close();
         robotList.removeAllElements();
         while(!inObject_robot.isEmpty()){
@@ -570,8 +573,8 @@ public class robotController {
     
 
     /**
-     * for AI bodundary check
-     * @pre: nothing
+     * for AI boundary check
+     * @Pre: nothing
      * @post: write to the robot list
      * @return: nothing
      **/  

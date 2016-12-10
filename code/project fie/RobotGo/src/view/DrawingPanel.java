@@ -4,6 +4,8 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
+import controller.RobotController;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +16,7 @@ import java.util.Random;
 /*
  * the helper class for game board
  */
+
 public class DrawingPanel extends JPanel
 {		
 	
@@ -44,7 +47,7 @@ public class DrawingPanel extends JPanel
 			final static int BORDERS = 20;  
 			final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
 
-			static int[][] board = new int[BSIZE][BSIZE];
+			public static int[][] board = new int[BSIZE][BSIZE];
 			
 			static int PlayersNumber = 6;
 			
@@ -52,11 +55,11 @@ public class DrawingPanel extends JPanel
 			// Ex: 1-6 is the scouts of red, orange, yellow, green, blue and purple
 			//     7-12 is the snipers of red, orange, yellow, green, blue and purple
 			// 	   8-16 is the tanks of red, orange, yellow, green, blue and purple
-			static int N = 0;
+			public static int N = 0;
 			static int Q = 0;
 			
 			// the initial state of robot are not AI, which can be changed in initial interface
-		    static boolean [] isAI = {false, false, false, false, false, false, false,
+		    public static boolean [] isAI = {false, false, false, false, false, false, false,
 		    								 false, false, false, false, false, false,
 		    								 false, false, false, false, false, false};
  			
@@ -91,10 +94,10 @@ public class DrawingPanel extends JPanel
 	
 	 private void initialHex(){
 
-			hexmech_pointy.setXYasVertex(false); //RECOMMENDED: leave this as FALSE.
+			Hexmech_Pointy.setXYasVertex(false); //RECOMMENDED: leave this as FALSE.
 
-			hexmech_pointy.setHeight(HEXSIZE); //Either setHeight or setSize must be run to initialize the hex
-			hexmech_pointy.setBorders(BORDERS);
+			Hexmech_Pointy.setHeight(HEXSIZE); //Either setHeight or setSize must be run to initialize the hex
+			Hexmech_Pointy.setBorders(BORDERS);
 
 			// deploy again!!!!!!!!!!!!!!
 			for (int i=0;i<BSIZE;i++) {
@@ -226,15 +229,15 @@ public class DrawingPanel extends JPanel
 		for (int i=0;i<BSIZE;i++) {
 			for (int j=0;j<BSIZE;j++) {
 				if(i>=3 && i<=7 && (j==0 || j==8))
-					hexmech_pointy.drawHex(i,j,g2);
+					Hexmech_Pointy.drawHex(i,j,g2);
 				else if(i>=2 && i<=7 && (j==1 || j==7))
-					hexmech_pointy.drawHex(i,j,g2);
+					Hexmech_Pointy.drawHex(i,j,g2);
 				else if(i>=2 && i<=8 && (j==2 || j==6))
-					hexmech_pointy.drawHex(i,j,g2);
+					Hexmech_Pointy.drawHex(i,j,g2);
 				else if(i>=1 && i<=8 && (j==3 || j==5 || j==4))
-					hexmech_pointy.drawHex(i,j,g2);
+					Hexmech_Pointy.drawHex(i,j,g2);
 				else if(i>=1 && i<=9 && j==4)
-					hexmech_pointy.drawHex(i,j,g2);
+					Hexmech_Pointy.drawHex(i,j,g2);
 				else;
 			}
 		}
@@ -242,15 +245,15 @@ public class DrawingPanel extends JPanel
 		for (int i=0;i<BSIZE;i++) {
 			for (int j=0;j<BSIZE;j++) {					
 				if(i>=3 && i<=7 && (j==0 || j==8))
-					hexmech_pointy.fillHex(i,j,board[i][j],g2);
+					Hexmech_Pointy.fillHex(i,j,board[i][j],g2);
 				else if(i>=2 && i<=7 && (j==1 || j==7))
-					hexmech_pointy.fillHex(i,j,board[i][j],g2);
+					Hexmech_Pointy.fillHex(i,j,board[i][j],g2);
 				else if(i>=2 && i<=8 && (j==2 || j==6))
-					hexmech_pointy.fillHex(i,j,board[i][j],g2);
+					Hexmech_Pointy.fillHex(i,j,board[i][j],g2);
 				else if(i>=1 && i<=8 && (j==3 || j==5 || j==4))
-					hexmech_pointy.fillHex(i,j,board[i][j],g2);
+					Hexmech_Pointy.fillHex(i,j,board[i][j],g2);
 				else if(i>=1 && i<=9 && j==4)
-					hexmech_pointy.fillHex(i,j,board[i][j],g2);
+					Hexmech_Pointy.fillHex(i,j,board[i][j],g2);
 				else;
 			}
 		}
@@ -260,7 +263,7 @@ public class DrawingPanel extends JPanel
 	/*
 	 * the subclass in DrawingPanel which is the mouse action listener on the DrawingPanel 
 	 */
-	class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
+	public class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
 		private Component component;
 
 		MyMouseListener(Component component) {
@@ -299,7 +302,7 @@ public class DrawingPanel extends JPanel
 		    // when click "attack" button
 		    ActionListener attackActionListener = new ActionListener() {
 			     public void actionPerformed(ActionEvent a) {
-			    	Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
+			    	Point p = new Point( Hexmech_Pointy.pxtoHex(e.getX(),e.getY()) );
 			    	
 
 			    	
@@ -307,21 +310,21 @@ public class DrawingPanel extends JPanel
 			    		
 			    		// for scout 
 			    		if(N >= 1 && N<=6){
-			    			if(! hexmech_pointy.checkOutofScoutRange(p.x, p.y, N)){
+			    			if(! Hexmech_Pointy.checkOutofScoutRange(p.x, p.y, N)){
 			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
 			    			}
 			    		}
 			    		
 			    		// for sniper 
 			    		else if (N >= 7 && N<=12){
-			    			if(! hexmech_pointy.checkOutofSniperRange(p.x, p.y, N)){
+			    			if(! Hexmech_Pointy.checkOutofSniperRange(p.x, p.y, N)){
 			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
 			    			}
 			    		}
 			    		
 			    		// for tank
 			    		else if (N >= 13 && N<=18){
-			    			if(! hexmech_pointy.checkOutofTankRange(p.x, p.y, N)){
+			    			if(! Hexmech_Pointy.checkOutofTankRange(p.x, p.y, N)){
 			    				GUI.rC.attack((GUI.robotList).elementAt(N), p);
 			    			}
 			    		}
@@ -343,7 +346,7 @@ public class DrawingPanel extends JPanel
 			ActionListener moveActionListener = new ActionListener() {
 			        public void actionPerformed(ActionEvent a) {
 						
-						Point p = new Point( hexmech_pointy.pxtoHex(e.getX(),e.getY()) );
+						Point p = new Point( Hexmech_Pointy.pxtoHex(e.getX(),e.getY()) );
 			        	if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return; 
 			      
 			        	
@@ -376,7 +379,7 @@ public class DrawingPanel extends JPanel
       
         	
         	// make sure the current robot can still move 
-        	if (robotController.canMove((GUI.robotList).elementAt(N))){
+        	if (RobotController.canMove((GUI.robotList).elementAt(N))){
         		// when the robot is in the even number row of game board
         		if(p_old[N].y % 2 == 0){
         		// make sure just move one cell, otherwise do nothing
@@ -397,7 +400,7 @@ public class DrawingPanel extends JPanel
 					
 					// update the data in the model through the controller 
 					if( (((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y)) && !(GUI.robotList).elementAt(N).getisAI())
-						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
+						RobotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
         		}
         	}
         	// when the robot is in the odd number row of game board
@@ -418,7 +421,7 @@ public class DrawingPanel extends JPanel
 					board[p.x][p.y] = N;
 					// update the data in the model through the controller 
 					if(((GUI.robotList).elementAt(N).getLocation().getX() != p.x) || ((GUI.robotList).elementAt(N).getLocation().getY() != p.y) && !(GUI.robotList).elementAt(N).getisAI())
-						robotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
+						RobotController.move((GUI.robotList).elementAt(N), GUI.rC.PointToDirection((GUI.robotList).elementAt(N),p));
         		}
         	}
         	

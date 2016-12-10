@@ -1,16 +1,16 @@
-package view;
+package model;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class variables {
+public class Variables {
 	private static Map<String,Object> variableDictionary;
 
 	/**
      * @consturctor  
      **/
-	public variables(){
+	public Variables(){
 		variableDictionary = new HashMap<String,Object>();
 	}
 	
@@ -92,7 +92,7 @@ public class variables {
 
 	
 	public static void main(String[] args){
-		variables w = new variables();
+		Variables w = new Variables();
 		//w.defineVariable("aaa", 4);
 		//w.defineVariable("bbb", "fun");
 		//w.defineVariable("ccc", true);
